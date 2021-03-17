@@ -1,0 +1,31 @@
+scalar Date
+
+enum Group {
+    VT
+    VH
+    ES
+    RY
+    WR
+}
+
+input UserPayment {
+    userId: ID!
+    password: String!
+    name: String!
+    phoneNumber: String!
+    group: Group!
+    registerDate: Date
+}
+
+type SignupResponse {
+    result: String!
+    error: String
+}
+
+type Mutation {
+    signupUser(input: UserPayment): SignupResponse
+}
+
+type Query {
+    dummy: String
+}

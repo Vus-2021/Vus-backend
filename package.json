@@ -1,0 +1,49 @@
+{
+  "name": "bus-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "test": "jest --detectOpenHandles",
+    "build": "babel src/ -w -d src/dist/js",
+    "buildTest": "babel __test__/ -w -d dist/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dudgns3tp/bus-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dudgns3tp/bus-project/issues"
+  },
+  "homepage": "https://github.com/dudgns3tp/bus-project#readme",
+  "dependencies": {
+    "apollo-server": "^2.21.1",
+    "aws-sdk": "^2.864.0",
+    "cors": "^2.8.5",
+    "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
+    "dynamoose": "^2.7.2",
+    "graphql": "^15.5.0",
+    "graphql-tools": "^7.0.4",
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "apollo-server-testing": "^2.21.1",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1"
+  }
+}
