@@ -1,0 +1,17 @@
+enum RouteNames {
+    AN_SAN
+    GANG_NAM
+    SUNG_NAM
+    BYENG_JUM
+    MANG_PO
+}
+
+type createRoute implements Response {
+    success: Boolean!
+    message: String!
+    data: String
+}
+
+type Mutation {
+    createRoute(route: RouteNames): signinResponse
+}
