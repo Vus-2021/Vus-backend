@@ -1,0 +1,19 @@
+interface Response {
+    success: Boolean!
+    message: String!
+}
+
+type Token {
+    accessToken: String
+    refreshToken: String
+}
+
+type signinResponse implements Response {
+    success: Boolean!
+    message: String!
+    data: Token
+}
+
+type Mutation {
+    signin(userId: ID!, password: String): signinResponse
+}

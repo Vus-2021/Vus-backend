@@ -17,9 +17,9 @@ input UserPayment {
     registerDate: Date
 }
 
-type SignupResponse {
-    result: String!
-    error: String
+type SignupResponse implements Response {
+    success: Boolean!
+    message: String!
 }
 
 type Mutation {

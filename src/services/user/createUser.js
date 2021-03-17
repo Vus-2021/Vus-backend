@@ -3,8 +3,7 @@ const Dynamo = require('../../model/vus');
 
 const createUser = async ({ userId, password, name, phoneNumber, group, registerDate }) => {
     try {
-        console.log({ userId, password, name, phoneNumber, group, registerDate });
-        const user = await new Dynamo({
+        await new Dynamo({
             partitionKey: userId,
             sortKey: '#user',
             gsiSortKey: userId,
@@ -14,10 +13,9 @@ const createUser = async ({ userId, password, name, phoneNumber, group, register
             group,
             registerDate,
         }).save();
-        console.log(user);
-        return { result: 'success' };
+        return { success: true, message: '회원가입 성공' };
     } catch (err) {
-        return { result: 'fail', error: err };
+        return { success: false, message: err.message };
     }
 };
 
