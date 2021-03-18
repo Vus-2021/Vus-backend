@@ -1,6 +1,6 @@
 const { ApolloServer } = require('apollo-server');
 
-const schema = require('./graphql/index.js');
+const schema = require('./graphql/mergeSchema');
 const formatError = require('./graphql/formatError');
 
 const server = new ApolloServer({ schema, formatError });
