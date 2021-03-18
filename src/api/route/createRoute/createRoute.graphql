@@ -1,17 +1,29 @@
 enum RouteNames {
-    AN_SAN
-    GANG_NAM
-    SUNG_NAM
-    BYENG_JUM
-    MANG_PO
+    ANSAN
+    GANGNAM
+    SUNGNAM
+    BYENGJUM
+    MANGPO
 }
 
-type createRoute implements Response {
+type createRouteResponse implements Response {
     success: Boolean!
     message: String!
     data: String
 }
 
+input driver {
+    name: String
+    image: String
+    phone: String
+}
+
 type Mutation {
-    createRoute(route: RouteNames): signinResponse
+    createRoute(
+        routeName: RouteNames
+        createdAt: String
+        busNumber: String
+        limitCount: Int
+        driver: driver
+    ): createRouteResponse
 }

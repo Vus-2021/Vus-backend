@@ -1,12 +1,16 @@
 const vus = require('../../model/vus');
 
-const signin = async ({ userId }) => {
+const getUserById = async ({ userId }) => {
     try {
         const user = await vus.get({ partitionKey: userId, sortKey: '#user' });
+
+        if (!user) {
+            return { success: false };
+        }
         return { success: true, message: 'getUser', user };
     } catch (error) {
         return { success: false, message: error.message };
     }
 };
 
-module.exports = signin;
+module.exports = getUserById;

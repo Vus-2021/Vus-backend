@@ -1,6 +1,6 @@
 scalar Date
 
-enum Group {
+enum UserType {
     VT
     VH
     ES
@@ -15,7 +15,7 @@ input User {
     password: String!
     name: String!
     phoneNumber: String!
-    group: Group!
+    type: UserType!
     registerDate: Date
 }
 
