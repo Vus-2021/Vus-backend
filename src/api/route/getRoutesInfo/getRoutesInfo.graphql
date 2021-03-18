@@ -1,0 +1,23 @@
+type Query {
+    getRoutesInfo: RouteInfoResponse
+}
+
+type RouteInfoResponse implements Response {
+    success: Boolean!
+    message: String!
+    data: [RouteInfo]
+}
+
+type RouteInfo {
+    route: String
+    busNumber: String
+    limitCount: Int
+    registerCount: Int
+    driver: driverInfo
+}
+
+type driverInfo {
+    phone: String
+    image: String
+    name: String
+}
