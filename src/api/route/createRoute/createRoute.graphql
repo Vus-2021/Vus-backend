@@ -19,10 +19,10 @@ type createRouteResponse implements Response {
 
 type Mutation {
     createRoute(
-        route: RouteNames
-        createdAt: String
-        busNumber: String
-        limitCount: Int
-        driver: driver
+        route: RouteNames!
+        month: String!
+        busNumber: String!
+        limitCount: Int!
+        driver: driver!
     ): createRouteResponse
 }
