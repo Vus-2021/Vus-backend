@@ -17,7 +17,7 @@ const TOKEN_INVALID = -2;
 module.exports = {
     sign: async (user) => {
         const payload = {
-            idx: user.userId,
+            userId: user.userId,
             name: user.name,
             type: user.type,
         };

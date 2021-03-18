@@ -1,0 +1,8 @@
+type Mutation {
+    applyRoute(route: RouteNames): applyRouteResponse
+}
+
+type applyRouteResponse implements Response {
+    success: Boolean!
+    message: String!
+}
