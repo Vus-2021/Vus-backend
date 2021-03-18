@@ -6,16 +6,15 @@ enum RouteNames {
     MANGPO
 }
 
-type createRouteResponse implements Response {
-    success: Boolean!
-    message: String!
-    data: String
-}
-
 input driver {
     name: String
     image: String
     phone: String
+}
+
+type createRouteResponse implements Response {
+    success: Boolean!
+    message: String!
 }
 
 type Mutation {

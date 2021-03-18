@@ -1,8 +1,9 @@
 const Dynamo = require('../../model/vus');
 
 const createRoute = async ({
-    routeName,
-    createdAt,
+    partitionKey,
+    sortKey,
+    gsiSortKey,
     busNumber,
     limitCount,
     registerCount,
@@ -10,9 +11,9 @@ const createRoute = async ({
 }) => {
     try {
         await new Dynamo({
-            partitionKey: routeName,
-            sortKey: '#info',
-            gsiSortKey: createdAt,
+            partitionKey,
+            sortKey,
+            gsiSortKey,
             busNumber,
             limitCount,
             registerCount,
@@ -21,7 +22,7 @@ const createRoute = async ({
 
         return { success: true, message: 'success crete Route' };
     } catch (error) {
-        return { success: false, message: 'InternalServerError - createRoute' };
+        return { success: false, message: error.message };
     }
 };
 

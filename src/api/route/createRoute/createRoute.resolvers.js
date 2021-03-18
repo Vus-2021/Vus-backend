@@ -3,19 +3,20 @@ const { createRoute, getRouteByCreatedAt } = require('../../../services/route');
 const resolvers = {
     Mutation: {
         createRoute: async (_, args) => {
-            //const driver = JSON.parse(JSON.stringify(args.driver));
-            const { routeName, createdAt, busNumber, limitCount, driver } = args;
+            const { routeName: partitionKey, createdAt, busNumber, limitCount, driver } = args;
             try {
+                const sortKey = `#info#${createdAt}`;
                 const { success: alreadyRoute } = await getRouteByCreatedAt({
-                    routeName,
-                    createdAt,
+                    partitionKey,
+                    sortKey,
                 });
                 if (alreadyRoute) {
                     return { success: false, message: 'alreadyRoute' };
                 }
 
                 const { success, message } = await createRoute({
-                    routeName,
+                    partitionKey,
+                    sortKey,
                     createdAt,
                     busNumber,
                     limitCount,
