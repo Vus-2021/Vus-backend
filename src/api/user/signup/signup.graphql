@@ -6,9 +6,11 @@ enum Group {
     ES
     RY
     WR
+    ADMIN
+    DRIVER
 }
 
-input UserPayment {
+input User {
     userId: ID!
     password: String!
     name: String!
@@ -23,7 +25,7 @@ type SignupResponse implements Response {
 }
 
 type Mutation {
-    signupUser(input: UserPayment): SignupResponse
+    signupUser(input: User): SignupResponse
 }
 
 type Query {

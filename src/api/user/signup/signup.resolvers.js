@@ -6,21 +6,21 @@ const resolvers = {
     },
     Mutation: {
         signupUser: async (_, args) => {
-            const { userId, password, name, phoneNumber, group, registerDate } = args.input;
-            const { success, error } = await createUser({
+            const { userId, password, name, phoneNumber, type, registerDate } = args.input;
+            const { success, message } = await createUser({
                 userId,
                 password,
                 name,
                 phoneNumber,
-                group,
+                type,
                 registerDate,
             });
 
             if (!success) {
-                return { success, error };
+                return { success, message };
             }
 
-            return { success };
+            return { success, message };
         },
     },
 };

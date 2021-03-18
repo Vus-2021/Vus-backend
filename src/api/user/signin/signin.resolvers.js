@@ -9,7 +9,7 @@ const resolvers = {
             if (!success) {
                 return { success, message };
             }
-            const payload = { userId: user.partitionKey, name: user.name };
+            const payload = { userId: user.partitionKey, name: user.name, type: user.type };
             const token = await jwt.sign(payload);
             return { success, message, data: token };
         },

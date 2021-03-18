@@ -19,6 +19,7 @@ module.exports = {
         const payload = {
             idx: user.userId,
             name: user.name,
+            type: user.type,
         };
         const result = {
             accessToken: jwt.sign(payload, secretKey, options),
