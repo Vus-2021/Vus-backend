@@ -2,7 +2,9 @@ const { createUser, getUserById } = require('../../../services/user');
 
 const resolvers = {
     Query: {
-        dummy: () => console.log('test'),
+        dummy: () => {
+            return { token: 'hello' };
+        },
     },
     Mutation: {
         signupUser: async (_, args) => {

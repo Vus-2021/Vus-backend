@@ -1,17 +1,16 @@
 /* eslint-disable no-useless-catch */
-const Dynamo = require('../../model/vus');
+const vus = require('../../model/vus');
 
 const createUser = async ({ userId, password, name, phoneNumber, type, registerDate }) => {
     try {
-        await new Dynamo({
+        await new vus({
             partitionKey: userId,
             sortKey: '#user',
-            gsiSortKey: userId,
+            gsiSortKey: `#registerDate:${registerDate}`,
             password,
             name,
             phoneNumber,
             type,
-            registerDate,
         }).save();
         return { success: true, message: '회원가입 성공' };
     } catch (err) {

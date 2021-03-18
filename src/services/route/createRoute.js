@@ -1,4 +1,4 @@
-const Dynamo = require('../../model/vus');
+const vus = require('../../model/vus');
 
 const createRoute = async ({
     partitionKey,
@@ -8,9 +8,10 @@ const createRoute = async ({
     limitCount,
     registerCount,
     driver,
+    route,
 }) => {
     try {
-        await new Dynamo({
+        await new vus({
             partitionKey,
             sortKey,
             gsiSortKey,
@@ -18,6 +19,7 @@ const createRoute = async ({
             limitCount,
             registerCount,
             driver,
+            route,
         }).save();
 
         return { success: true, message: 'success crete Route' };

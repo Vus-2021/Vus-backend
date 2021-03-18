@@ -1,15 +1,26 @@
-const { createRoute, getRouteByCreatedAt } = require('../../../services/route');
+const { createRoute, getRouteByGSI } = require('../../../services/route');
+const uuid = require('uuid');
+/**
+ * TODO 토큰 적용하면 ADMIN만 Route를 생성 가능하게!
+ */
 
 const resolvers = {
     Mutation: {
         createRoute: async (_, args) => {
-            const { routeName: partitionKey, createdAt, busNumber, limitCount, driver } = args;
+            const { createdAt, busNumber, limitCount, driver, route } = args;
             try {
-                const sortKey = `#info#${createdAt}`;
-                const { success: alreadyRoute } = await getRouteByCreatedAt({
-                    partitionKey,
+                const [partitionKey, sortKey, gsiSortKey] = [
+                    uuid.v4(),
+                    '#info',
+                    `createdAt#${createdAt}`,
+                ];
+
+                const { success: alreadyRoute } = await getRouteByGSI({
                     sortKey,
+                    gsiSortKey,
+                    route,
                 });
+
                 if (alreadyRoute) {
                     return { success: false, message: 'alreadyRoute' };
                 }
@@ -17,11 +28,12 @@ const resolvers = {
                 const { success, message } = await createRoute({
                     partitionKey,
                     sortKey,
-                    createdAt,
+                    gsiSortKey,
                     busNumber,
                     limitCount,
                     registerCount: 0,
                     driver,
+                    route,
                 });
 
                 return { success, message };

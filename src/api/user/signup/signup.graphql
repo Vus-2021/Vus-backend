@@ -29,5 +29,9 @@ type Mutation {
 }
 
 type Query {
-    dummy: String
+    dummy: dummyResponse
+}
+
+type dummyResponse {
+    token: String
 }
