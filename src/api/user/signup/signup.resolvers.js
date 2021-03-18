@@ -1,4 +1,4 @@
-const createUser = require('../../../services/user/createUser.js');
+const { createUser, getUserById } = require('../../../services/user');
 
 const resolvers = {
     Query: {
@@ -7,6 +7,12 @@ const resolvers = {
     Mutation: {
         signupUser: async (_, args) => {
             const { userId, password, name, phoneNumber, type, registerDate } = args.input;
+            const { success: alreadyUserId } = await getUserById({ userId });
+
+            if (alreadyUserId) {
+                return { success: false, message: 'alreadyUserId' };
+            }
+
             const { success, message } = await createUser({
                 userId,
                 password,

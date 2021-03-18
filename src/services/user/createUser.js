@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 const Dynamo = require('../../model/vus');
 
-const createUser = async ({ userId, password, name, phoneNumber, group, registerDate }) => {
+const createUser = async ({ userId, password, name, phoneNumber, type, registerDate }) => {
     try {
         await new Dynamo({
             partitionKey: userId,
@@ -10,7 +10,7 @@ const createUser = async ({ userId, password, name, phoneNumber, group, register
             password,
             name,
             phoneNumber,
-            group,
+            type,
             registerDate,
         }).save();
         return { success: true, message: '회원가입 성공' };
