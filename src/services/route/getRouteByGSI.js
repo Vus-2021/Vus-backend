@@ -2,7 +2,7 @@ const vus = require('../../model/vus');
 
 const getRouteByGSI = async ({ sortKey, gsiSortKey, route }) => {
     try {
-        const alreadyRoute = await vus
+        const result = await vus
             .query('sortKey')
             .eq(sortKey)
             .where('gsiSortKey')
@@ -12,10 +12,10 @@ const getRouteByGSI = async ({ sortKey, gsiSortKey, route }) => {
             .using('sk-index')
             .exec();
 
-        if (alreadyRoute.count > 0) {
+        if (result.count === 0) {
             return { success: false };
         }
-        return { success: true, message: 'getRoute', route };
+        return { success: true, message: 'getRoute', result };
     } catch (error) {
         return { success: false, message: error.message };
     }
