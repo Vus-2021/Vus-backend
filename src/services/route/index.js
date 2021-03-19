@@ -5,4 +5,5 @@ module.exports = {
     applyRoute: require('./applyRoute'),
     getApplyRouteByUserId: require('./getApplyRouteByUserId'),
     createRouteDetail: require('./createRouteDetail'),
+    getDetailRoutesByRoute: require('./getDetailRoutesByRoute'),
 };
