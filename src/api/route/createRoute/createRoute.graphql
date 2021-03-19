@@ -2,7 +2,7 @@ enum RouteNames {
     ANSAN
     GANGNAM
     SUNGNAM
-    BYENGJUM
+    BYEONGJEOM
     MANGPO
 }
 

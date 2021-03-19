@@ -4,6 +4,9 @@ enum UserType {
     VT
     VH
     ES
+    VS
+    VE
+    VM
     RY
     WR
     ADMIN

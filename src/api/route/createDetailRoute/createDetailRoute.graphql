@@ -3,8 +3,8 @@ type Mutation {
         route: RouteNames!
         location: String!
         imageUrl: String!
-        x: Float!
-        y: Float!
+        lat: Float!
+        long: Float!
         boardingTime: String
     ): createRouteDetailResponse
 }

@@ -7,14 +7,14 @@ const { createRouteDetail } = require('../../../services/route');
 const resolvers = {
     Mutation: {
         createRouteDetail: async (_, args) => {
-            const { location, route, imageUrl, x, y, boardingTime } = args;
+            const { location, route, imageUrl, lat, long, boardingTime } = args;
             try {
                 const [partitionKey, sortKey, gsiSortKey] = [
                     uuid.v4(),
                     '#detail',
                     `#boardingTime#${boardingTime}`,
                 ];
-                const routeDetail = { location, route, imageUrl, x, y };
+                const routeDetail = { location, route, imageUrl, lat, long };
 
                 const { success, message } = await createRouteDetail({
                     partitionKey,
