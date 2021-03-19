@@ -1,6 +1,6 @@
 const vus = require('../../model/vus');
 
-const getRouteByGSI = async ({ sortKey, gsiSortKey }) => {
+const getRoutesByGSI = async ({ sortKey, gsiSortKey }) => {
     try {
         const result = await vus
             .query('sortKey')
@@ -19,4 +19,4 @@ const getRouteByGSI = async ({ sortKey, gsiSortKey }) => {
     }
 };
 
-module.exports = getRouteByGSI;
+module.exports = getRoutesByGSI;
