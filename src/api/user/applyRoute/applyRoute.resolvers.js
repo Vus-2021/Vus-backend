@@ -1,12 +1,16 @@
-const { applyRoute, getApplyRouteByPK } = require('../../../services/route');
+const {
+    applyRoute,
+    getApplyRouteByUserId,
+    getRouteInfoByMonth,
+} = require('../../../services/route');
 /**
- * TODO Transaction applyRoute + count
+ * TODO Token
  */
 const resolvers = {
     Mutation: {
         applyRoute: async (_, { route, month }) => {
             const user = {
-                userId: 'test',
+                userId: 'V13244',
                 name: '최영훈',
                 type: 'VT',
             };
@@ -17,7 +21,7 @@ const resolvers = {
                     'pending',
                 ];
 
-                const { success: alreadyApply } = await getApplyRouteByPK({
+                const { success: alreadyApply } = await getApplyRouteByUserId({
                     partitionKey,
                     sortKey,
                 });
@@ -26,15 +30,26 @@ const resolvers = {
                     return { success: false, message: 'already Apply' };
                 }
 
-                /**
-                 * TODO 신청할때 차량의 partitionKey, sortkey 받기.
-                 */
+                const { success: isValidRouteInfo, result } = await getRouteInfoByMonth({
+                    sortKey: '#info',
+                    route: route,
+                    gsiSortKey: `month#${month}`,
+                });
+
+                if (!isValidRouteInfo) {
+                    return { success: false, message: 'invalid route info' };
+                }
+
+                const createPK = { partitionKey, sortKey, route, state };
+
+                const updatePK = {
+                    partitionKey: result[0].partitionKey,
+                    sortKey: result[0].sortKey,
+                };
 
                 const { success, message } = await applyRoute({
-                    partitionKey,
-                    route,
-                    sortKey,
-                    state,
+                    createPK,
+                    updatePK,
                 });
 
                 return { success, message };

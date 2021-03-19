@@ -1,11 +1,11 @@
-const { getRoutesInfoByMonth } = require('../../../services/route');
+const { getAllRouteInfoByMonth } = require('../../../services/route');
 
 const resolvers = {
     Query: {
         getRoutesInfo: async (_, { month }) => {
             try {
                 const [sortKey, gsiSortKey] = ['#info', `month#${month}`];
-                const { success, message, result: data } = await getRoutesInfoByMonth({
+                const { success, message, result: data } = await getAllRouteInfoByMonth({
                     sortKey,
                     gsiSortKey,
                 });
