@@ -9,7 +9,7 @@ const resolvers = {
         createRoute: async (_, args) => {
             const { month, busNumber, limitCount, driver, route } = args;
             try {
-                const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#info', `month#${month}`];
+                const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#info', `#month#${month}`];
 
                 const { success: alreadyRoute } = await getRouteInfoByMonth({
                     sortKey,

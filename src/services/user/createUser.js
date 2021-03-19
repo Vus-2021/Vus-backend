@@ -6,7 +6,7 @@ const createUser = async ({ userId, password, name, phoneNumber, type, registerD
         await new vus({
             partitionKey: userId,
             sortKey: '#user',
-            gsiSortKey: `#registerDate:${registerDate}`,
+            gsiSortKey: `#registerDate#${registerDate}`,
             password,
             name,
             phoneNumber,

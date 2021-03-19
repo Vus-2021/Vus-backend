@@ -33,7 +33,7 @@ const resolvers = {
                 const { success: isValidRouteInfo, result } = await getRouteInfoByMonth({
                     sortKey: '#info',
                     route: route,
-                    gsiSortKey: `month#${month}`,
+                    gsiSortKey: `#month#${month}`,
                 });
 
                 if (!isValidRouteInfo) {
