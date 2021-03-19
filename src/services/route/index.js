@@ -4,4 +4,5 @@ module.exports = {
     getAllRouteInfoByMonth: require('./getAllRouteInfoByMonth'),
     applyRoute: require('./applyRoute'),
     getApplyRouteByUserId: require('./getApplyRouteByUserId'),
+    createRouteDetail: require('./createRouteDetail'),
 };

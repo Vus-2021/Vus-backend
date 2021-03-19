@@ -1,15 +1,15 @@
 type Mutation {
-    createDetailRoute(
+    createRouteDetail(
         route: RouteNames!
         location: String!
         imageUrl: String!
         x: Float!
         y: Float!
         boardingTime: String
-    ): createDetailRouteResponse
+    ): createRouteDetailResponse
 }
 
-type createDetailRouteResponse implements Response {
+type createRouteDetailResponse implements Response {
     success: Boolean!
     message: String!
 }
