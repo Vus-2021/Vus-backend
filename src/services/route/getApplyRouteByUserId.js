@@ -1,6 +1,6 @@
 const vus = require('../../model/vus');
 
-const getRouteByPK = async ({ partitionKey, sortKey }) => {
+const getRouteByUserId = async ({ partitionKey, sortKey }) => {
     try {
         const result = await vus
             .query('partitionKey')
@@ -18,4 +18,4 @@ const getRouteByPK = async ({ partitionKey, sortKey }) => {
     }
 };
 
-module.exports = getRouteByPK;
+module.exports = getRouteByUserId;

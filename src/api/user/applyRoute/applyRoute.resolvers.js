@@ -4,15 +4,18 @@ const { applyRoute, getApplyRouteByPK } = require('../../../services/route');
  */
 const resolvers = {
     Mutation: {
-        applyRoute: async (_, { route }) => {
+        applyRoute: async (_, { route, month }) => {
             const user = {
-                userId: 'V13244',
+                userId: 'test',
                 name: '최영훈',
-                type: 'ADMIN',
+                type: 'VT',
             };
             try {
-                const month = '2021-03';
-                const [partitionKey, sortKey, state] = [user.userId, `#route#${month}`, 'pending'];
+                const [partitionKey, sortKey, state] = [
+                    user.userId,
+                    `#applyRoute#${month}`,
+                    'pending',
+                ];
 
                 const { success: alreadyApply } = await getApplyRouteByPK({
                     partitionKey,
@@ -22,6 +25,10 @@ const resolvers = {
                 if (alreadyApply) {
                     return { success: false, message: 'already Apply' };
                 }
+
+                /**
+                 * TODO 신청할때 차량의 partitionKey, sortkey 받기.
+                 */
 
                 const { success, message } = await applyRoute({
                     partitionKey,

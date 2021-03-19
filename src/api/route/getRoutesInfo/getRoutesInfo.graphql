@@ -1,5 +1,5 @@
 type Query {
-    getRoutesInfo: RouteInfoResponse
+    getRoutesInfo(month: String): RouteInfoResponse
 }
 
 type RouteInfoResponse implements Response {

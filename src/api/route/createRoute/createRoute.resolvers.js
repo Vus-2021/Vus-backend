@@ -1,4 +1,4 @@
-const { createRoute, getRouteByGSI } = require('../../../services/route');
+const { createRoute, getRouteInfoByMonth } = require('../../../services/route');
 const uuid = require('uuid');
 /**
  * TODO 토큰 적용하면 ADMIN만 Route를 생성 가능하게!
@@ -11,7 +11,7 @@ const resolvers = {
             try {
                 const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#info', `month#${month}`];
 
-                const { success: alreadyRoute } = await getRouteByGSI({
+                const { success: alreadyRoute } = await getRouteInfoByMonth({
                     sortKey,
                     gsiSortKey,
                     route,
