@@ -2,18 +2,14 @@ const { ApolloServer } = require('apollo-server');
 
 const schema = require('./graphql/mergeSchema');
 const formatError = require('./graphql/formatError');
-const jwt = require('./modules/jwt');
+const context = require('./graphql/context');
 /**
  * TODO 토큰
  */
 const server = new ApolloServer({
     schema,
     formatError,
-    context: async ({ req }) => {
-        if (!req.headers.authorization) return { user: undefined };
-        const user = await jwt.verify(req.headers.authorization);
-        return { user };
-    },
+    context,
 });
 
 server.listen().then(({ url }) => {

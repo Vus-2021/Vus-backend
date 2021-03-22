@@ -1,9 +1,9 @@
 const resolvers = {
     Query: {
-        getMyInformation: (parent, args, { user }) => {
-            if (!user) return { success: false, message: 'failed get my information' };
+        getMyInformation: (parent, args, context) => {
+            if (!context.user) return { success: false, message: context.message };
 
-            return { success: true, message: 'success get my information', data: user };
+            return { success: true, message: 'success get my information', data: context.user };
         },
     },
 };
