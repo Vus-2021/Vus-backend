@@ -4,12 +4,12 @@ type UserPayload {
     type: UserType
 }
 
-type TokenTestResponse implements Response {
+type getMyInformationResponse implements Response {
     success: Boolean!
     message: String!
     data: UserPayload
 }
 
 type Query {
-    tokenTest: TokenTestResponse
+    getMyInformation: getMyInformationResponse
 }

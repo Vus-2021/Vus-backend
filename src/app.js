@@ -11,7 +11,6 @@ const server = new ApolloServer({
     formatError,
     context: async ({ req }) => {
         if (!req.headers.authorization) return { user: undefined };
-
         const user = await jwt.verify(req.headers.authorization);
         return { user };
     },
