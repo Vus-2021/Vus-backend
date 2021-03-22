@@ -6,4 +6,5 @@ module.exports = {
     getApplyRouteByUserId: require('./getApplyRouteByUserId'),
     createRouteDetail: require('./createRouteDetail'),
     getDetailRoutesByRoute: require('./getDetailRoutesByRoute'),
+    createDriverNotice: require('./createDriverNotice'),
 };

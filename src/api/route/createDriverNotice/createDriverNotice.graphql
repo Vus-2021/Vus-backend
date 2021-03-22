@@ -1,0 +1,17 @@
+type Mutation {
+    createDriverNotice(
+        delayTime: String
+        noticeType: NoticeTypes!
+        route: RouteNames
+    ): noticeResponse
+}
+
+enum NoticeTypes {
+    ADMIN
+    DRIVER
+}
+
+type noticeResponse implements Response {
+    success: Boolean!
+    message: String!
+}

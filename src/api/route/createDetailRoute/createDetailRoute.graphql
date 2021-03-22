@@ -1,6 +1,6 @@
 type Mutation {
     createRouteDetail(
-        route: RouteNames!
+        route: RouteNames
         location: String!
         imageUrl: String
         lat: Float!
