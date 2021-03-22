@@ -2,7 +2,6 @@ const vus = require('../../model/vus');
 
 const getDetailRoutesByRoute = async ({ sortKey, route, index }) => {
     try {
-        console.log({ sortKey, route, index });
         const routeDetails = await vus
             .query('sortKey')
             .eq(sortKey)

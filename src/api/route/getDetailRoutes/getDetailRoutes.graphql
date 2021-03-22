@@ -14,7 +14,7 @@ type RouteDetail {
     gsiSortKey: String
     boardingTime: String
     location: String
-    imageUrl: Int
-    x: Float
-    y: Float
+    imageUrl: String
+    long: Float
+    lat: Float
 }
