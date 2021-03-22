@@ -6,7 +6,7 @@ const getAllRouteInfoByMonth = async ({ sortKey, gsiSortKey }) => {
             .query('sortKey')
             .eq(sortKey)
             .where('gsiSortKey')
-            .eq(gsiSortKey)
+            .beginsWith(gsiSortKey)
             .using('sk-index')
             .exec();
 

@@ -1,13 +1,13 @@
 const vus = require('../../model/vus');
 
-const createRoute = async ({ partitionKey, sortKey, gsiSortKey, route, delayTime, noticeType }) => {
+const createRoute = async ({ partitionKey, sortKey, gsiSortKey, route, status, noticeType }) => {
     try {
         await new vus({
             partitionKey,
             sortKey,
             gsiSortKey,
             route,
-            delayTime,
+            status,
             noticeType,
         }).save();
 

@@ -1,6 +1,6 @@
 const vus = require('../../model/vus');
 
-const getDriverNotice = async ({ sortKey, route, index, noticeType }) => {
+const getDriverNotice = async ({ sortKey, route, index, noticeType, gsiSortKey }) => {
     try {
         const driverNotice = await vus
             .query('sortKey')
@@ -9,6 +9,8 @@ const getDriverNotice = async ({ sortKey, route, index, noticeType }) => {
             .eq(route)
             .where('noticeType')
             .eq(noticeType)
+            .where('gsiSortKey')
+            .beginsWith(gsiSortKey)
             .sort('ascending')
             .using(index)
             .exec();

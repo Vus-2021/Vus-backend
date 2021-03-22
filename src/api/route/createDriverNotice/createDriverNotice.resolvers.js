@@ -6,7 +6,7 @@ const uuid = require('uuid');
  */
 const resolvers = {
     Mutation: {
-        createDriverNotice: async (_, { route, delayTime, noticeType }) => {
+        createDriverNotice: async (_, { route, status, noticeType }) => {
             try {
                 const [partitionKey, sortKey, gsiSortKey] = [
                     uuid.v4(),
@@ -18,7 +18,7 @@ const resolvers = {
                     sortKey,
                     gsiSortKey,
                     route,
-                    delayTime,
+                    status,
                     noticeType,
                 });
 
