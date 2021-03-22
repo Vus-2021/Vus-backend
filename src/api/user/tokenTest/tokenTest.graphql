@@ -1,0 +1,15 @@
+type UserPayload {
+    name: String
+    userId: ID
+    type: UserType
+}
+
+type TokenTestResponse implements Response {
+    success: Boolean!
+    message: String!
+    data: UserPayload
+}
+
+type Query {
+    tokenTest: TokenTestResponse
+}

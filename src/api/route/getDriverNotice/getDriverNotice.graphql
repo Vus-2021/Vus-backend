@@ -1,0 +1,17 @@
+type Query {
+    getDriverNotice(route: RouteNames): GetDriverNoticeResponse
+}
+
+type GetDriverNoticeResponse implements Response {
+    success: Boolean!
+    message: String!
+    data: Notice
+}
+
+type Notice {
+    route: String
+    delayTime: String
+    noticeType: NoticeTypes
+    notice: String
+    createdAt: String
+}

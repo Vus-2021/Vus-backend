@@ -1,13 +1,17 @@
 const jwt = require('../../../modules/jwt');
 const { signin, getUserById } = require('../../../services/user');
 const { getHashedPassword } = require('../../../modules/hash');
+const lodash = require('lodash');
 
 const resolvers = {
     Mutation: {
         signin: async (_, args) => {
             const { userId, password } = args;
-            const salt = (await getUserById({ userId })).user.salt;
-
+            let { user: getUser } = await getUserById({ userId });
+            if (lodash.isNil(getUser)) {
+                return { success: false, message: 'invalid user Id' };
+            }
+            const salt = getUser.salt;
             const hashedPassword = await getHashedPassword(password, salt);
             const { success, user, message } = await signin({ userId, hashedPassword });
             if (!success) {

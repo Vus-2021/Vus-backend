@@ -1,12 +1,18 @@
 const { createDriverNotice } = require('../../../services/route');
 const dateNow = require('../../../modules/dateNow');
 const uuid = require('uuid');
-
+/**
+ * TODO auth => only Driver
+ */
 const resolvers = {
     Mutation: {
         createDriverNotice: async (_, { route, delayTime, noticeType }) => {
             try {
-                const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#notice', dateNow()];
+                const [partitionKey, sortKey, gsiSortKey] = [
+                    uuid.v4(),
+                    '#notice',
+                    `#createdAt#${dateNow()}`,
+                ];
                 const { success, message } = await createDriverNotice({
                     partitionKey,
                     sortKey,

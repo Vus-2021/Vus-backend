@@ -1,6 +1,6 @@
 const vus = require('../../model/vus');
 
-const createRoute = async ({ partitionKey, sortKey, gsiSortKey, route, delayTime, noticeTime }) => {
+const createRoute = async ({ partitionKey, sortKey, gsiSortKey, route, delayTime, noticeType }) => {
     try {
         await new vus({
             partitionKey,
@@ -8,7 +8,7 @@ const createRoute = async ({ partitionKey, sortKey, gsiSortKey, route, delayTime
             gsiSortKey,
             route,
             delayTime,
-            noticeTime,
+            noticeType,
         }).save();
 
         return { success: true, message: 'success crete driver notice' };

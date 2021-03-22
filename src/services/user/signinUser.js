@@ -5,7 +5,7 @@ const signin = async ({ userId, hashedPassword }) => {
         const user = await vus.get({ partitionKey: userId, sortKey: '#user' });
 
         if (user.password !== hashedPassword) {
-            return { success: false, message: 'not matched password' };
+            return { success: false, message: 'not matched password', user: null };
         }
         return { success: true, message: 'login success', user };
     } catch (error) {

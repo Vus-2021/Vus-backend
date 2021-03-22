@@ -7,4 +7,5 @@ module.exports = {
     createRouteDetail: require('./createRouteDetail'),
     getDetailRoutesByRoute: require('./getDetailRoutesByRoute'),
     createDriverNotice: require('./createDriverNotice'),
+    getDriverNotice: require('./getDriverNotice'),
 };
