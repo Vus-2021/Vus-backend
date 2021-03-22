@@ -1,9 +1,10 @@
 const vus = require('../../model/vus');
 
-const signin = async ({ userId, password }) => {
+const signin = async ({ userId, hashedPassword }) => {
     try {
         const user = await vus.get({ partitionKey: userId, sortKey: '#user' });
-        if (user.password !== password) {
+
+        if (user.password !== hashedPassword) {
             return { success: false, message: 'not matched password' };
         }
         return { success: true, message: 'login success', user };

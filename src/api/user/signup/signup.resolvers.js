@@ -1,3 +1,5 @@
+const { getSalt, getHashedPassword } = require('../../../modules/hash');
+
 const { createUser, getUserById } = require('../../../services/user');
 
 const resolvers = {
@@ -14,10 +16,12 @@ const resolvers = {
             if (alreadyUserId) {
                 return { success: false, message: 'alreadyUserId' };
             }
-
+            const salt = getSalt();
+            const HashedPassword = await getHashedPassword(password, salt);
             const { success, message } = await createUser({
                 userId,
-                password,
+                password: HashedPassword,
+                salt,
                 name,
                 phoneNumber,
                 type,

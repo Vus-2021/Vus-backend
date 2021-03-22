@@ -2,7 +2,7 @@ type Mutation {
     createRouteDetail(
         route: RouteNames!
         location: String!
-        imageUrl: String!
+        imageUrl: String
         lat: Float!
         long: Float!
         boardingTime: String

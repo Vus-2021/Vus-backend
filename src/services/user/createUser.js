@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 const vus = require('../../model/vus');
 
-const createUser = async ({ userId, password, name, phoneNumber, type, registerDate }) => {
+const createUser = async ({ userId, password, salt, name, phoneNumber, type, registerDate }) => {
     try {
         await new vus({
             partitionKey: userId,
@@ -9,6 +9,7 @@ const createUser = async ({ userId, password, name, phoneNumber, type, registerD
             gsiSortKey: `#registerDate#${registerDate}`,
             password,
             name,
+            salt,
             phoneNumber,
             type,
         }).save();

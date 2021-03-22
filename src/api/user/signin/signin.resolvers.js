@@ -1,11 +1,15 @@
 const jwt = require('../../../modules/jwt');
-const signin = require('../../../services/user/signinUser');
+const { signin, getUserById } = require('../../../services/user');
+const { getHashedPassword } = require('../../../modules/hash');
 
 const resolvers = {
     Mutation: {
         signin: async (_, args) => {
             const { userId, password } = args;
-            const { success, user, message } = await signin({ userId, password });
+            const salt = (await getUserById({ userId })).user.salt;
+
+            const hashedPassword = await getHashedPassword(password, salt);
+            const { success, user, message } = await signin({ userId, hashedPassword });
             if (!success) {
                 return { success, message };
             }
