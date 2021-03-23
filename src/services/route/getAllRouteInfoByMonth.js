@@ -10,12 +10,9 @@ const getAllRouteInfoByMonth = async ({ sortKey, gsiSortKey }) => {
             .using('sk-index')
             .exec();
 
-        if (result.count === 0) {
-            return { success: false };
-        }
-        return { success: true, message: 'getRoutes', result };
+        return { success: true, message: 'getRoutes', code: 200, result };
     } catch (error) {
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

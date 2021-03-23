@@ -12,7 +12,7 @@ const getRouteByUserId = async ({ partitionKey, sortKey }) => {
         if (result.count === 0) {
             return { success: false, message: '결과 없음.' };
         }
-        return { success: true, message: '접수 성공' };
+        return { success: true, message: '조회 성공', code: 200, data: result };
     } catch (error) {
         return { success: false, message: error.message };
     }

@@ -15,9 +15,14 @@ const getDriverNotice = async ({ sortKey, route, index, noticeType, gsiSortKey }
             .using(index)
             .exec();
 
-        return { success: true, message: 'Success get drvier notice', data: driverNotice };
+        return {
+            success: true,
+            message: 'Success get drvier notice',
+            code: 200,
+            data: driverNotice,
+        };
     } catch (error) {
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

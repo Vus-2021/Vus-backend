@@ -13,12 +13,12 @@ const getRouteInfoByMonth = async ({ sortKey, gsiSortKey, route }) => {
             .exec();
 
         if (result.count === 0) {
-            return { success: false, message: 'NullValue' };
+            return { success: false, message: 'NullValue', code: 200 };
         }
 
-        return { success: true, message: 'getRoute', result };
+        return { success: true, message: 'getRoute', code: 200, result };
     } catch (error) {
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

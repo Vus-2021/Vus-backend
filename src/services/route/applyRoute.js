@@ -9,9 +9,9 @@ const applyRoute = async ({ createPK, updatePK }) => {
             vus.transaction.create(createPK),
             vus.transaction.update(updatePK, { $ADD: { registerCount: 1 } }),
         ]);
-        return { success: true, message: '접수 성공' };
+        return { success: true, message: '접수 성공', code: 201 };
     } catch (error) {
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

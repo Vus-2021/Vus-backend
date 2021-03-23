@@ -6,10 +6,10 @@ const createNotice = async (args) => {
             ...args,
         }).save();
 
-        return { success: true, message: 'success crete notice' };
+        return { success: true, message: 'success crete notice', code: 201 };
     } catch (error) {
         console.log(error);
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

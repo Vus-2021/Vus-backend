@@ -1,8 +1,9 @@
 type Mutation {
-    applyRoute(route: RouteNames, month: String): applyRouteResponse
+    applyRoute(route: RouteNames!, month: String!): applyRouteResponse
 }
 
 type applyRouteResponse implements Response {
     success: Boolean!
     message: String!
+    code: Int
 }

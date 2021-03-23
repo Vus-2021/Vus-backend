@@ -11,9 +11,9 @@ const getDetailRoutesByRoute = async ({ sortKey, route, index }) => {
             .using(index)
             .exec();
 
-        return { success: true, message: 'getRoute', routeDetails };
+        return { success: true, message: 'getRoute', code: 201, routeDetails };
     } catch (error) {
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

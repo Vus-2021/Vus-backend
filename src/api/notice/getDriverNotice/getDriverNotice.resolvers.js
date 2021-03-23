@@ -12,7 +12,7 @@ const resolvers = {
                     'DRIVER',
                     `#createdAt#${today}`,
                 ];
-                const { success, message, data } = await getDriverNotice({
+                const { success, message, data, code } = await getDriverNotice({
                     sortKey,
                     index,
                     route,
@@ -21,7 +21,7 @@ const resolvers = {
                 });
 
                 if (data.count === 0)
-                    return { success, message, data: { notice: '좋은 하루 되세요.' } };
+                    return { success, message, code, data: { notice: '좋은 하루 되세요.' } };
 
                 const routeMap = new Map()
                     .set('GANGNAM', '강남')
@@ -46,9 +46,9 @@ const resolvers = {
                                 : '좋은 하루 되세요.',
                     }
                 );
-                return { success, message, data: notice };
+                return { success, message, code, data: notice };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

@@ -13,7 +13,7 @@ const resolvers = {
                     '#notice',
                     `#createdAt#${dateNow()}`,
                 ];
-                const { success, message } = await createNotice({
+                const { success, message, code } = await createNotice({
                     partitionKey,
                     sortKey,
                     gsiSortKey,
@@ -22,9 +22,9 @@ const resolvers = {
                     noticeType,
                 });
 
-                return { success, message };
+                return { success, message, code };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

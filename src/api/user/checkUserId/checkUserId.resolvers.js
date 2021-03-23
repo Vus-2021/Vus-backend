@@ -5,15 +5,15 @@ const resolvers = {
         checkUserId: async (_, args) => {
             try {
                 const { userId } = args;
-                const { success: alreadyUserId } = await getUserById({ userId });
+                const { success: alreadyUserId, code } = await getUserById({ userId });
 
                 if (alreadyUserId) {
-                    return { success: false, message: 'alreadyUserId' };
+                    return { success: false, message: 'alreadyUserId', code };
                 }
 
-                return { success: true, message: 'Available user id' };
+                return { success: true, message: 'Available user id', code };
             } catch (error) {
-                return { success: true, message: error.message };
+                return { success: true, message: error.message, code: 500 };
             }
         },
     },

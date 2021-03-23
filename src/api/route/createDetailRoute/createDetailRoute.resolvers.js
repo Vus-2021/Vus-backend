@@ -16,16 +16,16 @@ const resolvers = {
                 ];
                 const routeDetail = { location, route, imageUrl, lat, long };
 
-                const { success, message } = await createRouteDetail({
+                const { success, message, code } = await createRouteDetail({
                     partitionKey,
                     sortKey,
                     gsiSortKey,
                     routeDetail,
                 });
 
-                return { success, message };
+                return { success, message, code };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

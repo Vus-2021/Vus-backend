@@ -1,8 +1,3 @@
-interface Response {
-    success: Boolean!
-    message: String!
-}
-
 type Token {
     accessToken: String
     refreshToken: String
@@ -11,6 +6,7 @@ type Token {
 type signinResponse implements Response {
     success: Boolean!
     message: String!
+    code: Int
     data: Token
 }
 

@@ -14,11 +14,11 @@ const resolvers = {
             const { success: alreadyUserId } = await getUserById({ userId });
 
             if (alreadyUserId) {
-                return { success: false, message: 'alreadyUserId' };
+                return { success: false, message: 'alreadyUserId', code: 400 };
             }
             const salt = getSalt();
             const HashedPassword = await getHashedPassword(password, salt);
-            const { success, message } = await createUser({
+            const { success, message, code } = await createUser({
                 userId,
                 password: HashedPassword,
                 salt,
@@ -29,10 +29,10 @@ const resolvers = {
             });
 
             if (!success) {
-                return { success, message };
+                return { success, message, code };
             }
 
-            return { success, message };
+            return { success, message, code };
         },
     },
 };

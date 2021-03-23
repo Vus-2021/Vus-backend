@@ -18,10 +18,10 @@ const resolvers = {
                 });
 
                 if (alreadyRoute) {
-                    return { success: false, message: 'alreadyRoute' };
+                    return { success: false, message: 'alreadyRoute', code: 400 };
                 }
 
-                const { success, message } = await createRoute({
+                const { success, message, code } = await createRoute({
                     partitionKey,
                     sortKey,
                     gsiSortKey,
@@ -32,9 +32,9 @@ const resolvers = {
                     route,
                 });
 
-                return { success, message };
+                return { success, message, code };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },
