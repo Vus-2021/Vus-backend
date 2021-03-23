@@ -1,4 +1,4 @@
-const { createDriverNotice } = require('../../../services/route');
+const { createNotice } = require('../../../services/route');
 const dateNow = require('../../../modules/dateNow');
 const uuid = require('uuid');
 /**
@@ -13,7 +13,7 @@ const resolvers = {
                     '#notice',
                     `#createdAt#${dateNow()}`,
                 ];
-                const { success, message } = await createDriverNotice({
+                const { success, message } = await createNotice({
                     partitionKey,
                     sortKey,
                     gsiSortKey,

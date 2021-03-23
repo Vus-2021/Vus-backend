@@ -8,12 +8,7 @@ const {
  */
 const resolvers = {
     Mutation: {
-        applyRoute: async (_, { route, month }) => {
-            const user = {
-                userId: 'V13244',
-                name: '최영훈',
-                type: 'VT',
-            };
+        applyRoute: async (_, { route, month }, { user }) => {
             try {
                 const [partitionKey, sortKey, state] = [
                     user.userId,

@@ -3,7 +3,7 @@ type Mutation {
         status: DelayTime!
         noticeType: NoticeTypes!
         route: RouteNames!
-    ): noticeResponse
+    ): createNoticeResponse
 }
 
 enum NoticeTypes {
@@ -11,7 +11,7 @@ enum NoticeTypes {
     DRIVER
 }
 
-type noticeResponse implements Response {
+type createNoticeResponse implements Response {
     success: Boolean!
     message: String!
 }
