@@ -1,4 +1,4 @@
-const { createNotice } = require('../../../services/route');
+const { createNotice } = require('../../../services/notice');
 const dateNow = require('../../../modules/dateNow');
 const uuid = require('uuid');
 /**

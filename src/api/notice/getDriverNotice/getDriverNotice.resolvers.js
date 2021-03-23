@@ -1,4 +1,4 @@
-const { getDriverNotice } = require('../../../services/route');
+const { getDriverNotice } = require('../../../services/notice');
 const dateNow = require('../../../modules/dateNow');
 
 const resolvers = {

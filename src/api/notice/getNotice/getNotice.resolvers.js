@@ -1,4 +1,4 @@
-const { getAdminNotice } = require('../../../services/route');
+const { getAdminNotice } = require('../../../services/notice');
 
 const resolvers = {
     Query: {
@@ -10,7 +10,6 @@ const resolvers = {
                     index,
                     noticeType,
                 });
-                console.log(data);
                 data.forEach((item) => {
                     item.createdAt = item.gsiSortKey.split('#')[2];
                     item.author = { name: item.name, userId: item.userId };
