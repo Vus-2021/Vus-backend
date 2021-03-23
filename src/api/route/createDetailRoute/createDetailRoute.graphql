@@ -12,4 +12,5 @@ type Mutation {
 type createRouteDetailResponse implements Response {
     success: Boolean!
     message: String!
+    code: Int
 }

@@ -9,9 +9,9 @@ const createRouteDetail = async ({ partitionKey, sortKey, gsiSortKey, routeDetai
             ...routeDetail,
         }).save();
 
-        return { success: true, message: 'success crete Route detail' };
+        return { success: true, message: 'success crete Route detail', code: 201 };
     } catch (error) {
-        return { success: false, message: error.message };
+        return { success: false, message: error.message, code: 500 };
     }
 };
 

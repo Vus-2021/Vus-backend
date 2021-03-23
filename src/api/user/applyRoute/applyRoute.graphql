@@ -5,4 +5,5 @@ type Mutation {
 type applyRouteResponse implements Response {
     success: Boolean!
     message: String!
+    code: Int
 }

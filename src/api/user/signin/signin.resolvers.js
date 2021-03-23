@@ -9,17 +9,17 @@ const resolvers = {
             const { userId, password } = args;
             let { user: getUser } = await getUserById({ userId });
             if (lodash.isNil(getUser)) {
-                return { success: false, message: 'invalid user Id' };
+                return { success: false, message: 'invalid user Id', code: 400 };
             }
             const salt = getUser.salt;
             const hashedPassword = await getHashedPassword(password, salt);
-            const { success, user, message } = await signin({ userId, hashedPassword });
+            const { success, user, message, code } = await signin({ userId, hashedPassword });
             if (!success) {
-                return { success, message };
+                return { success, message, code };
             }
             const payload = { userId: user.partitionKey, name: user.name, type: user.type };
             const token = await jwt.sign(payload);
-            return { success, message, data: token };
+            return { success, message, code, data: token };
         },
     },
 };

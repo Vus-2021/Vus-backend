@@ -13,9 +13,9 @@ const createUser = async ({ userId, password, salt, name, phoneNumber, type, reg
             phoneNumber,
             type,
         }).save();
-        return { success: true, message: '회원가입 성공' };
+        return { success: true, message: '회원가입 성공', code: 201 };
     } catch (err) {
-        return { success: false, message: err.message };
+        return { success: false, message: err.message, code: 500 };
     }
 };
 

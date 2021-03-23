@@ -8,7 +8,7 @@ const resolvers = {
     Mutation: {
         createAdminNotice: async (_, { noticeType, notice }, { user }) => {
             if (user.type !== 'ADMIN') {
-                return { success: false, message: 'access denied' };
+                return { success: false, message: 'access denied', code: 403 };
             }
             try {
                 const [partitionKey, sortKey, gsiSortKey] = [
@@ -16,19 +16,19 @@ const resolvers = {
                     '#notice',
                     `#createdAt#${dateNow()}`,
                 ];
-                const { success, message } = await createNotice({
+                const { success, message, code } = await createNotice({
                     partitionKey,
                     sortKey,
                     gsiSortKey,
                     noticeType,
                     notice,
                     userId: user.userId,
-                    userName: user.userName,
+                    name: user.name,
                 });
 
-                return { success, message };
+                return { success, message, code };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

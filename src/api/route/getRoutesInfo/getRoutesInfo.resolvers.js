@@ -5,14 +5,14 @@ const resolvers = {
         getRoutesInfo: async (_, { month }) => {
             try {
                 const [sortKey, gsiSortKey] = ['#info', `#month#${month}`];
-                const { success, message, result: data } = await getAllRouteInfoByMonth({
+                const { success, message, code, result: data } = await getAllRouteInfoByMonth({
                     sortKey,
                     gsiSortKey,
                 });
 
-                return { success, message, data };
+                return { success, message, code, data };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

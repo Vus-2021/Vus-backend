@@ -5,17 +5,19 @@ const resolvers = {
         getDetailRoutes: async (_, { route }) => {
             try {
                 const [sortKey, index] = ['#detail', 'sk-index'];
-                const { success, message, routeDetails: data } = await getDetailRoutesByRoute({
-                    sortKey,
-                    route,
-                    index,
-                });
+                const { success, message, code, routeDetails: data } = await getDetailRoutesByRoute(
+                    {
+                        sortKey,
+                        route,
+                        index,
+                    }
+                );
                 data.forEach((item) => {
                     item.boardingTime = item.gsiSortKey.split('#')[2];
                 });
-                return { success, message, data };
+                return { success, message, code, data };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

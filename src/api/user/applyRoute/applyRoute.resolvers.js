@@ -22,7 +22,7 @@ const resolvers = {
                 });
 
                 if (alreadyApply) {
-                    return { success: false, message: 'already Apply' };
+                    return { success: false, message: 'already Apply', code: 400 };
                 }
 
                 const routeMap = new Map()
@@ -39,7 +39,7 @@ const resolvers = {
                 });
 
                 if (!isValidRouteInfo) {
-                    return { success: false, message: 'invalid route info' };
+                    return { success: false, message: 'invalid route info', code: 400 };
                 }
 
                 const createPK = { partitionKey, sortKey, route, state };
@@ -49,14 +49,14 @@ const resolvers = {
                     sortKey: result[0].sortKey,
                 };
 
-                const { success, message } = await applyRoute({
+                const { success, message, code } = await applyRoute({
                     createPK,
                     updatePK,
                 });
 
-                return { success, message };
+                return { success, message, code };
             } catch (error) {
-                return { success: false, message: error.message };
+                return { success: false, message: error.message, code: 500 };
             }
         },
     },

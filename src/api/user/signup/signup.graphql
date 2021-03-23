@@ -25,6 +25,7 @@ input User {
 type SignupResponse implements Response {
     success: Boolean!
     message: String!
+    code: Int
 }
 
 type Mutation {
