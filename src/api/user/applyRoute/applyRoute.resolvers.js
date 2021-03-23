@@ -25,10 +25,17 @@ const resolvers = {
                     return { success: false, message: 'already Apply' };
                 }
 
+                const routeMap = new Map()
+                    .set('GANGNAM', '1')
+                    .set('BYEONGJEOM', '2')
+                    .set('ANSAN', '3')
+                    .set('MANGPO', '4')
+                    .set('SUNGNAM', '5');
+
                 const { success: isValidRouteInfo, result } = await getRouteInfoByMonth({
                     sortKey: '#info',
                     route: route,
-                    gsiSortKey: `#month#${month}`,
+                    gsiSortKey: `#month#${month}#${routeMap.get(route)}`,
                 });
 
                 if (!isValidRouteInfo) {
