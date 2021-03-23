@@ -8,4 +8,5 @@ module.exports = {
     getDetailRoutesByRoute: require('./getDetailRoutesByRoute'),
     createNotice: require('./createNotice'),
     getDriverNotice: require('./getDriverNotice'),
+    getAdminNotice: require('./getAdminNotice'),
 };

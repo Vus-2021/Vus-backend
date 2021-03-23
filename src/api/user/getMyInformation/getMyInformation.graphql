@@ -6,7 +6,7 @@ type UserPayload {
 
 type getMyInformationResponse implements Response {
     success: Boolean!
-    message: String!
+    message: String
     code: Int
     data: UserPayload
 }

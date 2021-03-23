@@ -6,13 +6,18 @@ type GetDriverNoticeResponse implements Response {
     success: Boolean!
     message: String!
     code: Int
-    data: Notice
+    data: driverNotice
 }
 
-type Notice {
+type driverNotice implements Notice {
     route: String
     delayTime: String
     noticeType: NoticeTypes
+    notice: String
+    createdAt: String
+}
+
+interface Notice {
     notice: String
     createdAt: String
 }

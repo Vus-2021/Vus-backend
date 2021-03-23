@@ -1,0 +1,21 @@
+type Query {
+    getAdminNotice: getNoticeResponse
+}
+
+type getNoticeResponse implements Response {
+    success: Boolean!
+    message: String!
+    code: Int
+    data: [adminNotice]
+}
+
+type adminNotice implements Notice {
+    createdAt: String
+    notice: String
+    author: author
+}
+
+type author {
+    name: String
+    userId: String
+}
