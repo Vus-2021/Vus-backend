@@ -5,7 +5,7 @@ type Query {
 type RouteInfoResponse implements Response {
     success: Boolean!
     message: String!
-    cod: Int
+    code: Int
     data: [RouteInfo]
 }
 
