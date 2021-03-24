@@ -25,6 +25,7 @@ const resolvers = {
                     item.createdAt = item.gsiSortKey.split('#')[2];
                     item.author = { name: item.name, userId: item.userId };
                 });
+
                 return { success, message, code, data };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };

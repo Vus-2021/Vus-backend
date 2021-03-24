@@ -10,6 +10,9 @@ type getNoticeResponse implements Response {
 }
 
 type adminNotice implements Notice {
+    partitionKey: String
+    sortKey: String
+    gsiSortKey: String
     createdAt: String
     notice: String
     author: author

@@ -10,6 +10,9 @@ type GetDriverNoticeResponse implements Response {
 }
 
 type driverNotice implements Notice {
+    partitionKey: String
+    sortKey: String
+    gsiSortKey: String
     route: String
     delayTime: String
     noticeType: NoticeTypes

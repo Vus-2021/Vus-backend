@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 
-const { createRouteDetail } = require('../../../services/route');
+const { createRouteDetail } = require('../../../../services/route');
 /**
  * TODO 토큰 적용하면 ADMIN만 Route를 생성 가능하게!
  */

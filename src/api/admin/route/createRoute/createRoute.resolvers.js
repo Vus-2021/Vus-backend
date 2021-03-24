@@ -1,4 +1,4 @@
-const { createRoute, getRouteInfoByMonth } = require('../../../services/route');
+const { createRoute, getRouteInfoByMonth } = require('../../../../services/route');
 const uuid = require('uuid');
 /**
  * TODO 토큰 적용하면 ADMIN만 Route를 생성 가능하게!

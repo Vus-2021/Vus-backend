@@ -1,5 +1,5 @@
-const { createNotice } = require('../../../services/notice');
-const dateNow = require('../../../modules/dateNow');
+const { createNotice } = require('../../../../services/notice');
+const dateNow = require('../../../../modules/dateNow');
 const uuid = require('uuid');
 /**
  * TODO auth => only Admin
