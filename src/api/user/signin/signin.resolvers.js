@@ -1,14 +1,14 @@
 const jwt = require('../../../modules/jwt');
 const { signin, getUserById } = require('../../../services/user');
 const { getHashedPassword } = require('../../../modules/hash');
-const lodash = require('lodash');
+const _ = require('lodash');
 
 const resolvers = {
     Mutation: {
-        signin: async (_, args) => {
+        signin: async (parent, args) => {
             const { userId, password } = args;
             let { user: getUser } = await getUserById({ userId });
-            if (lodash.isNil(getUser)) {
+            if (_.isNil(getUser)) {
                 return { success: false, message: 'invalid user Id', code: 400 };
             }
             const salt = getUser.salt;

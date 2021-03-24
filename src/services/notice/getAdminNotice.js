@@ -1,8 +1,9 @@
 const vus = require('../../model/vus');
 
-const getAdminNotice = async ({ sortKey, index, noticeType }) => {
+const getAdminNotice = async ({ sortKey, index, noticeType, condition }) => {
     try {
-        const adminNotice = await vus
+        let adminNotice;
+        adminNotice = await vus
             .query('sortKey')
             .eq(sortKey)
             .where('noticeType')
@@ -11,9 +12,21 @@ const getAdminNotice = async ({ sortKey, index, noticeType }) => {
             .using(index)
             .exec();
 
+        if (condition) {
+            adminNotice = await vus
+                .query(condition)
+                .where('sortKey')
+                .eq(sortKey)
+                .where('noticeType')
+                .eq(noticeType)
+                .sort('descending')
+                .using(index)
+                .exec();
+        }
+
         return {
             success: true,
-            message: 'Success get drvier notice',
+            message: 'Success get notice',
             code: 200,
             data: adminNotice,
         };

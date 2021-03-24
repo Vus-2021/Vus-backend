@@ -1,5 +1,5 @@
 type Query {
-    getAdminNotice: getNoticeResponse
+    getAdminNotice(notice: String, name: String): getNoticeResponse
 }
 
 type getNoticeResponse implements Response {

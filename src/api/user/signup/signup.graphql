@@ -14,11 +14,15 @@ enum UserType {
 }
 
 input User {
+    "사번."
     userId: ID!
+    "비밀번호"
     password: String!
     name: String!
     phoneNumber: String!
+    "직책 등 유저 유형"
     type: UserType!
+    "입사일자"
     registerDate: Date
 }
 

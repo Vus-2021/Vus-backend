@@ -31,4 +31,4 @@ const Schema = new dynamoose.Schema(
         timestamps: false,
     }
 );
-module.exports = dynamoose.model('vus', Schema);
+module.exports = dynamoose.model('TEST-vus', Schema);
