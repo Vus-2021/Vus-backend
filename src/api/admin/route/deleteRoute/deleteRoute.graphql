@@ -1,0 +1,15 @@
+type deleteRouteResponse implements Response {
+    success: Boolean!
+    message: String!
+    code: Int
+}
+
+type Mutation {
+    deleteRoute(
+        route: RouteNames!
+        month: String!
+        busNumber: String!
+        limitCount: Int!
+        driver: driver!
+    ): deleteRouteResponse
+}
