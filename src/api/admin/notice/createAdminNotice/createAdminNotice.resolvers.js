@@ -7,7 +7,7 @@ const uuid = require('uuid');
 const resolvers = {
     Mutation: {
         createAdminNotice: async (_, { noticeType, notice }, { user }) => {
-            if (user.type !== 'ADMIN') {
+            if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
             try {

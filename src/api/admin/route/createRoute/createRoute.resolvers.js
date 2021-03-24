@@ -6,7 +6,10 @@ const uuid = require('uuid');
 
 const resolvers = {
     Mutation: {
-        createRoute: async (_, args) => {
+        createRoute: async (_, args, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             const { month, busNumber, limitCount, driver, route } = args;
             try {
                 const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#info', `#month#${month}`];

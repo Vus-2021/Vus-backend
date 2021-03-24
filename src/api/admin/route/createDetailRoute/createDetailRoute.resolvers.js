@@ -6,7 +6,10 @@ const { createRouteDetail } = require('../../../../services/route');
  */
 const resolvers = {
     Mutation: {
-        createRouteDetail: async (_, args) => {
+        createRouteDetail: async (_, args, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             const { location, route, imageUrl, lat, long, boardingTime } = args;
             try {
                 const [partitionKey, sortKey, gsiSortKey] = [
