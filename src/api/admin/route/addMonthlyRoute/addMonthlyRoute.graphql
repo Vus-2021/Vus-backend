@@ -1,0 +1,13 @@
+type Mutation {
+    addMonthlyRoute(
+        partitionKey: String!
+        month: String!
+        route: RouteNames!
+    ): addMonthlyRouteResponse
+}
+
+type addMonthlyRouteResponse implements Response {
+    success: Boolean!
+    message: String!
+    code: Int
+}

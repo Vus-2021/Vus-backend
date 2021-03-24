@@ -6,9 +6,7 @@ const createRoute = async ({
     gsiSortKey,
     busNumber,
     limitCount,
-    registerCount,
     driver,
-    route,
 }) => {
     try {
         await new vus({
@@ -17,9 +15,7 @@ const createRoute = async ({
             gsiSortKey,
             busNumber,
             limitCount,
-            registerCount,
             driver,
-            route,
         }).save();
 
         return { success: true, message: 'success crete Route' };
