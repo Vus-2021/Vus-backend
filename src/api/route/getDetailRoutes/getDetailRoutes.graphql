@@ -1,5 +1,5 @@
 type Query {
-    getDetailRoutes(route: RouteNames): RouteDetailResponse
+    getDetailRoutes(route: RouteNames!): RouteDetailResponse
 }
 
 type RouteDetailResponse implements Response {

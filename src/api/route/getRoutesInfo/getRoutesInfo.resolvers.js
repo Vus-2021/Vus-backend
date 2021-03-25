@@ -1,4 +1,4 @@
-const { getAllRouteInfo } = require('../../../services/route');
+const { getAllRouteInfo, getRouteInfo } = require('../../../services/route');
 const getBusInfo = require('../../../services/route/getBusInfoBybusId');
 const dayjs = require('dayjs');
 //const searchValidator = require('../../../modules/searchValidator');
@@ -12,12 +12,20 @@ const resolvers = {
                 month: args.month || dayjs().format('YYYY-MM'),
                 route: args.route,
             };
-            console.log(route);
+
             try {
-                const { success, message, code, result } = await getAllRouteInfo({
-                    sortKey: '#info',
-                    gsiSortKey: route,
-                });
+                let success, message, code, result;
+                if (!route) {
+                    ({ success, message, code, result } = await getAllRouteInfo({
+                        sortKey: '#info',
+                    }));
+                } else {
+                    ({ success, message, code, result } = await getRouteInfo({
+                        sortKey: '#info',
+                        gsiSortKey: route,
+                    }));
+                }
+
                 result.forEach((item) => {
                     item.route = item.gsiSortKey;
                 });

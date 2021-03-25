@@ -1,18 +1,8 @@
 const vus = require('../../model/vus');
 
-const getAllRouteInfo = async ({ sortKey, gsiSortKey }) => {
+const getAllRouteInfo = async ({ sortKey }) => {
     try {
-        let Query = vus.query('sortKey').eq(sortKey).using('sk-index');
-
-        if (gsiSortKey) {
-            Query = vus
-                .query('sortKey')
-                .eq(sortKey)
-                .where('gsiSortKey')
-                .eq(gsiSortKey)
-                .using('sk-index');
-        }
-        const result = await Query.exec();
+        const result = await vus.query('sortKey').eq(sortKey).using('sk-index').exec();
 
         return { success: true, message: 'getRoutes', code: 200, result };
     } catch (error) {
