@@ -1,10 +1,15 @@
+const dayjs = require('dayjs');
+const _ = require('lodash');
+
 const { applyRoute, getApplyRouteByUserId, getRouteInfo } = require('../../../services/route');
+const getPreviousMonthState = require('../../../services/user/getPreviousMonthState');
+
 /**
  * TODO Token
  */
 const resolvers = {
     Mutation: {
-        applyRoute: async (_, { route, month }, { user }) => {
+        applyRoute: async (parent, { route, month }, { user }) => {
             try {
                 const { success: alreadyApply } = await getApplyRouteByUserId({
                     partitionKey: user.userId,
@@ -23,12 +28,21 @@ const resolvers = {
                 if (!isValidRouteInfo) {
                     return { success: false, message: 'invalid route info', code: 400 };
                 }
+                const { data: previousMonth } = await getPreviousMonthState({
+                    partitionKey: user.userId,
+                    sortKey: `#applyRoute#${dayjs(month).subtract(1, 'month').format('YYYY-MM')}`,
+                });
+
+                const previousMonthState = _.isNil(previousMonth)
+                    ? 'notApply'
+                    : previousMonth.state;
 
                 const userApplyData = {
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${month}`,
                     gsiSortKey: route,
                     state: 'pending',
+                    previousMonthState,
                 };
 
                 const busInfo = {
