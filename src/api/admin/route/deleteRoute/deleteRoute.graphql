@@ -5,11 +5,5 @@ type deleteRouteResponse implements Response {
 }
 
 type Mutation {
-    deleteRoute(
-        route: RouteNames!
-        month: String!
-        busNumber: String!
-        limitCount: Int!
-        driver: driver!
-    ): deleteRouteResponse
+    deleteRoute(partitionKey: String): deleteRouteResponse
 }
