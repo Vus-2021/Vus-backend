@@ -1,9 +1,5 @@
 type Mutation {
-    addMonthlyRoute(
-        partitionKey: String!
-        month: String!
-        route: RouteNames!
-    ): addMonthlyRouteResponse
+    addMonthlyRoute(partitionKey: String!, month: String!): addMonthlyRouteResponse
 }
 
 type addMonthlyRouteResponse implements Response {

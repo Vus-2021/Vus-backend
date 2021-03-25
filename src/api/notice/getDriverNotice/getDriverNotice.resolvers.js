@@ -23,15 +23,8 @@ const resolvers = {
                 if (data.count === 0)
                     return { success, message, code, data: { notice: '좋은 하루 되세요.' } };
 
-                const routeMap = new Map()
-                    .set('GANGNAM', '강남')
-                    .set('ANSAN', '안산')
-                    .set('SUNGNAM', '성남')
-                    .set('BYEONGJEOM', '병점')
-                    .set('MANGPO', '망포');
-
                 const delayCalculate = (notice) => {
-                    return `${routeMap.get(notice.route)}발 버스는 ${
+                    return `${notice.route}발 버스는 ${
                         notice.status.split('M')[1]
                     }분 늦게 출발합니다. `;
                 };

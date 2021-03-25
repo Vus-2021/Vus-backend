@@ -6,20 +6,11 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            const { partitionKey, route } = args;
 
-            const routeMap = new Map()
-                .set('GANGNAM', '1')
-                .set('BYEONGJEOM', '2')
-                .set('ANSAN', '3')
-                .set('MANGPO', '4')
-                .set('SUNGNAM', '5');
-
-            const sortKey = `#${args.month}#${routeMap.get(route)}`;
             try {
                 const { success, message, code } = await addMonthlyRoute({
-                    partitionKey,
-                    sortKey,
+                    partitionKey: args.partitionKey,
+                    sortKey: `#${args.month}`,
                     registerCount: 0,
                 });
 

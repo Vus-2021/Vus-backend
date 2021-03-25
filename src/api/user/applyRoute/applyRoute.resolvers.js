@@ -15,13 +15,6 @@ const resolvers = {
                     return { success: false, message: 'already Apply', code: 400 };
                 }
 
-                const routeMap = new Map()
-                    .set('GANGNAM', '1')
-                    .set('BYEONGJEOM', '2')
-                    .set('ANSAN', '3')
-                    .set('MANGPO', '4')
-                    .set('SUNGNAM', '5');
-
                 const { success: isValidRouteInfo, result } = await getRouteInfo({
                     sortKey: '#info',
                     gsiSortKey: route,
@@ -40,7 +33,7 @@ const resolvers = {
 
                 const busInfo = {
                     partitionKey: result[0].partitionKey,
-                    sortKey: `#${month}#${routeMap.get(route)}`,
+                    sortKey: `#${month}`,
                 };
                 const { success, message, code } = await applyRoute({
                     userApplyData,
