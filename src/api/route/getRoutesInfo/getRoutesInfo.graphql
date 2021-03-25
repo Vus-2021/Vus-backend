@@ -1,5 +1,5 @@
 type Query {
-    getRoutesInfo(month: String): RouteInfoResponse
+    getRoutesInfo(route: RouteNames, month: String): RouteInfoResponse
 }
 
 type RouteInfoResponse implements Response {
@@ -10,15 +10,23 @@ type RouteInfoResponse implements Response {
 }
 
 type RouteInfo {
+    partitionKey: String
+    sortKey: String
+    gsiSortKey: String
     route: String
     busNumber: String
     limitCount: Int
-    registerCount: Int
     driver: driverInfo
+    month: monthInfo
 }
 
 type driverInfo {
     phone: String
     image: String
     name: String
+}
+
+type monthInfo {
+    registerCount: Int
+    month: String
 }

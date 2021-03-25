@@ -1,7 +1,7 @@
 const dynamoose = require('dynamoose');
-const validParameters = function ({ isMatched, title, name, content, notice }) {
+const validParameters = function ({ isMatched, title, name, content, notice, route, month }) {
     let condition = new dynamoose.Condition();
-    const existedParameters = Object.entries({ title, name, content, notice }).filter(
+    const existedParameters = Object.entries({ title, name, content, notice, route, month }).filter(
         (value) => value[1] != undefined
     );
 
@@ -30,6 +30,18 @@ const validParameters = function ({ isMatched, title, name, content, notice }) {
                     isMatched === true
                         ? condition.where('notice').eq(notice)
                         : condition.where('notice').contains(notice);
+                break;
+            case 'route':
+                condition =
+                    isMatched === true
+                        ? condition.where('route').eq(route)
+                        : condition.where('route').contains(route);
+                break;
+            case 'month':
+                condition =
+                    isMatched === true
+                        ? condition.where('month').eq(month)
+                        : condition.where('month').contains(month);
                 break;
         }
     }

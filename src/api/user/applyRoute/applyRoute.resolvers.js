@@ -1,8 +1,4 @@
-const {
-    applyRoute,
-    getApplyRouteByUserId,
-    getRouteInfoByMonth,
-} = require('../../../services/route');
+const { applyRoute, getApplyRouteByUserId, getRouteInfo } = require('../../../services/route');
 /**
  * TODO Token
  */
@@ -10,15 +6,9 @@ const resolvers = {
     Mutation: {
         applyRoute: async (_, { route, month }, { user }) => {
             try {
-                const [partitionKey, sortKey, state] = [
-                    user.userId,
-                    `#applyRoute#${month}`,
-                    'pending',
-                ];
-
                 const { success: alreadyApply } = await getApplyRouteByUserId({
-                    partitionKey,
-                    sortKey,
+                    partitionKey: user.userId,
+                    sortKey: `#applyRoute#${month}`,
                 });
 
                 if (alreadyApply) {
@@ -32,26 +22,29 @@ const resolvers = {
                     .set('MANGPO', '4')
                     .set('SUNGNAM', '5');
 
-                const { success: isValidRouteInfo, result } = await getRouteInfoByMonth({
+                const { success: isValidRouteInfo, result } = await getRouteInfo({
                     sortKey: '#info',
-                    route: route,
-                    gsiSortKey: `#month#${month}#${routeMap.get(route)}`,
+                    gsiSortKey: route,
                 });
 
                 if (!isValidRouteInfo) {
                     return { success: false, message: 'invalid route info', code: 400 };
                 }
 
-                const createPK = { partitionKey, sortKey, route, state };
-
-                const updatePK = {
-                    partitionKey: result[0].partitionKey,
-                    sortKey: result[0].sortKey,
+                const userApplyData = {
+                    partitionKey: user.userId,
+                    sortKey: `#applyRoute#${month}`,
+                    gsiSortKey: route,
+                    state: 'pending',
                 };
 
+                const busInfo = {
+                    partitionKey: result[0].partitionKey,
+                    sortKey: `#${month}#${routeMap.get(route)}`,
+                };
                 const { success, message, code } = await applyRoute({
-                    createPK,
-                    updatePK,
+                    userApplyData,
+                    busInfo,
                 });
 
                 return { success, message, code };

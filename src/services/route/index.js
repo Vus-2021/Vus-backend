@@ -1,7 +1,7 @@
 module.exports = {
     createRoute: require('./createRoute'),
-    getRouteInfoByMonth: require('./getRouteInfoByMonth'),
-    getAllRouteInfoByMonth: require('./getAllRouteInfoByMonth'),
+    getRouteInfo: require('./getRouteInfo'),
+    getAllRouteInfo: require('./getAllRouteInfo'),
     applyRoute: require('./applyRoute'),
     getApplyRouteByUserId: require('./getApplyRouteByUserId'),
     createRouteDetail: require('./createRouteDetail'),

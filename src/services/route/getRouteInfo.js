@@ -1,14 +1,12 @@
 const vus = require('../../model/vus');
 
-const getRouteInfoByMonth = async ({ sortKey, gsiSortKey, route }) => {
+const getRouteInfo = async ({ sortKey, gsiSortKey }) => {
     try {
         const result = await vus
             .query('sortKey')
             .eq(sortKey)
             .where('gsiSortKey')
             .eq(gsiSortKey)
-            .where('route')
-            .eq(route)
             .using('sk-index')
             .exec();
 
@@ -22,4 +20,4 @@ const getRouteInfoByMonth = async ({ sortKey, gsiSortKey, route }) => {
     }
 };
 
-module.exports = getRouteInfoByMonth;
+module.exports = getRouteInfo;
