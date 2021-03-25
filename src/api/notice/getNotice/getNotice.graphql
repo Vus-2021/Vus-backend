@@ -1,5 +1,5 @@
 type Query {
-    getAdminNotice(notice: String, name: String): getNoticeResponse
+    getAdminNotice(notice: String, name: String, content: String): getNoticeResponse
 }
 
 type getNoticeResponse implements Response {
@@ -14,6 +14,8 @@ type adminNotice implements Notice {
     sortKey: String
     gsiSortKey: String
     createdAt: String
+    updatedAt: String
+    content: String
     notice: String
     author: author
 }

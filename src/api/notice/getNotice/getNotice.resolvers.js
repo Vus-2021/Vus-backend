@@ -1,26 +1,25 @@
 const { getAdminNotice } = require('../../../services/notice');
 const searchValidator = require('../../../modules/searchValidator');
-/**
- * TODO 검색 기능 함께 만들기.
- */
+
 const resolvers = {
     Query: {
         getAdminNotice: async (_, args) => {
-            const [sortKey, index, noticeType] = ['#notice', 'sk-index', 'ADMIN'];
-            const { isMatched, notice, name } = {
+            const { isMatched, notice, name, content } = {
                 notice: args.notice,
                 name: args.name,
+                content: args.content,
                 isMatched: args.isMatched || false,
             };
-            let condition = searchValidator({ isMatched, notice, name });
+            let condition = searchValidator({ isMatched, notice, name, content });
 
             try {
                 const { success, message, code, data } = await getAdminNotice({
-                    sortKey,
-                    index,
-                    noticeType,
+                    sortKey: '#notice',
+                    index: 'sk-index',
+                    noticeType: 'ADMIN',
                     condition,
                 });
+
                 data.forEach((item) => {
                     item.createdAt = item.gsiSortKey.split('#')[2];
                     item.author = { name: item.name, userId: item.userId };
