@@ -6,22 +6,19 @@ const uuid = require('uuid');
  */
 const resolvers = {
     Mutation: {
-        createAdminNotice: async (_, { noticeType, notice }, { user }) => {
+        createAdminNotice: async (_, { noticeType, notice, content }, { user }) => {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
             try {
-                const [partitionKey, sortKey, gsiSortKey] = [
-                    uuid.v4(),
-                    '#notice',
-                    `#createdAt#${dateNow()}`,
-                ];
                 const { success, message, code } = await createNotice({
-                    partitionKey,
-                    sortKey,
-                    gsiSortKey,
+                    partitionKey: uuid.v4(),
+                    sortKey: '#notice',
+                    gsiSortKey: `#createdAt#${dateNow()}`,
+                    updatedAt: dateNow(),
                     noticeType,
                     notice,
+                    content,
                     userId: user.userId,
                     name: user.name,
                 });

@@ -1,3 +1,7 @@
 type Mutation {
-    createAdminNotice(noticeType: NoticeTypes!, notice: String!): createNoticeResponse
+    createAdminNotice(
+        noticeType: NoticeTypes!
+        notice: String!
+        content: String!
+    ): createNoticeResponse
 }
