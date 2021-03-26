@@ -17,10 +17,6 @@ type adminNotice implements Notice {
     updatedAt: String
     content: String
     notice: String
-    author: author
-}
-
-type author {
-    name: String
+    author: String
     userId: String
 }

@@ -22,7 +22,7 @@ const resolvers = {
 
                 data.forEach((item) => {
                     item.createdAt = item.gsiSortKey.split('#')[2];
-                    item.author = { name: item.name, userId: item.userId };
+                    item.author = item.name;
                 });
 
                 return { success, message, code, data };
