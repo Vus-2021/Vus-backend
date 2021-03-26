@@ -1,0 +1,21 @@
+type Query {
+    getBusApplicant(route: String, month: String): getBusApplicantResponse
+}
+
+type getBusApplicantResponse implements Response {
+    success: Boolean!
+    message: String!
+    code: Int
+    data: [ApplicantList]
+}
+
+type Applicant {
+    route: String
+    previousMonthState: String
+    state: String
+}
+
+type ApplicantList {
+    user: User
+    applicant: Applicant
+}
