@@ -9,7 +9,10 @@ const resetRoute = require('../../../../services/route/resetRoute');
 
 const resolvers = {
     Mutation: {
-        resetMonthRoute: async (parent, { busId, month, route }) => {
+        resetMonthRoute: async (parent, { busId, month, route }, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             try {
                 let { success, message, code, data } = {};
 

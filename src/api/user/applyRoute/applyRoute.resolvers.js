@@ -10,6 +10,9 @@ const getPreviousMonthState = require('../../../services/user/getPreviousMonthSt
 const resolvers = {
     Mutation: {
         applyRoute: async (parent, { route, month }, { user }) => {
+            if (!user) {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             try {
                 const { success: alreadyApply } = await getApplyRouteByUserId({
                     partitionKey: user.userId,

@@ -5,6 +5,9 @@ const getRouteById = require('../../../services/route/getRouteById');
 const resolvers = {
     Mutation: {
         cancleRoute: async (parent, { busId, month }, { user }) => {
+            if (!user) {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             try {
                 const userInfo = {
                     partitionKey: user.userId,

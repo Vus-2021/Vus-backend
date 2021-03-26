@@ -2,7 +2,10 @@ const deleteUsers = require('../../../../services/user/deleteUser');
 
 const resolvers = {
     Mutation: {
-        deleteUser: async (parent, args) => {
+        deleteUser: async (parent, args, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             const userList = args.userId.map((item) => {
                 return {
                     partitionKey: item,
