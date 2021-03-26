@@ -13,7 +13,7 @@ enum UserType {
     DRIVER
 }
 
-input User {
+input UserInput {
     "사번."
     userId: ID!
     "비밀번호"
@@ -33,7 +33,7 @@ type SignupResponse implements Response {
 }
 
 type Mutation {
-    signupUser(input: User): SignupResponse
+    signupUser(input: UserInput): SignupResponse
 }
 
 type Query {
