@@ -1,0 +1,9 @@
+type Mutation {
+    cancleRoute(busId: String!, month: String!): cancleRouteResponse
+}
+
+type cancleRouteResponse implements Response {
+    success: Boolean!
+    message: String!
+    code: Int
+}

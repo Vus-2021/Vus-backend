@@ -11,7 +11,10 @@ const resolvers = {
     Mutation: {
         signupUser: async (_, args) => {
             const { userId, password, name, phoneNumber, type, registerDate } = args.input;
-            const { success: alreadyUserId } = await getUserById({ userId });
+            const { success: alreadyUserId } = await getUserById({
+                partitionKey: userId,
+                sortKey: '#user',
+            });
 
             if (alreadyUserId) {
                 return { success: false, message: 'alreadyUserId', code: 400 };

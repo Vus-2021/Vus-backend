@@ -7,7 +7,10 @@ const resolvers = {
     Mutation: {
         signin: async (parent, args) => {
             const { userId, password } = args;
-            let { user: getUser } = await getUserById({ userId });
+            let { user: getUser } = await getUserById({
+                partitionKey: userId,
+                sortKey: '#user',
+            });
             if (_.isNil(getUser)) {
                 return { success: false, message: 'invalid user Id', code: 400 };
             }

@@ -5,7 +5,10 @@ const resolvers = {
         checkUserId: async (_, args) => {
             try {
                 const { userId } = args;
-                const { success: alreadyUserId, code } = await getUserById({ userId });
+                const { success: alreadyUserId, code } = await getUserById({
+                    partitionKey: userId,
+                    sortKey: '#user',
+                });
 
                 if (alreadyUserId) {
                     return { success: false, message: 'alreadyUserId', code };

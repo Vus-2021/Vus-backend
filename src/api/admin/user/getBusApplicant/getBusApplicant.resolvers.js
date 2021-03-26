@@ -35,7 +35,10 @@ const resolvers = {
 
                 let users = [];
                 for (let userId of userIdList) {
-                    let user = await getUserById({ userId });
+                    let user = await getUserById({
+                        partitionKey: userId,
+                        sortKey: '#user',
+                    });
                     users.push(user.user);
                 }
                 users.forEach((user) => {

@@ -1,8 +1,8 @@
 const vus = require('../../model/vus');
 
-const getUserById = async ({ userId }) => {
+const getUserById = async ({ partitionKey, sortKey }) => {
     try {
-        const user = await vus.get({ partitionKey: userId, sortKey: '#user' });
+        const user = await vus.get({ partitionKey, sortKey });
 
         if (!user) {
             return { success: false, message: 'invalid user', code: 400, user: null };
