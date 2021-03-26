@@ -22,7 +22,6 @@ const resolvers = {
                     user.registerDate = user.gsiSortKey.split('#')[2];
                     user.userId = user.partitionKey;
                 });
-                console.log(data);
 
                 return { success, message, code, data };
             } catch (error) {

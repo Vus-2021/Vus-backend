@@ -1,7 +1,7 @@
 const dynamoose = require('dynamoose');
 const validParameters = function ({ isMatched, ...args }) {
     let condition = new dynamoose.Condition();
-    console.log({ ...args });
+
     const existedParameters = Object.entries({ ...args }).filter((value) => value[1] != undefined);
 
     for (let parameter of existedParameters) {

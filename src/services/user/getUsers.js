@@ -15,8 +15,6 @@ const getUsers = async ({ sortKey, index, condition }) => {
                 .exec();
         }
 
-        console.log(users);
-
         return {
             success: true,
             message: 'Success get users',
