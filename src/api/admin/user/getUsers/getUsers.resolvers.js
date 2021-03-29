@@ -3,7 +3,10 @@ const getUsers = require('../../../../services/user/getUsers');
 
 const resolvers = {
     Query: {
-        getUsers: async (parent, args) => {
+        getUsers: async (parent, args, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             const { isMatched, userId, name, type } = {
                 userId: args.userId,
                 name: args.name,

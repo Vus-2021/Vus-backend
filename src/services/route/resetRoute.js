@@ -1,5 +1,5 @@
 /**
- * array를 트랜잭션 처리를 못하겠다.
+ * array 트랜잭션 처리를 못하겠다.
  */
 const vus = require('../../model/vus');
 

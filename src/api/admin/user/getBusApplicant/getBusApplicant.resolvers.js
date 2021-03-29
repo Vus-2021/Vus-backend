@@ -6,7 +6,10 @@ const getUserById = require('../../../../services/user/getUserById');
 
 const resolvers = {
     Query: {
-        getBusApplicant: async (parent, args) => {
+        getBusApplicant: async (parent, args, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             const { isMatched, route, name, month } = {
                 isMatched: args.isMatched || false,
                 gsiSortKey: args.route || '강남',
