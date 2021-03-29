@@ -13,6 +13,7 @@ type Applicant {
     route: String
     previousMonthState: String
     state: String
+    isCancellation: Boolean
 }
 
 type ApplicantList {
