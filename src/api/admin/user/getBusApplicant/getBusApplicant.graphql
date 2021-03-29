@@ -1,5 +1,5 @@
 type Query {
-    getBusApplicant(route: String, month: String): getBusApplicantResponse
+    getBusApplicant(route: String, month: String, state: String): getBusApplicantResponse
 }
 
 type getBusApplicantResponse implements Response {
@@ -13,7 +13,6 @@ type Applicant {
     route: String
     previousMonthState: String
     state: String
-    isCancellation: Boolean
 }
 
 type ApplicantList {

@@ -36,7 +36,7 @@ const resolvers = {
                 if (!success) {
                     return { success, message, code };
                 }
-                const updateItem = { isCancellation: true };
+                const updateItem = { state: 'requestCancle' };
                 ({ success, message, code } = await updateUser({
                     primaryKey: userInfo,
                     updateItem,

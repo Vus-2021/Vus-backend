@@ -45,7 +45,6 @@ const resolvers = {
                     sortKey: `#applyRoute#${month}`,
                     gsiSortKey: route,
                     state: 'pending',
-                    isCancellation: false,
                     previousMonthState,
                 };
 

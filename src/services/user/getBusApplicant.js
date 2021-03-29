@@ -1,15 +1,24 @@
 const vus = require('../../model/vus');
 
-const getBusApplicant = async ({ sortKey, index, condition }) => {
+const getBusApplicant = async ({ sortKey, gsiSortKey, index, condition }) => {
     try {
         let adminNotice;
-        adminNotice = await vus.query('sortKey').eq(sortKey).sort('descending').using(index).exec();
+        adminNotice = await vus
+            .query('sortKey')
+            .eq(sortKey)
+            .where('gsiSortKey')
+            .eq(gsiSortKey)
+            .sort('descending')
+            .using(index)
+            .exec();
 
         if (condition) {
             adminNotice = await vus
                 .query(condition)
                 .where('sortKey')
                 .eq(sortKey)
+                .where('gsiSortKey')
+                .eq(gsiSortKey)
                 .sort('descending')
                 .using(index)
                 .exec();
