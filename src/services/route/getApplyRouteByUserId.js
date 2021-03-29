@@ -4,7 +4,6 @@ const vus = require('../../model/vus');
 const getRouteByUserId = async ({ partitionKey, sortKey }) => {
     try {
         const result = await vus.get({ partitionKey, sortKey });
-        console.log(result);
         if (_.isNil(result)) {
             return { success: false, message: '결과 없음.' };
         }
