@@ -1,11 +1,12 @@
 scalar FileUpload
 
-type File {
+type UploadedFileResponse {
     filename: String!
     mimetype: String!
     encoding: String!
+    url: String!
 }
 
 type Mutation {
-    singleUpload(file: FileUpload!): File!
+    singleUpload(file: FileUpload!): UploadedFileResponse!
 }

@@ -7,7 +7,6 @@ type updateAdminNoticeResponse implements Response {
 type Mutation {
     updateAdminNotice(
         partitionKey: String!
-        sortKey: String!
         notice: String!
         content: String!
     ): updateAdminNoticeResponse

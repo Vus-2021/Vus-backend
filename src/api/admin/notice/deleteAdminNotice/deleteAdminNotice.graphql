@@ -1,5 +1,5 @@
 type Mutation {
-    deleteNotice(partitionKey: String!): deleteNoticeResponse
+    deleteNotice(partitionKey: [String]!): deleteNoticeResponse
 }
 
 type deleteNoticeResponse implements Response {

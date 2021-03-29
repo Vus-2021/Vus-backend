@@ -1,6 +1,10 @@
-const cancleRoute = require('../../../services/route/cancleRoute');
-const getUserById = require('../../../services/user/getUserById');
-const getRouteById = require('../../../services/route/getRouteById');
+const cancleRoute = require('../../../../services/route/cancleRoute');
+const getUserById = require('../../../../services/user/getUserById');
+const getRouteById = require('../../../../services/route/getRouteById');
+
+/**
+ * TODO 관리자 기능으로 이동.
+ */
 
 const resolvers = {
     Mutation: {

@@ -19,7 +19,8 @@ module.exports.uploadS3 = async (fileStream) => {
     };
 
     try {
-        await s3.upload(params).promise();
+        const response = await s3.upload(params).promise();
+        console.log(response);
     } catch (error) {
         console.log(error);
     }
