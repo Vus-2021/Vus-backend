@@ -7,7 +7,7 @@ const resolvers = {
     Mutation: {
         signin: async (parent, args) => {
             const { userId, password } = args;
-            let { user: getUser } = await getUserById({
+            let { data: getUser } = await getUserById({
                 partitionKey: userId,
                 sortKey: '#user',
             });

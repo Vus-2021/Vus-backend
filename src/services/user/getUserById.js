@@ -7,7 +7,7 @@ const getUserById = async ({ partitionKey, sortKey }) => {
         if (!user) {
             return { success: false, message: 'invalid user', code: 400, user: null };
         }
-        return { success: true, message: 'getUser', code: 200, user };
+        return { success: true, message: 'getUser', code: 200, data: user };
     } catch (error) {
         return { success: false, message: error.message, code: 500 };
     }

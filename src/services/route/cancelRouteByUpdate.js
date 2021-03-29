@@ -2,10 +2,10 @@ const dynamoose = require('dynamoose');
 
 const vus = require('../../model/vus');
 
-const cancleRoute = async ({ userInfo, bus }) => {
+const cancelRouteByUpdate = async ({ userInfo, bus }) => {
     try {
         await dynamoose.transaction([
-            vus.transaction.update(userInfo, { $SET: { state: 'canceled' } }),
+            vus.transaction.update(userInfo, { $SET: { isCancellation: true } }),
             vus.transaction.update(bus, { $ADD: { registerCount: -1 } }),
         ]);
         return { success: true, message: '통근 버스 취소', code: 204 };
@@ -14,4 +14,4 @@ const cancleRoute = async ({ userInfo, bus }) => {
     }
 };
 
-module.exports = cancleRoute;
+module.exports = cancelRouteByUpdate;

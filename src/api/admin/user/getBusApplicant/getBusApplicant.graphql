@@ -9,13 +9,13 @@ type getBusApplicantResponse implements Response {
     data: [ApplicantList]
 }
 
-type Applicant {
+type ApplicantList {
+    userId: String
+    name: String
+    type: String
+    registerDate: String
+    phoneNumber: String
     route: String
     previousMonthState: String
     state: String
-}
-
-type ApplicantList {
-    user: User
-    applicant: Applicant
 }

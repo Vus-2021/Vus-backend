@@ -1,14 +1,19 @@
-const cancleRoute = require('../../../services/route/cancleRoute');
+const dayjs = require('dayjs');
+
+const cancelRouteByUpdate = require('../../../services/route/cancelRouteByUpdate');
+const cancelRouteByDelete = require('../../../services/route/cancleRouteByDelete');
 const getUserById = require('../../../services/user/getUserById');
 const getRouteById = require('../../../services/route/getRouteById');
 
 /**
- * TODO 관리자 기능으로 이동.
+ * TODO 신청 취소할때. 취소한 월이 탑승 월보다 전일때는 컬럼을 삭제, 그게 아니면 cancelled toggle,
  */
 
 const resolvers = {
     Mutation: {
-        cancleRoute: async (parent, { busId, month }, { user }) => {
+        cancelRoute: async (parent, { busId, month }, { user }) => {
+            const nowMonth = dayjs(new Date()).format('YYYY-MM');
+            console.log(nowMonth === month);
             if (!user) {
                 return { success: false, message: 'access denied', code: 403 };
             }
@@ -18,22 +23,26 @@ const resolvers = {
                     sortKey: `#applyRoute#${month}`,
                 };
 
-                let { success, message, code } = {};
+                let { success, message, code, data } = {};
 
-                ({ success, message, code } = await getUserById({
+                ({ success, message, code, data } = await getUserById({
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${month}`,
                 }));
-
+                // 신청 안했으면 빠이..
                 if (!success) {
                     return { success, message, code };
+                }
+
+                if (success && data.isCancellation) {
+                    return { success: false, message: '이미 취소되었음', code: 400 };
                 }
 
                 ({ success, message, code } = await getRouteById({
                     partitionKey: busId,
                     sortKey: `#${month}`,
                 }));
-
+                // 버스 없는거면 빠이
                 if (!success) {
                     return { success, message, code };
                 }
@@ -43,8 +52,11 @@ const resolvers = {
                     sortKey: `#${month}`,
                 };
 
-                ({ success, message, code } = await cancleRoute({ userInfo, bus }));
-
+                if (nowMonth === month) {
+                    ({ success, message, code } = await cancelRouteByUpdate({ userInfo, bus }));
+                } else {
+                    ({ success, message, code } = await cancelRouteByDelete({ userInfo, bus }));
+                }
                 return { success, message, code };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };

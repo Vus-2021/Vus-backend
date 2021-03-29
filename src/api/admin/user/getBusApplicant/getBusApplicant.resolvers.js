@@ -33,33 +33,39 @@ const resolvers = {
 
                 monthResult.forEach((info) => {
                     userMap.set(info.partitionKey, {
-                        applicant: {
-                            route: info.gsiSortKey,
-                            previousMonthState: info.previousMonthState,
-                            state: info.state,
-                        },
+                        route: info.gsiSortKey,
+                        previousMonthState: info.previousMonthState,
+                        state: info.state,
                     });
                 });
 
                 let users = [];
                 for (let userId of userIdList) {
-                    let user = await getUserById({
+                    let { data: user } = await getUserById({
                         partitionKey: userId,
                         sortKey: '#user',
                     });
-                    users.push(user.user);
+                    users.push(user);
                 }
+
                 users.forEach((user) => {
-                    userMap.get(user.partitionKey).user = {
-                        name: user.name,
-                        registerDate: user.gsiSortKey.split('#')[2],
-                        type: user.type,
-                        userId: user.partitionKey,
-                        phoneNumber: user.phoneNumber,
-                    };
+                    userMap.set(
+                        user.partitionKey,
+                        Object.assign(
+                            { ...userMap.get(user.partitionKey) },
+                            {
+                                name: user.name,
+                                registerDate: user.gsiSortKey.split('#')[2],
+                                type: user.type,
+                                userId: user.partitionKey,
+                                phoneNumber: user.phoneNumber,
+                            }
+                        )
+                    );
                 });
 
                 const data = [...userMap.values()];
+
                 return { success, message, code, data };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };
