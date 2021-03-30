@@ -3,8 +3,7 @@ const validParameters = function ({ isMatched, ...args }) {
     let condition = new dynamoose.Condition();
 
     const existedParameters = Object.entries({ ...args }).filter((value) => value[1] != undefined);
-    for (let parameter of existedParameters) {
-        let [key, value] = parameter;
+    for (let [key, value] of existedParameters) {
         condition =
             isMatched === true
                 ? condition.where(key).eq(value)

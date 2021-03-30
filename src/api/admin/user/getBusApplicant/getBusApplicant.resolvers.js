@@ -66,6 +66,9 @@ const resolvers = {
                 });
 
                 let data = [...userMap.values()];
+                /**
+                 * TODO 리팩토링
+                 */
                 if (name) data = data.filter((user) => user.name.match(new RegExp(name)));
                 if (type) data = data.filter((user) => user.type === type);
 
