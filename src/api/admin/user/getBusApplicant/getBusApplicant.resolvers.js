@@ -66,13 +66,8 @@ const resolvers = {
                 });
 
                 let data = [...userMap.values()];
-
-                if (name) {
-                    data = data.filter((user) => user.name === name);
-                }
-                if (type) {
-                    data = data.filter((user) => user.type === type);
-                }
+                if (name) data = data.filter((user) => user.name.match(new RegExp(name)));
+                if (type) data = data.filter((user) => user.type === type);
 
                 return { success, message, code, data };
             } catch (error) {
