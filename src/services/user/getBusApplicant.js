@@ -1,6 +1,7 @@
 const vus = require('../../model/vus');
 
 const getBusApplicant = async ({ sortKey, gsiSortKey, index, condition }) => {
+    //console.log(condition);
     try {
         let adminNotice;
         adminNotice = await vus

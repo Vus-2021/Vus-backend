@@ -13,7 +13,6 @@ const resolvers = {
     Mutation: {
         cancelRoute: async (parent, { busId, month }, { user }) => {
             const nowMonth = dayjs(new Date()).format('YYYY-MM');
-            console.log(nowMonth === month);
             if (!user) {
                 return { success: false, message: 'access denied', code: 403 };
             }
@@ -29,7 +28,7 @@ const resolvers = {
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${month}`,
                 }));
-                // 신청 안했으면 빠이..
+
                 if (!success) {
                     return { success, message, code };
                 }
@@ -42,7 +41,7 @@ const resolvers = {
                     partitionKey: busId,
                     sortKey: `#${month}`,
                 }));
-                // 버스 없는거면 빠이
+
                 if (!success) {
                     return { success, message, code };
                 }

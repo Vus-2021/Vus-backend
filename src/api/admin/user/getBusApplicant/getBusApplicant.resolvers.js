@@ -10,16 +10,17 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            const { isMatched, gsiSortKey, name, month, state } = {
+            const { isMatched, gsiSortKey, name, month, state, userId, type } = {
                 isMatched: args.isMatched || false,
                 gsiSortKey: args.route || '강남',
                 name: args.name,
                 month: args.month || dayjs(new Date()).format('YYYY-MM'),
                 state: args.state,
+                userId: args.userId,
+                type: args.type,
             };
 
-            let condition = searchValidator({ isMatched, name, state });
-
+            let condition = searchValidator({ isMatched, state, partitionKey: userId });
             try {
                 const { success, message, code, data: monthResult } = await getBusApplicant({
                     sortKey: `#applyRoute#${month}`,
@@ -64,7 +65,14 @@ const resolvers = {
                     );
                 });
 
-                const data = [...userMap.values()];
+                let data = [...userMap.values()];
+
+                if (name) {
+                    data = data.filter((user) => user.name === name);
+                }
+                if (type) {
+                    data = data.filter((user) => user.type === type);
+                }
 
                 return { success, message, code, data };
             } catch (error) {

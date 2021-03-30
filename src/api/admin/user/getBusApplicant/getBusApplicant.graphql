@@ -1,5 +1,12 @@
 type Query {
-    getBusApplicant(route: String, month: String, state: String): getBusApplicantResponse
+    getBusApplicant(
+        route: String
+        month: String
+        state: String
+        name: String
+        userId: String
+        type: UserType
+    ): getBusApplicantResponse
 }
 
 type getBusApplicantResponse implements Response {
