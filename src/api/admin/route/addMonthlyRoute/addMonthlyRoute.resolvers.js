@@ -12,6 +12,7 @@ const resolvers = {
                     partitionKey: args.partitionKey,
                     sortKey: `#${args.month}`,
                     registerCount: 0,
+                    gsiSortKey: args.route,
                 });
 
                 return { success, message, code };
