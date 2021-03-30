@@ -9,7 +9,7 @@ const getPreviousMonthState = require('../../../services/user/getPreviousMonthSt
  */
 const resolvers = {
     Mutation: {
-        applyRoute: async (parent, { route, month }, { user }) => {
+        applyRoute: async (parent, { route, month, partitionKey }, { user }) => {
             if (!user) {
                 return { success: false, message: 'access denied', code: 403 };
             }
@@ -46,6 +46,7 @@ const resolvers = {
                     gsiSortKey: route,
                     state: 'pending',
                     isCancellation: false,
+                    busId: partitionKey,
                     previousMonthState,
                 };
 
