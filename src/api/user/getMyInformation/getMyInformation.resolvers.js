@@ -9,7 +9,12 @@ const resolvers = {
 
                 data = data
                     .filter((item) => item.sortKey !== '#user')
-                    .filter((item) => item.state === 'pending' || item.state === 'fulfilled')
+                    .filter((item) => {
+                        return (
+                            (item.state === 'pending' || item.state === 'fulfilled') &&
+                            !item.isCancellation
+                        );
+                    })
                     .map((dataItem) => {
                         return {
                             partitionKey: dataItem.partitionKey,
