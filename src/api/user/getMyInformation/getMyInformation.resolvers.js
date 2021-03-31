@@ -8,11 +8,11 @@ const resolvers = {
                 let { data } = await getUserByPk({ partitionKey: context.user.userId });
 
                 data = data
-                    .filter((item) => item.sortKey !== '#user')
                     .filter((item) => {
                         return (
                             (item.state === 'pending' || item.state === 'fulfilled') &&
-                            !item.isCancellation
+                            !item.isCancellation &&
+                            item.sortKey !== '#user'
                         );
                     })
                     .map((dataItem) => {
