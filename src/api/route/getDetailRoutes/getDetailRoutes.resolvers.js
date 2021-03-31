@@ -4,12 +4,11 @@ const resolvers = {
     Query: {
         getDetailRoutes: async (_, { route }) => {
             try {
-                const [sortKey, index] = ['#detail', 'sk-index'];
                 const { success, message, code, routeDetails: data } = await getDetailRoutesByRoute(
                     {
-                        sortKey,
-                        route,
-                        index,
+                        sortKey: '#detail',
+                        route: route,
+                        index: 'sk-index',
                     }
                 );
                 data.forEach((item) => {

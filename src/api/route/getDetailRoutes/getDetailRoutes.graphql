@@ -18,4 +18,5 @@ type RouteDetail {
     imageUrl: String
     long: Float
     lat: Float
+    route: String
 }
