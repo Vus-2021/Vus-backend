@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "resolutions": {
+    "fs-capacitor":"^6.2.0",
+    "graphql-upload": "^11.0.0"
+  },
   "scripts": {
     "start": "nodemon ./src/app.js",
     "test": "jest --detectOpenHandles",
@@ -30,6 +34,7 @@
     "dynamoose": "^2.7.2",
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.4",
+    "graphql-upload": "^11.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "rand-token": "^1.0.1",

@@ -8,6 +8,7 @@ const server = new ApolloServer({
     schema,
     formatError,
     context,
+    uploads: false,
 });
 
 server.listen().then(({ url }) => {
