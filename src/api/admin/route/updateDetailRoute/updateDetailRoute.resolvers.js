@@ -1,8 +1,5 @@
 const updateDetailRoute = require('../../../../services/route/updateDetailRoute');
 const uploadS3 = require('../../../../modules/s3');
-/**
- *
- */
 const resolvers = {
     Mutation: {
         updateDetailRoute: async (
