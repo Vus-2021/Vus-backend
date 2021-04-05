@@ -16,10 +16,18 @@ const uploadS3 = ({ fileStream, filename }) => {
         ACL: 'public-read',
     };
 
-    s3.upload(params, function (err, data) {
-        if (err) throw err;
-        console.log(data);
-    });
+    const fileInfo = s3
+        .upload(params)
+        .promise()
+        .then((data) => {
+            return data;
+        })
+        .catch((err) => {
+            console.log(err);
+            throw err;
+        });
+
+    return fileInfo;
 };
 
 module.exports = uploadS3;
