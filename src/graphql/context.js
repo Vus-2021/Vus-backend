@@ -4,7 +4,6 @@ const TOKEN_EXPIRED = -3;
 const TOKEN_INVALID = -2;
 
 const context = async ({ req }) => {
-    console.log(req.headers['content-type']);
     if (!req.headers.authorization) return { user: undefined };
     const user = await jwt.verify(req.headers.authorization);
     if (user === TOKEN_EXPIRED)
