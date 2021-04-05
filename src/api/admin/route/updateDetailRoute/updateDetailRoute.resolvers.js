@@ -10,31 +10,28 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            let { success, message, code } = {};
 
-            let updateItem = Object.assign({
-                gsiSortKey: `#boardingTime#${boardingTime}`,
-                lat,
-                long,
-                location,
-                route,
-            });
+            let updateItem;
+
+            if (!file) {
+                updateItem = Object.assign({
+                    gsiSortKey: `#boardingTime#${boardingTime}`,
+                    lat,
+                    long,
+                    location,
+                    route,
+                });
+            } else {
+                const { createReadStream, filename } = await file;
+                const fileStream = createReadStream();
+                const fileInfo = await uploadS3({ fileStream, filename });
+                updateItem = Object.assign(updateItem, { imageUrl: fileInfo.Location });
+            }
             try {
-                if (!file) {
-                    ({ success, message, code } = await updateDetailRoute({
-                        primaryKey: { partitionKey, sortKey: '#detail' },
-                        updateItem,
-                    }));
-                } else {
-                    const { createReadStream, filename } = await file;
-                    const fileStream = createReadStream();
-                    const fileInfo = await uploadS3({ fileStream, filename });
-
-                    ({ success, message, code } = await updateDetailRoute({
-                        primaryKey: { partitionKey, sortKey: '#detail' },
-                        updateItem: Object.assign(updateItem, { imageUrl: fileInfo.Location }),
-                    }));
-                }
+                const { success, message, code } = await updateDetailRoute({
+                    primaryKey: { partitionKey, sortKey: '#detail' },
+                    updateItem,
+                });
 
                 return { success, message, code };
             } catch (error) {
