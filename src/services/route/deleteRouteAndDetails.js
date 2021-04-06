@@ -5,7 +5,9 @@ const vus = require('../../model/vus');
 
 const deleteRouteAndDetails = async ({ detailList, routeInfo }) => {
     try {
-        await vus.batchDelete(detailList);
+        if (detailList.length !== 0) {
+            await vus.batchDelete(detailList);
+        }
         await vus.delete(routeInfo);
         return { success: true, message: '노선 삭제 완료', code: 204 };
     } catch (error) {

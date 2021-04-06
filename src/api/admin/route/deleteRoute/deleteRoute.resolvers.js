@@ -23,7 +23,6 @@ const resolvers = {
                     route: route,
                     index: 'sk-index',
                 }));
-
                 const detailList = data.map((item) => {
                     return {
                         partitionKey: item.partitionKey,
