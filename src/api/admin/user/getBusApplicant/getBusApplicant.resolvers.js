@@ -3,6 +3,7 @@ const dayjs = require('dayjs');
 const searchValidator = require('../../../../modules/searchValidator');
 const getBusApplicant = require('../../../../services/user/getBusApplicant');
 const getUserById = require('../../../../services/user/getUserById');
+const boolValidParameters = require('../../../../modules/boolValidator');
 
 const resolvers = {
     Query: {
@@ -10,7 +11,7 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            const { isMatched, gsiSortKey, name, month, state, userId, type } = {
+            const { isMatched, gsiSortKey, name, month, state, userId, type, isCancellation } = {
                 isMatched: args.isMatched || false,
                 gsiSortKey: args.route || '강남',
                 name: args.name,
@@ -18,9 +19,15 @@ const resolvers = {
                 state: args.state,
                 userId: args.userId,
                 type: args.type,
+                isCancellation: args.isCancellation,
             };
+            let condition = searchValidator({
+                isMatched,
+                state,
+                partitionKey: userId,
+            });
 
-            let condition = searchValidator({ isMatched, state, partitionKey: userId });
+            condition = boolValidParameters({ condition, isCancellation });
             try {
                 const { success, message, code, data: monthResult } = await getBusApplicant({
                     sortKey: `#applyRoute#${month}`,
@@ -72,7 +79,6 @@ const resolvers = {
                  */
                 if (name) data = data.filter((user) => user.name.match(new RegExp(name)));
                 if (type) data = data.filter((user) => user.type === type);
-
                 return { success, message, code, data };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };
