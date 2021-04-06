@@ -8,14 +8,14 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            const { busNumber, limitCount, driver, route, file } = args;
+            const { busNumber, limitCount, driver, route } = args;
             const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#info', route];
             try {
                 let routeInfo;
-                if (!file) {
+                if (!args.file) {
                     routeInfo = { busNumber, limitCount, driver };
                 } else {
-                    const { createReadStream, filename } = await file;
+                    const { createReadStream, filename } = await args.file;
                     const fileStream = createReadStream();
                     const fileInfo = await uploadS3({ fileStream, filename });
                     routeInfo = {
@@ -30,7 +30,7 @@ const resolvers = {
                     partitionKey,
                     sortKey,
                     gsiSortKey,
-                    ...routeInfo,
+                    routeInfo,
                 });
 
                 return { success, message, code };

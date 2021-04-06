@@ -1,21 +1,12 @@
 const vus = require('../../model/vus');
 
-const createRoute = async ({
-    partitionKey,
-    sortKey,
-    gsiSortKey,
-    busNumber,
-    limitCount,
-    driver,
-}) => {
+const createRoute = async ({ partitionKey, sortKey, gsiSortKey, routeInfo }) => {
     try {
         await new vus({
             partitionKey,
             sortKey,
             gsiSortKey,
-            busNumber,
-            limitCount,
-            driver,
+            ...routeInfo,
         }).save();
 
         return { success: true, message: 'success crete Route' };
