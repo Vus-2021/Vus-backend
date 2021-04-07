@@ -18,9 +18,6 @@ const resolvers = {
             }
             let updateItem;
             updateItem = { gsiSortKey: route, busNumber, limitCount, driver };
-            /**
-             *  partitionKey로 route를 조회해서 달라졌으면 트리거, 아니면 이대로 진행
-             */
 
             try {
                 const thisRoute = (await getRouteById({ partitionKey, sortKey: '#info' })).route;
