@@ -25,12 +25,17 @@ const resolvers = {
                         imageUrl: fileInfo.Location,
                     };
                 }
-
-                const { success, message, code } = await createRoute({
+                const createItem = {
                     partitionKey,
                     sortKey,
                     gsiSortKey,
-                    routeInfo,
+                    ...routeInfo,
+                };
+                const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
+
+                const { success, message, code } = await createRoute({
+                    createItem,
+                    driverPk,
                 });
 
                 return { success, message, code };

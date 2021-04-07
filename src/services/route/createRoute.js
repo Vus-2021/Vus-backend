@@ -1,13 +1,16 @@
 const vus = require('../../model/vus');
+const dynamoose = require('dynamoose');
 
-const createRoute = async ({ partitionKey, sortKey, gsiSortKey, routeInfo }) => {
+const createRoute = async ({ createItem, driverPk }) => {
     try {
-        await new vus({
-            partitionKey,
-            sortKey,
-            gsiSortKey,
-            ...routeInfo,
-        }).save();
+        await dynamoose.transaction([
+            vus.transaction.create({
+                createItem,
+            }),
+            vus.transaction.update(driverPk, {
+                $SET: { busId: createItem.partitionKey, gsiSortKey: createItem.gsiSortKey },
+            }),
+        ]);
 
         return { success: true, message: 'success crete Route' };
     } catch (error) {

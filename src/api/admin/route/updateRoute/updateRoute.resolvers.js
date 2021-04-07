@@ -3,9 +3,6 @@ const getRouteById = require('../../../../services/route/getRouteById');
 const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
 const uploadS3 = require('../../../../modules/s3');
 
-/**
- * TODO onUpdate
- */
 const resolvers = {
     Mutation: {
         updateRoute: async (
@@ -48,10 +45,12 @@ const resolvers = {
                     updateItem = Object.assign(updateItem, { imageUrl: fileInfo.Location });
                 }
 
+                const userPk = { partitionKey: driver.userId, sortKey: '#driver' };
                 const { success, message, code } = await updateRouteInfoDetail({
                     primaryKey: { partitionKey, sortKey: '#info' },
                     updateItem,
                     detailList,
+                    userPk,
                 });
 
                 return { success, message, code };
