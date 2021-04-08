@@ -1,23 +1,18 @@
 type Query {
-    getDriverNotice(route: String): GetDriverNoticeResponse
+    getDriverNotice: GetDriverNoticeResponse
 }
 
 type GetDriverNoticeResponse implements Response {
     success: Boolean!
     message: String!
     code: Int
-    data: driverNotice
+    data: [driverNotice]
 }
 
-type driverNotice implements Notice {
-    partitionKey: String
-    sortKey: String
-    gsiSortKey: String
+type driverNotice {
+    updatedAt: String
     route: String
-    delayTime: String
-    noticeType: NoticeTypes
-    notice: String
-    createdAt: String
+    location: String
 }
 
 interface Notice {

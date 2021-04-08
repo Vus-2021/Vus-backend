@@ -1,12 +1,12 @@
 const createDriverLocation = require('../../../services/route/createDriverLocation');
-const dayjs = require('dayjs');
+const dateNow = require('../../../modules/dateNow');
 
 const resolvers = {
     Mutation: {
         createDriverLocation: async (parent, args) => {
             const { preKey, destinationKey, locationIndex } = args.input;
 
-            const updatedAt = dayjs().format('YYYY-MM-DD hh:mm:ss');
+            const updatedAt = dateNow();
             try {
                 const { success, message, code } = await createDriverLocation({
                     preKey,

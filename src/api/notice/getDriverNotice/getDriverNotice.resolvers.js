@@ -1,45 +1,46 @@
-const { getDriverNotice } = require('../../../services/notice');
-const dateNow = require('../../../modules/dateNow');
-
+const { getAllRouteInfo } = require('../../../services/route');
+const getDriverNotice = require('../../../services/route/getDriverNotice');
+const dayjs = require('dayjs');
 const resolvers = {
     Query: {
-        getDriverNotice: async (_, { route }) => {
+        getDriverNotice: async () => {
+            let { success, message, code, result } = {};
             try {
-                const today = dateNow().split(' ')[0];
-                const [sortKey, index, noticeType, gsiSortKey] = [
-                    '#notice',
-                    'sk-index',
-                    'DRIVER',
-                    `#createdAt#${today}`,
-                ];
-                const { success, message, data, code } = await getDriverNotice({
-                    sortKey,
-                    index,
-                    route,
-                    noticeType,
-                    gsiSortKey,
+                ({ success, message, code, result } = await getAllRouteInfo({
+                    sortKey: '#info',
+                }));
+
+                const data = result.map((item) => {
+                    return {
+                        route: item.gsiSortKey,
+                    };
+                });
+                const routeMap = new Map();
+
+                ({ success, message, code, routeDetails: result } = await getDriverNotice({
+                    sortKey: '#detail',
+                    currentLocation: true,
+                    index: 'sk-index',
+                }));
+                data.forEach((item) => {
+                    routeMap.set(item.route, {
+                        updatedAt: 'null',
+                        route: item.route,
+                        location: 'null',
+                    });
                 });
 
-                if (data.count === 0)
-                    return { success, message, code, data: { notice: '좋은 하루 되세요.' } };
-
-                const delayCalculate = (notice) => {
-                    return `${notice.route}발 버스는 ${
-                        notice.status.split('M')[1]
-                    }분 늦게 출발합니다. `;
-                };
-
-                let notice = Object.assign(
-                    { ...data[0] },
-                    {
-                        createdAt: data[0].gsiSortKey.split('#')[2],
-                        notice:
-                            data[0].gsiSortKey.split('#')[2].split(' ')[0] === today
-                                ? delayCalculate(data[0])
-                                : '좋은 하루 되세요.',
+                result.forEach((item) => {
+                    if (routeMap.has(item.route)) {
+                        routeMap.set(item.route, {
+                            updatedAt: dayjs(item.updatedAt).format('HH:mm'),
+                            route: item.route,
+                            location: item.location,
+                        });
                     }
-                );
-                return { success, message, code, data: notice };
+                });
+
+                return { success, message, code, data: [...routeMap.values()] };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };
             }
