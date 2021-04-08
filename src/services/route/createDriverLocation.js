@@ -2,7 +2,7 @@ const vus = require('../../model/vus');
 const dynamoose = require('dynamoose');
 const _ = require('lodash');
 
-const createDriverLocation = async ({ preKey, destinationKey }) => {
+const createDriverLocation = async ({ preKey, destinationKey, updatedAt, locationIndex }) => {
     try {
         if (!_.isNil(preKey) && !_.isNil(destinationKey)) {
             await dynamoose.transaction([
@@ -12,7 +12,7 @@ const createDriverLocation = async ({ preKey, destinationKey }) => {
                 ),
                 vus.transaction.update(
                     { partitionKey: destinationKey, sortKey: '#detail' },
-                    { $SET: { currentLocation: true } }
+                    { $SET: { currentLocation: true, updatedAt, locationIndex } }
                 ),
             ]);
         } else if (!_.isNil(preKey)) {
@@ -23,7 +23,7 @@ const createDriverLocation = async ({ preKey, destinationKey }) => {
         } else if (!_.isNil(destinationKey)) {
             await vus.update(
                 { partitionKey: destinationKey, sortKey: '#detail' },
-                { $SET: { currentLocation: true } }
+                { $SET: { currentLocation: true, updatedAt, locationIndex } }
             );
         }
 

@@ -11,4 +11,5 @@ type CreateDriverLocationResponse implements Response {
 input DriverController {
     preKey: String
     destinationKey: String
+    locationIndex: Int
 }
