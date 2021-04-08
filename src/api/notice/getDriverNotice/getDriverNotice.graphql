@@ -1,5 +1,5 @@
 type Query {
-    getDriverNotice: GetDriverNoticeResponse
+    getDriverNotice(route: String!): GetDriverNoticeResponse
 }
 
 type GetDriverNoticeResponse implements Response {

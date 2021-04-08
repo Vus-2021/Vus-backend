@@ -1,6 +1,7 @@
 const { getSalt, getHashedPassword } = require('../../../modules/hash');
 
-const { createUser, getUserById } = require('../../../services/user');
+const { getUserById } = require('../../../services/user');
+const { create, read } = require('../../../services/dynamoose');
 
 const resolvers = {
     Query: {
@@ -21,14 +22,15 @@ const resolvers = {
             }
             const salt = getSalt();
             const HashedPassword = await getHashedPassword(password, salt);
-            const { success, message, code } = await createUser({
-                userId,
+            const { success, message, code } = await create({
+                partitionKey: userId,
+                sortKey: '#user',
+                gsiSortKey: `#registerDate#${registerDate}`,
                 password: HashedPassword,
                 salt,
                 name,
                 phoneNumber,
                 type,
-                registerDate,
             });
 
             if (!success) {
