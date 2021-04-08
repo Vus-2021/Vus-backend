@@ -1,4 +1,3 @@
-const { updateArgument } = require('graphql-tools');
 const vus = require('../../model/vus');
 
 const updateApplyRolette = async ({ fulfilledKeys, rejectKeys }) => {

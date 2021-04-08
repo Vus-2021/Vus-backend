@@ -1,0 +1,14 @@
+type Mutation {
+    createDriverLocation(input: DriverController): CreateDriverLocationResponse
+}
+
+type CreateDriverLocationResponse implements Response {
+    success: Boolean!
+    message: String!
+    code: Int
+}
+
+input DriverController {
+    preKey: String
+    destinationKey: String
+}
