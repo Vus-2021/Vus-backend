@@ -2,6 +2,7 @@ const dayjs = require('dayjs');
 const _ = require('lodash');
 
 const { applyRoute, getApplyRouteByUserId, getRouteInfo } = require('../../../services/route');
+const getUserById = require('../../../services/user/getUserById');
 const getPreviousMonthState = require('../../../services/user/getPreviousMonthState');
 
 /**
@@ -9,9 +10,12 @@ const getPreviousMonthState = require('../../../services/user/getPreviousMonthSt
  */
 const resolvers = {
     Mutation: {
-        applyRoute: async (parent, { route, month, partitionKey }, { user }) => {
+        applyRoute: async (parent, { route, month, partitionKey, userId }, { user }) => {
             if (!user) {
                 return { success: false, message: 'access denied', code: 403 };
+            }
+            if (userId) {
+                user.userId = userId;
             }
             try {
                 const { success: alreadyApply } = await getApplyRouteByUserId({
@@ -35,10 +39,14 @@ const resolvers = {
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${dayjs(month).subtract(1, 'month').format('YYYY-MM')}`,
                 });
-
                 const previousMonthState = _.isNil(previousMonth)
                     ? 'notApply'
                     : previousMonth.state;
+
+                const { data: userInfo } = await getUserById({
+                    partitionKey: user.userId,
+                    sortKey: '#user',
+                });
 
                 const userApplyData = {
                     partitionKey: user.userId,
@@ -48,6 +56,7 @@ const resolvers = {
                     isCancellation: false,
                     busId: partitionKey,
                     previousMonthState,
+                    registerDate: userInfo.gsiSortKey.split('#')[2],
                 };
 
                 const busInfo = {
