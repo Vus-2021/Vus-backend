@@ -1,8 +1,9 @@
 const dayjs = require('dayjs');
 const _ = require('lodash');
 
-const { applyRoute, getRouteInfo } = require('../../../services/route');
-const { get } = require('../../../services/dynamoose');
+const { applyRoute } = require('../../../services/route');
+const { get, query } = require('../../../services/dynamoose');
+const queryBuild = require('../../../modules/queryBuild');
 
 /**
  * TODO Token
@@ -17,6 +18,11 @@ const resolvers = {
                 user.userId = userId;
             }
 
+            let condition = queryBuild({
+                sortKey: ['#info', 'eq'],
+                gsiSortKey: [route, 'eq'],
+            });
+
             try {
                 const { data: alreadyApply } = await get({
                     partitionKey: user.userId,
@@ -27,9 +33,11 @@ const resolvers = {
                     return { success: false, message: 'already Apply', code: 400 };
                 }
 
-                const { result } = await getRouteInfo({
-                    sortKey: '#info',
-                    gsiSortKey: route,
+                const { data: result } = await query({
+                    condition,
+                    queryOptions: {
+                        index: ['sk-index', 'using'],
+                    },
                 });
 
                 if (result.count === 0) {
