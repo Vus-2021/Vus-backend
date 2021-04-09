@@ -1,16 +1,22 @@
-const { getAllRouteInfo } = require('../../../services/route');
-const getDriverNotice = require('../../../services/route/getDriverNotice');
-const filterExpression = require('../../../modules/filterExpression');
+const queryBuild = require('../../../modules/queryBuild');
+const { query } = require('../../../services/dynamoose');
 const dayjs = require('dayjs');
 const resolvers = {
     Query: {
         getDriverNotice: async (parent, { route }) => {
             let { success, message, code, result } = {};
-            let condition = filterExpression({ isMatched: true, gsiSortKey: route });
+            let condition = queryBuild({
+                sortKey: ['#info', 'eq'],
+                gsiSortKey: [route, 'eq'],
+            });
+
+            let queryOptions = {
+                index: ['sk-index', 'using'],
+            };
 
             try {
-                ({ success, message, code, result } = await getAllRouteInfo({
-                    sortKey: '#info',
+                ({ success, message, code, data: result } = await query({
+                    queryOptions,
                     condition,
                 }));
                 const data = result.map((item) => {
@@ -20,10 +26,15 @@ const resolvers = {
                 });
                 const routeMap = new Map();
 
-                ({ success, message, code, routeDetails: result } = await getDriverNotice({
-                    sortKey: '#detail',
-                    currentLocation: true,
-                    index: 'sk-index',
+                ({ success, message, code, data: result } = await query({
+                    condition: queryBuild({
+                        sortKey: ['#detail', 'eq'],
+                        currentLocation: [true, 'eq'],
+                    }),
+                    queryOptions: {
+                        index: ['sk-index', 'using'],
+                        sort: ['ascending', 'sort'],
+                    },
                 }));
 
                 data.forEach((item) => {
