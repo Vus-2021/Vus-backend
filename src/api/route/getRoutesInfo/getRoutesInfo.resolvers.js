@@ -1,6 +1,6 @@
-const { getAllRouteInfo, getRouteInfo } = require('../../../services/route');
-const getBusInfo = require('../../../services/route/getBusInfoBybusId');
 const dayjs = require('dayjs');
+const queryBuild = require('../../../modules/queryBuild');
+const { query } = require('../../../services/dynamoose');
 //const filterExpression = require('../../../modules/filterExpression');
 /**
  * month랑, route를 필터링해서 받기....
@@ -14,15 +14,25 @@ const resolvers = {
             };
 
             try {
-                let success, message, code, result;
+                let success, message, code, result, data;
                 if (!route) {
-                    ({ success, message, code, result } = await getAllRouteInfo({
-                        sortKey: '#info',
+                    ({ success, message, code, data: result } = await query({
+                        condition: queryBuild({
+                            sortKey: ['#info', 'eq'],
+                        }),
+                        queryOptions: {
+                            index: ['sk-index', 'using'],
+                        },
                     }));
                 } else {
-                    ({ success, message, code, result } = await getRouteInfo({
-                        sortKey: '#info',
-                        gsiSortKey: route,
+                    ({ success, message, code, data: result } = await query({
+                        condition: queryBuild({
+                            sortKey: ['#info', 'eq'],
+                            gsiSortKey: [route, 'eq'],
+                        }),
+                        queryOptions: {
+                            index: ['sk-index', 'using'],
+                        },
                     }));
                 }
 
@@ -41,8 +51,13 @@ const resolvers = {
                 const partitionKeys = result.map((item) => item.partitionKey);
                 let busInfo = [];
                 for (let partitionKey of partitionKeys) {
-                    let bus = await getBusInfo({ partitionKey, sortKey: `#${month}` });
-                    busInfo.push(...bus.data);
+                    let { data: bus } = await query({
+                        condition: queryBuild({
+                            partitionKey: [partitionKey, 'eq'],
+                            sortKey: [`#${month}`, 'beginsWith'],
+                        }),
+                    });
+                    busInfo.push(...bus);
                 }
                 busInfo.forEach((item) => {
                     busMap.get(item.partitionKey).month = {
@@ -51,7 +66,7 @@ const resolvers = {
                     };
                 });
 
-                const data = [...busMap.values()];
+                data = [...busMap.values()];
 
                 return { success, message, code, data };
             } catch (error) {
