@@ -11,10 +11,6 @@ const resolvers = {
             });
 
             try {
-                // const { success, message, code, data } = await getBusInfoByBusId({
-                //     partitionKey,
-                //     sortKey: '#2',
-                // });
                 const { success, message, code, data } = await query({
                     condition,
                 });

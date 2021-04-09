@@ -1,4 +1,5 @@
-const getUserByPk = require('../../../services/user/getUserByPk');
+const queryBuild = require('../../../modules/queryBuild');
+const { query } = require('../../../services/dynamoose');
 /**
  * TOdo  driver는 sk 가 #driver, 그리고 노선 선택할때 #driver에 추가해줄것.
  */
@@ -6,8 +7,11 @@ const resolvers = {
     Query: {
         getMyInformation: async (parent, args, context) => {
             if (!context.user) return { success: false, message: context.message, code: 400 };
+            const condition = queryBuild({
+                partitionKey: [context.user.userId, 'eq'],
+            });
             try {
-                let { data } = await getUserByPk({ partitionKey: context.user.userId });
+                let { data } = await query({ condition });
                 if (context.user.type === 'DRIVER') {
                     data = data
                         .filter((item) => {
