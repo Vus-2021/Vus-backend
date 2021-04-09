@@ -1,6 +1,6 @@
-const deleteUsers = require('../../../../services/user/deleteUser');
 const getUserByPk = require('../../../../services/user/getUserByPk');
 const discountRegisterCount = require('../../../../services/route/discountRegisterCount');
+const { deleteItem } = require('../../../../services/dynamoose');
 /**
  *  #applyRoute 를 쿼리 => pk가 같은 친구들 찾고 -> 지우고
  *
@@ -11,7 +11,6 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-
             try {
                 let list = [];
                 for (let item of args.userId) {
@@ -42,14 +41,16 @@ const resolvers = {
                             sortKey: `#${item.month}`,
                         };
                     });
+                console.log(route);
                 for (let item of route) {
                     await discountRegisterCount({ primaryKey: item });
                 }
-                console.log(userList);
-                const { success, message, code } = await deleteUsers({
-                    userList,
-                });
-                return { success, message, code };
+
+                for (let user of userList) {
+                    await deleteItem(user);
+                }
+
+                return { success: true, message: '삭제 성공', code: 204 };
             } catch (error) {
                 return { success: false, message: 'Failed delete users', code: 500 };
             }

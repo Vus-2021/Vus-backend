@@ -1,6 +1,6 @@
 module.exports = {
     create: require('./create'),
-    delete: require('./delete'),
+    deleteItem: require('./deleteItem'),
     get: require('./get'),
     update: require('./update'),
     query: require('./query'),

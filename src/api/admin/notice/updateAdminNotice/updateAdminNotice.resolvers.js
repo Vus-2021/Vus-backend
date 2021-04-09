@@ -12,6 +12,7 @@ const resolvers = {
                 const { success, message, code } = await update({
                     primaryKey: { partitionKey, sortKey: '#notice' },
                     updateItem,
+                    method: '$SET',
                 });
 
                 return { success, message, code };

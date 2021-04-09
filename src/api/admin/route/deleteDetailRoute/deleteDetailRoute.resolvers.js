@@ -1,5 +1,4 @@
-const deleteDetailRoute = require('../../../../services/route/deleteRoute');
-
+const { deleteItem } = require('../../../../services/dynamoose');
 const resolvers = {
     Mutation: {
         deleteDetailRoute: async (_, { partitionKey }, { user }) => {
@@ -7,7 +6,7 @@ const resolvers = {
                 return { success: false, message: 'access denied', code: 403 };
             }
             try {
-                const { success, message, code } = await deleteDetailRoute({
+                const { success, message, code } = await deleteItem({
                     partitionKey,
                     sortKey: '#detail',
                 });

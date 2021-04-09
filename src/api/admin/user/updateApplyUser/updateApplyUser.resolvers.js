@@ -12,6 +12,7 @@ const resolvers = {
                     updateItem: {
                         state: state,
                     },
+                    method: '$SET',
                 });
                 return { success, message, code };
             } catch (error) {

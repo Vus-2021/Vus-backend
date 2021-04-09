@@ -1,4 +1,4 @@
-const deleteNotice = require('../../../../services/notice/deleteNotice');
+const { deleteItem } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {
@@ -12,8 +12,11 @@ const resolvers = {
                     sortKey: '#notice',
                 };
             });
+            let { success, message, code } = {};
             try {
-                const { success, message, code } = await deleteNotice({ noticeList });
+                for (let notice of noticeList) {
+                    ({ success, message, code } = await deleteItem(notice));
+                }
                 return { success, message, code };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };

@@ -1,6 +1,5 @@
-const deleteRouteAndDetails = require('../../../../services/route/deleteRouteAndDetails');
 const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
-const { get } = require('../../../../services/dynamoose');
+const { get, deleteItem } = require('../../../../services/dynamoose');
 /**
  * TODO onDelete
  */
@@ -29,10 +28,12 @@ const resolvers = {
                         sortKey: '#detail',
                     };
                 });
-                ({ success, message, code } = await deleteRouteAndDetails({
-                    detailList,
-                    routeInfo: { partitionKey, sortKey },
-                }));
+
+                for (let detail of detailList) {
+                    ({ success, message, code } = await deleteItem(detail));
+                }
+                ({ success, message, code } = await deleteItem({ partitionKey, sortKey }));
+
                 return { success, message, code };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };
