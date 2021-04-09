@@ -1,4 +1,3 @@
-const updateRouteInfoDetail = require('../../../../services/route/updateRouteInfoDetail');
 const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
 const uploadS3 = require('../../../../modules/s3');
 const { get, update } = require('../../../../services/dynamoose');
@@ -10,12 +9,13 @@ const resolvers = {
             { partitionKey, route, busNumber, limitCount, driver, file },
             { user }
         ) => {
+            console.log({ partitionKey, route, busNumber, limitCount, driver, file });
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
             let updateItem;
             updateItem = { gsiSortKey: route, busNumber, limitCount, driver };
-
+            let { success, message, code } = {};
             try {
                 const thisRoute = (await get({ partitionKey, sortKey: '#info' })).data;
                 let detailList;
@@ -46,12 +46,35 @@ const resolvers = {
                 }
 
                 const userPk = { partitionKey: driver.userId, sortKey: '#driver' };
-                const { success, message, code } = await updateRouteInfoDetail({
-                    primaryKey: { partitionKey, sortKey: '#info' },
+
+                if (detailList) {
+                    for (let detail of detailList) {
+                        let { partitionKey, sortKey, ...updateDetail } = detail;
+                        ({ success, message, code } = await update({
+                            primaryKey: { partitionKey, sortKey },
+                            updateItem: updateDetail,
+                            method: '$SET',
+                        }));
+                    }
+                }
+
+                ({ success, message, code } = await update({
+                    primaryKey: userPk,
+                    updateItem: {
+                        busId: partitionKey,
+                        gsiSortKey: updateItem.gsiSortKey,
+                        method: '$SET',
+                    },
+                }));
+
+                ({ success, message, code } = await update({
+                    primaryKey: {
+                        partitionKey,
+                        sortKey: '#info',
+                    },
                     updateItem,
-                    detailList,
-                    userPk,
-                });
+                    method: '$SET',
+                }));
 
                 return { success, message, code };
             } catch (error) {

@@ -1,6 +1,6 @@
 const dayjs = require('dayjs');
 
-const searchValidator = require('../../../../modules/searchValidator');
+const filterExpression = require('../../../../modules/filterExpression');
 const getBusApplicant = require('../../../../services/user/getBusApplicant');
 const boolValidParameters = require('../../../../modules/boolValidator');
 const { get } = require('../../../../services/dynamoose');
@@ -21,7 +21,7 @@ const resolvers = {
                 type: args.type,
                 isCancellation: args.isCancellation,
             };
-            let condition = searchValidator({
+            let condition = filterExpression({
                 isMatched,
                 state,
                 partitionKey: userId,

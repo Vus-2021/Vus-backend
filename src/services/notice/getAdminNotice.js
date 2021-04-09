@@ -23,6 +23,13 @@ const getAdminNotice = async ({ sortKey, index, noticeType, condition }) => {
                 .using(index)
                 .exec();
         }
+        const test = await vus
+            .query('sortKey')
+            .eq(sortKey)
+            .where('noticeType')
+            .eq(noticeType)
+            .sort('descending')
+            .using(index);
 
         return {
             success: true,

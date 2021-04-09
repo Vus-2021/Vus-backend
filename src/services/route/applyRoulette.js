@@ -58,25 +58,6 @@ const applyRoulette = ({ applicants, limitCount }) => {
     }
     result.reject = [...result.reject, ...applicants];
 
-    // console.log(
-    //     result.fulfilled.map((item) => {
-    //         return {
-    //             id: item.partitionKey,
-    //             //date: item.registerDate,
-    //             s: item.previousMonthState,
-    //         };
-    //     })
-    // );
-    // console.log(
-    //     result.reject.map((item) => {
-    //         return {
-    //             id: item.partitionKey,
-    //             //date: item.registerDate,
-    //             s: item.previousMonthState,
-    //         };
-    //     })
-    // );
-
     return result;
 };
 

@@ -1,7 +1,6 @@
 const vus = require('../../model/vus');
 
 const update = async (args) => {
-    console.log(args);
     try {
         await vus.update(args.primaryKey, { [args.method]: args.updateItem });
         return { success: true, message: 'success update', code: 204 };

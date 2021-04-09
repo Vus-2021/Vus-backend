@@ -1,4 +1,4 @@
-const searchValidator = require('../../../../modules/searchValidator');
+const filterExpression = require('../../../../modules/filterExpression');
 const getUsers = require('../../../../services/user/getUsers');
 
 const resolvers = {
@@ -13,7 +13,7 @@ const resolvers = {
                 type: args.type,
                 isMatched: args.isMatched || false,
             };
-            let condition = searchValidator({ isMatched, userId, name, type });
+            let condition = filterExpression({ isMatched, partitionKey: userId, name, type });
 
             try {
                 const { success, message, code, data } = await getUsers({

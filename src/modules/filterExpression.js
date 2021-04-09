@@ -1,5 +1,5 @@
 const dynamoose = require('dynamoose');
-const validParameters = function ({ isMatched, ...args }) {
+const filterExpression = function ({ isMatched, ...args }) {
     let condition = new dynamoose.Condition();
 
     const existedParameters = Object.entries({ ...args }).filter((value) => value[1] != undefined);
@@ -15,4 +15,4 @@ const validParameters = function ({ isMatched, ...args }) {
     }
     return condition;
 };
-module.exports = validParameters;
+module.exports = filterExpression;

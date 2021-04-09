@@ -1,12 +1,12 @@
 const { getAllRouteInfo } = require('../../../services/route');
 const getDriverNotice = require('../../../services/route/getDriverNotice');
-const searchValidator = require('../../../modules/searchValidator');
+const filterExpression = require('../../../modules/filterExpression');
 const dayjs = require('dayjs');
 const resolvers = {
     Query: {
         getDriverNotice: async (parent, { route }) => {
             let { success, message, code, result } = {};
-            let condition = searchValidator({ isMatched: true, gsiSortKey: route });
+            let condition = filterExpression({ isMatched: true, gsiSortKey: route });
 
             try {
                 ({ success, message, code, result } = await getAllRouteInfo({
