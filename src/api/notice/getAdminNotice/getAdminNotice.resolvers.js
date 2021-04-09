@@ -1,5 +1,5 @@
-const { getAdminNotice } = require('../../../services/notice');
-const searchValidator = require('../../../modules/searchValidator');
+const queryBuild = require('../../../modules/queryBuild');
+const { query } = require('../../../services/dynamoose');
 
 const resolvers = {
     Query: {
@@ -11,14 +11,26 @@ const resolvers = {
                 isMatched: args.isMatched || false,
                 limit: args.limit,
             };
-            let condition = searchValidator({ isMatched, notice, name, content });
+
+            const method = isMatched ? 'eq' : 'contains';
 
             try {
-                let { success, message, code, data } = await getAdminNotice({
-                    sortKey: '#notice',
-                    index: 'sk-index',
-                    noticeType: 'ADMIN',
+                let condition = queryBuild({
+                    sortKey: ['#notice', 'eq'],
+                    noticeType: ['ADMIN', 'eq'],
+                    notice: [notice, method],
+                    name: [name, method],
+                    content: [content, method],
+                });
+
+                const queryOptions = {
+                    sort: ['descending', 'sort'],
+                    index: ['sk-index', 'using'],
+                };
+
+                let { success, message, code, data } = await query({
                     condition,
+                    queryOptions,
                 });
 
                 data.forEach((item) => {
