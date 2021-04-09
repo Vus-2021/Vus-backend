@@ -1,13 +1,13 @@
 const jwt = require('../../../modules/jwt');
-const { signin, getUserById } = require('../../../services/user');
 const { getHashedPassword } = require('../../../modules/hash');
+const { get } = require('../../../services/dynamoose');
 const _ = require('lodash');
 
 const resolvers = {
     Mutation: {
         signin: async (parent, args) => {
             const { userId, password } = args;
-            let { data: getUser } = await getUserById({
+            let { data: getUser } = await get({
                 partitionKey: userId,
                 sortKey: '#user',
             });
@@ -16,10 +16,15 @@ const resolvers = {
             }
             const salt = getUser.salt;
             const hashedPassword = await getHashedPassword(password, salt);
-            const { success, user, message, code } = await signin({ userId, hashedPassword });
-            if (!success) {
-                return { success, message, code };
+            const { success, data: user, message, code } = await get({
+                partitionKey: userId,
+                sortKey: '#user',
+            });
+
+            if (user.password !== hashedPassword) {
+                return { success: false, message: 'not matched password', code: 400, user: null };
             }
+
             const payload = { userId: user.partitionKey, name: user.name, type: user.type };
             const token = await jwt.sign(payload);
             return { success, message, code, data: token };

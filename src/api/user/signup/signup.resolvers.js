@@ -1,6 +1,6 @@
 const { getSalt, getHashedPassword } = require('../../../modules/hash');
-
-const { createUser, getUserById } = require('../../../services/user');
+const { create, get } = require('../../../services/dynamoose');
+const _ = require('lodash');
 
 const resolvers = {
     Query: {
@@ -9,26 +9,26 @@ const resolvers = {
         },
     },
     Mutation: {
-        signupUser: async (_, args) => {
+        signupUser: async (parent, args) => {
             const { userId, password, name, phoneNumber, type, registerDate } = args.input;
-            const { success: alreadyUserId } = await getUserById({
+            const { data: user } = await get({
                 partitionKey: userId,
                 sortKey: '#user',
             });
-
-            if (alreadyUserId) {
+            if (!_.isNil(user)) {
                 return { success: false, message: 'alreadyUserId', code: 400 };
             }
             const salt = getSalt();
             const HashedPassword = await getHashedPassword(password, salt);
-            const { success, message, code } = await createUser({
-                userId,
+            const { success, message, code } = await create({
+                partitionKey: userId,
+                sortKey: '#user',
+                gsiSortKey: `#registerDate#${registerDate}`,
                 password: HashedPassword,
                 salt,
                 name,
                 phoneNumber,
                 type,
-                registerDate,
             });
 
             if (!success) {
