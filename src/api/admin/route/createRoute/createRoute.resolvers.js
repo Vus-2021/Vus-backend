@@ -31,6 +31,7 @@ const resolvers = {
                     gsiSortKey,
                     ...routeInfo,
                 };
+
                 const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
 
                 const { success, message, code } = await createRoute({

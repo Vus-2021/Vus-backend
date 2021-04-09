@@ -4,9 +4,7 @@ const dynamoose = require('dynamoose');
 const createRoute = async ({ createItem, driverPk }) => {
     try {
         await dynamoose.transaction([
-            vus.transaction.create({
-                createItem,
-            }),
+            vus.transaction.create(createItem),
             vus.transaction.update(driverPk, {
                 $SET: { busId: createItem.partitionKey, gsiSortKey: createItem.gsiSortKey },
             }),
