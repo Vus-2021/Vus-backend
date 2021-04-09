@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 
-const { createRouteDetail } = require('../../../../services/route');
+const { create } = require('../../../../services/dynamoose');
 const uploadS3 = require('../../../../modules/s3');
 const resolvers = {
     Mutation: {
@@ -31,11 +31,11 @@ const resolvers = {
                     };
                 }
 
-                const { success, message, code } = await createRouteDetail({
+                const { success, message, code } = await create({
                     partitionKey,
                     sortKey,
                     gsiSortKey,
-                    routeDetail,
+                    ...routeDetail,
                 });
 
                 return { success, message, code };

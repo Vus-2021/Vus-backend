@@ -2,8 +2,8 @@ const dayjs = require('dayjs');
 
 const searchValidator = require('../../../../modules/searchValidator');
 const getBusApplicant = require('../../../../services/user/getBusApplicant');
-const getUserById = require('../../../../services/user/getUserById');
 const boolValidParameters = require('../../../../modules/boolValidator');
+const { get } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Query: {
@@ -50,7 +50,7 @@ const resolvers = {
 
                 let users = [];
                 for (let userId of userIdList) {
-                    let { data: user } = await getUserById({
+                    let { data: user } = await get({
                         partitionKey: userId,
                         sortKey: '#user',
                     });

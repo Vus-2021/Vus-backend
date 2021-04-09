@@ -1,10 +1,9 @@
-const getNoticeById = require('../../../services/notice/getNoticeById');
-
+const { get } = require('../../../services/dynamoose');
 const resolvers = {
     Query: {
         getOneAdminNotice: async (parent, { partitionKey }) => {
             try {
-                const { success, message, code, data } = await getNoticeById({
+                const { success, message, code, data } = await get({
                     partitionKey,
                     sortKey: '#notice',
                 });

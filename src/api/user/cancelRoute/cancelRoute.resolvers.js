@@ -2,8 +2,7 @@ const dayjs = require('dayjs');
 
 const cancelRouteByUpdate = require('../../../services/route/cancelRouteByUpdate');
 const cancelRouteByDelete = require('../../../services/route/cancleRouteByDelete');
-const getUserById = require('../../../services/user/getUserById');
-const getRouteById = require('../../../services/route/getRouteById');
+const { get } = require('../../../services/dynamoose');
 
 /**
  * TODO 신청 취소할때. 취소한 월이 탑승 월보다 전일때는 컬럼을 삭제, 그게 아니면 cancelled toggle,
@@ -24,26 +23,26 @@ const resolvers = {
 
                 let { success, message, code, data } = {};
 
-                ({ success, message, code, data } = await getUserById({
+                ({ success, message, code, data } = await get({
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${month}`,
                 }));
-
-                if (!success) {
-                    return { success, message, code };
+                console.log(data);
+                if (!data) {
+                    return { success: false, message: '이미 취소 되었음', code: 400 };
                 }
 
-                if (success && data.isCancellation) {
+                if (data.isCancellation) {
                     return { success: false, message: '이미 취소되었음', code: 400 };
                 }
 
-                ({ success, message, code } = await getRouteById({
+                ({ success, message, code, data } = await get({
                     partitionKey: busId,
                     sortKey: `#${month}`,
                 }));
 
-                if (!success) {
-                    return { success, message, code };
+                if (!data) {
+                    return { success: false, message: '버스 정보가 일치하지 않음.', code: 400 };
                 }
 
                 const bus = {

@@ -1,6 +1,6 @@
 const deleteRouteAndDetails = require('../../../../services/route/deleteRouteAndDetails');
-const getBusInfo = require('../../../../services/route/getBusInfoBybusId');
 const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
+const { get } = require('../../../../services/dynamoose');
 /**
  * TODO onDelete
  */
@@ -13,11 +13,11 @@ const resolvers = {
             }
             const sortKey = '#info';
             try {
-                let { success, message, code, data } = await getBusInfo({ partitionKey, sortKey });
-                if (data.count === 0) {
+                let { success, message, code, data } = await get({ partitionKey, sortKey });
+                if (!data) {
                     return { success: false, message: 'invalide Route Id', code: 400 };
                 }
-                const route = data[0].gsiSortKey;
+                const route = data.gsiSortKey;
                 ({ success, message, code, routeDetails: data } = await getDetailRoutesByRoute({
                     sortKey: '#detail',
                     route: route,

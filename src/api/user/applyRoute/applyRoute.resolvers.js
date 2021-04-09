@@ -1,9 +1,8 @@
 const dayjs = require('dayjs');
 const _ = require('lodash');
 
-const { applyRoute, getApplyRouteByUserId, getRouteInfo } = require('../../../services/route');
-const getUserById = require('../../../services/user/getUserById');
-const getPreviousMonthState = require('../../../services/user/getPreviousMonthState');
+const { applyRoute, getRouteInfo } = require('../../../services/route');
+const { get } = require('../../../services/dynamoose');
 
 /**
  * TODO Token
@@ -17,8 +16,9 @@ const resolvers = {
             if (userId) {
                 user.userId = userId;
             }
+
             try {
-                const { success: alreadyApply } = await getApplyRouteByUserId({
+                const { data: alreadyApply } = await get({
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${month}`,
                 });
@@ -27,15 +27,15 @@ const resolvers = {
                     return { success: false, message: 'already Apply', code: 400 };
                 }
 
-                const { success: isValidRouteInfo, result } = await getRouteInfo({
+                const { result } = await getRouteInfo({
                     sortKey: '#info',
                     gsiSortKey: route,
                 });
 
-                if (!isValidRouteInfo) {
+                if (result.count === 0) {
                     return { success: false, message: 'invalid route info', code: 400 };
                 }
-                const { data: previousMonth } = await getPreviousMonthState({
+                const { data: previousMonth } = await get({
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${dayjs(month).subtract(1, 'month').format('YYYY-MM')}`,
                 });
@@ -43,7 +43,7 @@ const resolvers = {
                     ? 'notApply'
                     : previousMonth.state;
 
-                const { data: userInfo } = await getUserById({
+                const { data: userInfo } = await get({
                     partitionKey: user.userId,
                     sortKey: '#user',
                 });

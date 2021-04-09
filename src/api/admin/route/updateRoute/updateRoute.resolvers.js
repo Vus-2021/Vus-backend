@@ -1,7 +1,7 @@
 const updateRouteInfoDetail = require('../../../../services/route/updateRouteInfoDetail');
-const getRouteById = require('../../../../services/route/getRouteById');
 const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
 const uploadS3 = require('../../../../modules/s3');
+const { get } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {
@@ -17,7 +17,7 @@ const resolvers = {
             updateItem = { gsiSortKey: route, busNumber, limitCount, driver };
 
             try {
-                const thisRoute = (await getRouteById({ partitionKey, sortKey: '#info' })).route;
+                const thisRoute = (await get({ partitionKey, sortKey: '#info' })).data;
                 let detailList;
                 if (route !== thisRoute.gsiSortKey) {
                     const details = await getDetailRoutesByRoute({
