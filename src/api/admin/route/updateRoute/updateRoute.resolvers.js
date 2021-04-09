@@ -1,7 +1,7 @@
 const updateRouteInfoDetail = require('../../../../services/route/updateRouteInfoDetail');
 const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
 const uploadS3 = require('../../../../modules/s3');
-const { get } = require('../../../../services/dynamoose');
+const { get, update } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {

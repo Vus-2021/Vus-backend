@@ -1,13 +1,17 @@
-const updateApplyUser = require('../../../../services/user/updateApplyUser');
+const { update } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {
         updateApplyUser: async (parent, { userId, month, state }) => {
             try {
-                const { success, message, code } = await updateApplyUser({
-                    partitionKey: userId,
-                    sortKey: `#applyRoute#${month}`,
-                    state: state,
+                const { success, message, code } = await update({
+                    primaryKey: {
+                        partitionKey: userId,
+                        sortKey: `#applyRoute#${month}`,
+                    },
+                    updateItem: {
+                        state: state,
+                    },
                 });
                 return { success, message, code };
             } catch (error) {

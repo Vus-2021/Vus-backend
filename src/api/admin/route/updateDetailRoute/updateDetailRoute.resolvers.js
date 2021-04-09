@@ -1,5 +1,5 @@
-const updateDetailRoute = require('../../../../services/route/updateDetailRoute');
 const uploadS3 = require('../../../../modules/s3');
+const { update } = require('../../../../services/dynamoose');
 const resolvers = {
     Mutation: {
         updateDetailRoute: async (
@@ -28,7 +28,7 @@ const resolvers = {
                 updateItem = Object.assign(updateItem, { imageUrl: fileInfo.Location });
             }
             try {
-                const { success, message, code } = await updateDetailRoute({
+                const { success, message, code } = await update({
                     primaryKey: { partitionKey, sortKey: '#detail' },
                     updateItem,
                 });

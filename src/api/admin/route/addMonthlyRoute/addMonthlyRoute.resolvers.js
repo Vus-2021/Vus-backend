@@ -1,5 +1,4 @@
-const addMonthlyRoute = require('../../../../services/route/addMonthlyRoute');
-
+const { create } = require('../../../../services/dynamoose');
 const resolvers = {
     Mutation: {
         addMonthlyRoute: async (_, args, { user }) => {
@@ -8,7 +7,7 @@ const resolvers = {
             }
 
             try {
-                const { success, message, code } = await addMonthlyRoute({
+                const { success, message, code } = await create({
                     partitionKey: args.partitionKey,
                     sortKey: `#${args.month}`,
                     registerCount: 0,

@@ -3,8 +3,7 @@ const duration = require('dayjs/plugin/duration');
 
 const getUserApply = require('../../../../services/user/getUserApply');
 const applyRoulette = require('../../../../services/route/applyRoulette');
-const updateApplyRolette = require('../../../../services/route/updateApplyRoulette');
-const { get } = require('../../../../services/dynamoose');
+const { get, update } = require('../../../../services/dynamoose');
 dayjs.extend(duration);
 
 const resolvers = {
@@ -35,10 +34,19 @@ const resolvers = {
                         sortKey: item.sortKey,
                     };
                 });
-                ({ success, message, code } = await updateApplyRolette({
-                    fulfilledKeys,
-                    rejectKeys,
-                }));
+
+                for (let primaryKey of fulfilledKeys) {
+                    ({ success, message, code } = await update({
+                        primaryKey,
+                        updateItem: { state: 'fulfilled' },
+                    }));
+                }
+                for (let primaryKey of rejectKeys) {
+                    ({ success, message, code } = await update({
+                        primaryKey,
+                        updateItem: { state: 'reject' },
+                    }));
+                }
 
                 return { success, message, code };
             } catch (error) {

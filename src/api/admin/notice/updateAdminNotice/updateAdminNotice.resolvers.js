@@ -1,5 +1,5 @@
-const updateNotice = require('../../../../services/notice/updateNotice');
 const dateNow = require('../../../../modules/dateNow');
+const { update } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {
@@ -9,7 +9,7 @@ const resolvers = {
             }
             const updateItem = { notice, content, updatedAt: dateNow() };
             try {
-                const { success, message, code } = await updateNotice({
+                const { success, message, code } = await update({
                     primaryKey: { partitionKey, sortKey: '#notice' },
                     updateItem,
                 });
