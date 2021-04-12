@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 const duration = require('dayjs/plugin/duration');
 
-const applyRoulette = require('../../../../services/route/applyRoulette');
+const applyRoulette = require('../../../../modules/applyRoulette');
 const { get, update, query } = require('../../../../services');
 dayjs.extend(duration);
 

@@ -1,4 +1,5 @@
-const { createRoute } = require('../../../../services/route');
+const { transaction } = require('../../../../services');
+
 const uuid = require('uuid');
 const uploadS3 = require('../../../../modules/s3');
 /**
@@ -28,18 +29,28 @@ const resolvers = {
                         imageUrl: fileInfo.Location,
                     };
                 }
-                const createItem = {
-                    partitionKey,
-                    sortKey,
-                    gsiSortKey,
-                    ...routeInfo,
-                };
 
                 const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
 
-                const { success, message, code } = await createRoute({
-                    createItem,
-                    driverPk,
+                const { success, message, code } = await transaction({
+                    Create: [
+                        {
+                            partitionKey,
+                            sortKey,
+                            gsiSortKey,
+                            ...routeInfo,
+                        },
+                    ],
+                    Update: [
+                        {
+                            primaryKey: driverPk,
+                            method: 'SET',
+                            updateItem: {
+                                busId: partitionKey,
+                                gsiSortKey: gsiSortKey,
+                            },
+                        },
+                    ],
                 });
 
                 return { success, message, code };

@@ -10,6 +10,7 @@ const resolvers = {
                 return { success: false, message: 'access denied', code: 403 };
             }
             const sortKey = '#info';
+            console.log(partitionKey);
             try {
                 let { success, message, code, data } = await get({ partitionKey, sortKey });
                 if (!data) {
@@ -21,16 +22,18 @@ const resolvers = {
                     route: [route, 'eq'],
                     index: ['sk-index', 'using'],
                 }));
-                const detailList = data.map((item) => {
-                    return {
-                        partitionKey: item.partitionKey,
-                        sortKey: '#detail',
-                    };
-                });
-
-                for (let detail of detailList) {
-                    ({ success, message, code } = await deleteItem(detail));
+                if (data) {
+                    const detailList = data.map((item) => {
+                        return {
+                            partitionKey: item.partitionKey,
+                            sortKey: '#detail',
+                        };
+                    });
+                    for (let detail of detailList) {
+                        ({ success, message, code } = await deleteItem(detail));
+                    }
                 }
+
                 ({ success, message, code } = await deleteItem({ partitionKey, sortKey }));
 
                 return { success, message, code };

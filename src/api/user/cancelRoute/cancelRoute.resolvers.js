@@ -1,8 +1,6 @@
+/* eslint-disable no-dupe-keys */
 const dayjs = require('dayjs');
-
-const cancelRouteByUpdate = require('../../../services/route/cancelRouteByUpdate');
-const cancelRouteByDelete = require('../../../services/route/cancleRouteByDelete');
-const { get } = require('../../../services');
+const { get, transaction } = require('../../../services');
 
 /**
  * TODO 신청 취소할때. 취소한 월이 탑승 월보다 전일때는 컬럼을 삭제, 그게 아니면 cancelled toggle,
@@ -16,11 +14,6 @@ const resolvers = {
                 return { success: false, message: 'access denied', code: 403 };
             }
             try {
-                const userInfo = {
-                    partitionKey: user.userId,
-                    sortKey: `#applyRoute#${month}`,
-                };
-
                 let { success, message, code, data } = {};
 
                 ({ success, message, code, data } = await get({
@@ -51,9 +44,41 @@ const resolvers = {
                 };
 
                 if (nowMonth === month) {
-                    ({ success, message, code } = await cancelRouteByUpdate({ userInfo, bus }));
+                    ({ success, message, code } = await transaction({
+                        Update: [
+                            {
+                                primaryKey: {
+                                    partitionKey: user.userId,
+                                    sortKey: `#applyRoute#${month}`,
+                                },
+                                method: 'SET',
+                                updateItem: { isCancellation: true },
+                            },
+                            {
+                                primaryKey: bus,
+                                method: 'ADD',
+                                updateItem: { registerCount: -1 },
+                            },
+                        ],
+                    }));
                 } else {
-                    ({ success, message, code } = await cancelRouteByDelete({ userInfo, bus }));
+                    ({ success, message, code } = await transaction({
+                        Delete: [
+                            {
+                                primaryKey: {
+                                    partitionKey: user.userId,
+                                    sortKey: `#applyRoute#${month}`,
+                                },
+                            },
+                        ],
+                        Update: [
+                            {
+                                primaryKey: bus,
+                                method: 'ADD',
+                                updateItem: { registerCount: -1 },
+                            },
+                        ],
+                    }));
                 }
                 return { success, message, code };
             } catch (error) {

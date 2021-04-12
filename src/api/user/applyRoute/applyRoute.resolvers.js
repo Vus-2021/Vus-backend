@@ -1,8 +1,7 @@
 const dayjs = require('dayjs');
 const _ = require('lodash');
 
-const { applyRoute } = require('../../../services/route');
-const { get, query } = require('../../../services');
+const { get, query, transaction } = require('../../../services');
 
 /**
  * TODO Token
@@ -65,12 +64,16 @@ const resolvers = {
                 };
 
                 const busInfo = {
-                    partitionKey: result[0].partitionKey,
-                    sortKey: `#${month}`,
+                    primaryKey: {
+                        partitionKey: result[0].partitionKey,
+                        sortKey: `#${month}`,
+                    },
+                    method: 'ADD',
+                    updateItem: { registerCount: 1 },
                 };
-                const { success, message, code } = await applyRoute({
-                    userApplyData,
-                    busInfo,
+                const { success, message, code } = await transaction({
+                    Create: [userApplyData],
+                    Update: [busInfo],
                 });
 
                 return { success, message, code };

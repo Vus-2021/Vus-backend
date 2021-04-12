@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = {
     create: require(`./${process.env.DB}/create`),
     deleteItem: require(`./${process.env.DB}/deleteItem`),

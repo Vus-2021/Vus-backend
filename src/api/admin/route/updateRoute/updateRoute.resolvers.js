@@ -43,7 +43,7 @@ const resolvers = {
                     updateItem = Object.assign(updateItem, { imageUrl: fileInfo.Location });
                 }
 
-                const userPk = { partitionKey: driver.userId, sortKey: '#driver' };
+                const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
 
                 if (detailList) {
                     for (let detail of detailList) {
@@ -57,12 +57,12 @@ const resolvers = {
                 }
 
                 ({ success, message, code } = await update({
-                    primaryKey: userPk,
+                    primaryKey: driverPk,
                     updateItem: {
                         busId: partitionKey,
                         gsiSortKey: updateItem.gsiSortKey,
-                        method: 'SET',
                     },
+                    method: 'SET',
                 }));
 
                 ({ success, message, code } = await update({

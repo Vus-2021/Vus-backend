@@ -1,8 +1,5 @@
-const createDriverLocation = require('../../../services/route/createDriverLocation');
+const { transaction } = require('../../../services');
 const dateNow = require('../../../modules/dateNow');
-/**
- * TODO Transaction
- */
 
 const resolvers = {
     Mutation: {
@@ -10,12 +7,27 @@ const resolvers = {
             const { preKey, destinationKey, locationIndex } = args.input;
 
             const updatedAt = dateNow();
+            const Update = [
+                {
+                    primaryKey: {
+                        partitionKey: preKey,
+                        sortKey: `#detail`,
+                    },
+                    method: 'SET',
+                    updateItem: { currentLocation: false },
+                },
+                {
+                    primaryKey: {
+                        partitionKey: destinationKey,
+                        sortKey: '#detail',
+                    },
+                    method: 'SET',
+                    updateItem: { currentLocation: true, updatedAt, locationIndex },
+                },
+            ];
             try {
-                const { success, message, code } = await createDriverLocation({
-                    preKey,
-                    destinationKey,
-                    updatedAt,
-                    locationIndex,
+                const { success, message, code } = await transaction({
+                    Update,
                 });
                 return { success, message, code };
             } catch (error) {
