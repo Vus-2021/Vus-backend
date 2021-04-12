@@ -4,4 +4,5 @@ module.exports = {
     get: require(`./${process.env.DB}/get`),
     update: require(`./${process.env.DB}/update`),
     query: require(`./${process.env.DB}/query`),
+    transaction: require(`./${process.env.DB}/transaction`),
 };

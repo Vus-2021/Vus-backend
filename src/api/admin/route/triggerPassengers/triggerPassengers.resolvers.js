@@ -40,14 +40,14 @@ const resolvers = {
                     ({ success, message, code } = await update({
                         primaryKey,
                         updateItem: { state: 'fulfilled' },
-                        method: '$SET',
+                        method: 'SET',
                     }));
                 }
                 for (let primaryKey of rejectKeys) {
                     ({ success, message, code } = await update({
                         primaryKey,
                         updateItem: { state: 'reject' },
-                        method: '$SET',
+                        method: 'SET',
                     }));
                 }
 

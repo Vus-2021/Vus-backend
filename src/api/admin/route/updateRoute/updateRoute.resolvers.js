@@ -51,7 +51,7 @@ const resolvers = {
                         ({ success, message, code } = await update({
                             primaryKey: { partitionKey, sortKey },
                             updateItem: updateDetail,
-                            method: '$SET',
+                            method: 'SET',
                         }));
                     }
                 }
@@ -61,7 +61,7 @@ const resolvers = {
                     updateItem: {
                         busId: partitionKey,
                         gsiSortKey: updateItem.gsiSortKey,
-                        method: '$SET',
+                        method: 'SET',
                     },
                 }));
 
@@ -71,7 +71,7 @@ const resolvers = {
                         sortKey: '#info',
                     },
                     updateItem,
-                    method: '$SET',
+                    method: 'SET',
                 }));
 
                 return { success, message, code };

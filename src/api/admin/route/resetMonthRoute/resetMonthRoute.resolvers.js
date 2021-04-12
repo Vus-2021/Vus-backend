@@ -55,7 +55,7 @@ const resolvers = {
                 ({ success, message, code } = await update({
                     primaryKey: bus,
                     updateItem: { registerCount: 0 },
-                    method: '$SET',
+                    method: 'SET',
                 }));
 
                 return { success, message, code };
