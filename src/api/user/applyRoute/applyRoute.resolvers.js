@@ -3,7 +3,6 @@ const _ = require('lodash');
 
 const { applyRoute } = require('../../../services/route');
 const { get, query } = require('../../../services/dynamoose');
-const queryBuild = require('../../../modules/queryBuild');
 
 /**
  * TODO Token
@@ -18,10 +17,11 @@ const resolvers = {
                 user.userId = userId;
             }
 
-            let condition = queryBuild({
+            let params = {
                 sortKey: ['#info', 'eq'],
                 gsiSortKey: [route, 'eq'],
-            });
+                index: ['sk-index', 'using'],
+            };
 
             try {
                 const { data: alreadyApply } = await get({
@@ -34,10 +34,7 @@ const resolvers = {
                 }
 
                 const { data: result } = await query({
-                    condition,
-                    queryOptions: {
-                        index: ['sk-index', 'using'],
-                    },
+                    params,
                 });
 
                 if (result.count === 0) {

@@ -1,4 +1,3 @@
-const queryBuild = require('../../../modules/queryBuild');
 const { query } = require('../../../services/dynamoose');
 
 const resolvers = {
@@ -15,22 +14,18 @@ const resolvers = {
             const method = isMatched ? 'eq' : 'contains';
 
             try {
-                let condition = queryBuild({
+                const params = {
                     sortKey: ['#notice', 'eq'],
                     noticeType: ['ADMIN', 'eq'],
                     notice: [notice, method],
                     name: [name, method],
                     content: [content, method],
-                });
-
-                const queryOptions = {
                     sort: ['descending', 'sort'],
                     index: ['sk-index', 'using'],
                 };
 
                 let { success, message, code, data } = await query({
-                    condition,
-                    queryOptions,
+                    params,
                 });
 
                 data.forEach((item) => {

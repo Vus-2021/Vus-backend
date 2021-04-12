@@ -1,24 +1,19 @@
-const queryBuild = require('../../../modules/queryBuild');
 const { query } = require('../../../services/dynamoose');
 
 const resolvers = {
     Query: {
         getDetailRoutes: async (_, { route, currentLocation }) => {
             try {
-                let condition = queryBuild({
+                const params = {
                     sortKey: ['#detail', 'eq'],
                     route: [route, 'eq'],
                     currentLocation: [currentLocation, 'eq'],
-                });
-
-                let queryOptions = {
                     index: ['sk-index', 'using'],
                     sort: ['ascending', 'sort'],
                 };
 
                 const { success, message, code, data } = await query({
-                    condition,
-                    queryOptions,
+                    params,
                 });
 
                 data.forEach((item) => {

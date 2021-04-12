@@ -1,5 +1,4 @@
 const { query } = require('../../../../services/dynamoose');
-const queryBuild = require('../../../../modules/queryBuild');
 
 const resolvers = {
     Query: {
@@ -13,21 +12,17 @@ const resolvers = {
                 type: args.type,
             };
 
-            const condition = queryBuild({
+            const params = {
                 partitionKey: [userId, 'eq'],
                 sortKey: ['#user', 'eq'],
                 name: [name, 'eq'],
                 type: [type, 'eq'],
-            });
-
-            const queryOptions = {
                 index: ['sk-index', 'using'],
             };
 
             try {
                 const { success, message, code, data } = await query({
-                    condition,
-                    queryOptions,
+                    params,
                 });
                 data.forEach((user) => {
                     user.registerDate = user.gsiSortKey.split('#')[2];

@@ -1,14 +1,23 @@
 /* eslint-disable no-unused-vars */
 const vus = require('../../model/vus');
-const query = async function ({ condition, queryOptions }) {
+const queryTest = async function ({ params }) {
     try {
-        let query = vus.query(condition);
+        let query = vus.query();
 
-        if (queryOptions) {
-            for (let [key, [value, method]] of Object.entries(queryOptions)) {
-                query = query[method](value);
+        const existedParameters = Object.entries(params).filter(
+            (value) => value[1][0] != undefined
+        );
+        for (let [key, [value, method]] of existedParameters) {
+            switch (method) {
+                case 'using' || 'sort':
+                    query = query[method](value);
+                    break;
+                default:
+                    query = query.where(key)[method](value);
+                    break;
             }
         }
+
         const data = await query.exec();
 
         return {
@@ -25,4 +34,4 @@ const query = async function ({ condition, queryOptions }) {
         };
     }
 };
-module.exports = query;
+module.exports = queryTest;

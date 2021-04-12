@@ -1,7 +1,5 @@
 const dayjs = require('dayjs');
-const queryBuild = require('../../../modules/queryBuild');
 const { query } = require('../../../services/dynamoose');
-//const filterExpression = require('../../../modules/filterExpression');
 /**
  * month랑, route를 필터링해서 받기....
  */
@@ -17,20 +15,16 @@ const resolvers = {
                 let success, message, code, result, data;
                 if (!route) {
                     ({ success, message, code, data: result } = await query({
-                        condition: queryBuild({
+                        params: {
                             sortKey: ['#info', 'eq'],
-                        }),
-                        queryOptions: {
                             index: ['sk-index', 'using'],
                         },
                     }));
                 } else {
                     ({ success, message, code, data: result } = await query({
-                        condition: queryBuild({
+                        params: {
                             sortKey: ['#info', 'eq'],
                             gsiSortKey: [route, 'eq'],
-                        }),
-                        queryOptions: {
                             index: ['sk-index', 'using'],
                         },
                     }));
@@ -52,10 +46,10 @@ const resolvers = {
                 let busInfo = [];
                 for (let partitionKey of partitionKeys) {
                     let { data: bus } = await query({
-                        condition: queryBuild({
+                        params: {
                             partitionKey: [partitionKey, 'eq'],
                             sortKey: [`#${month}`, 'beginsWith'],
-                        }),
+                        },
                     });
                     busInfo.push(...bus);
                 }

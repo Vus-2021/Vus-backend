@@ -27,7 +27,7 @@ const resolvers = {
                     partitionKey: user.userId,
                     sortKey: `#applyRoute#${month}`,
                 }));
-                console.log(data);
+
                 if (!data) {
                     return { success: false, message: '이미 취소 되었음', code: 400 };
                 }

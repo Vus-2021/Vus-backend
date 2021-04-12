@@ -1,37 +1,32 @@
-const queryBuild = require('../../../modules/queryBuild');
 const { query } = require('../../../services/dynamoose');
 const dayjs = require('dayjs');
 const resolvers = {
     Query: {
         getDriverNotice: async (parent, { route }) => {
             let { success, message, code, result } = {};
-            let condition = queryBuild({
+
+            let params = {
                 sortKey: ['#info', 'eq'],
                 gsiSortKey: [route, 'eq'],
-            });
-
-            let queryOptions = {
                 index: ['sk-index', 'using'],
             };
 
             try {
                 ({ success, message, code, data: result } = await query({
-                    queryOptions,
-                    condition,
+                    params,
                 }));
                 const data = result.map((item) => {
                     return {
                         route: item.gsiSortKey,
                     };
                 });
+                console.log(data);
                 const routeMap = new Map();
 
                 ({ success, message, code, data: result } = await query({
-                    condition: queryBuild({
+                    params: {
                         sortKey: ['#detail', 'eq'],
                         currentLocation: [true, 'eq'],
-                    }),
-                    queryOptions: {
                         index: ['sk-index', 'using'],
                         sort: ['ascending', 'sort'],
                     },

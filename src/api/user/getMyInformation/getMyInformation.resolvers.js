@@ -1,4 +1,3 @@
-const queryBuild = require('../../../modules/queryBuild');
 const { query } = require('../../../services/dynamoose');
 /**
  * TOdo  driver는 sk 가 #driver, 그리고 노선 선택할때 #driver에 추가해줄것.
@@ -7,11 +6,11 @@ const resolvers = {
     Query: {
         getMyInformation: async (parent, args, context) => {
             if (!context.user) return { success: false, message: context.message, code: 400 };
-            const condition = queryBuild({
+            const params = {
                 partitionKey: [context.user.userId, 'eq'],
-            });
+            };
             try {
-                let { data } = await query({ condition });
+                let { data } = await query({ params });
                 if (context.user.type === 'DRIVER') {
                     data = data
                         .filter((item) => {

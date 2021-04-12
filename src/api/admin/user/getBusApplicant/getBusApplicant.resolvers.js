@@ -1,9 +1,6 @@
 const dayjs = require('dayjs');
 
-const filterExpression = require('../../../../modules/filterExpression');
-const getBusApplicant = require('../../../../services/user/getBusApplicant');
-const boolValidParameters = require('../../../../modules/boolValidator');
-const { get } = require('../../../../services/dynamoose');
+const { get, query } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Query: {
@@ -12,7 +9,7 @@ const resolvers = {
                 return { success: false, message: 'access denied', code: 403 };
             }
             const { isMatched, gsiSortKey, name, month, state, userId, type, isCancellation } = {
-                isMatched: args.isMatched || false,
+                isMatched: args.isMatched ? 'eq' : 'contains',
                 gsiSortKey: args.route || '강남',
                 name: args.name,
                 month: args.month || dayjs(new Date()).format('YYYY-MM'),
@@ -21,19 +18,19 @@ const resolvers = {
                 type: args.type,
                 isCancellation: args.isCancellation,
             };
-            let condition = filterExpression({
-                isMatched,
-                state,
-                partitionKey: userId,
-            });
 
-            condition = boolValidParameters({ condition, isCancellation });
+            let params = {
+                sortKey: [`#applyRoute#${month}`, 'eq'],
+                gsiSortKey: [gsiSortKey, 'eq'],
+                partitionKey: [userId, isMatched],
+                state: [state, isMatched],
+                isCancellation: [isCancellation, 'eq'],
+                index: ['sk-index', 'using'],
+            };
+
             try {
-                const { success, message, code, data: monthResult } = await getBusApplicant({
-                    sortKey: `#applyRoute#${month}`,
-                    index: 'sk-index',
-                    gsiSortKey,
-                    condition,
+                const { success, message, code, data: monthResult } = await query({
+                    params,
                 });
 
                 const userIdList = monthResult.map((applicant) => applicant.partitionKey);
