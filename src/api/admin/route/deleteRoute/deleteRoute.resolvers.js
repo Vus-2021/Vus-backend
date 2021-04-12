@@ -17,11 +17,16 @@ const resolvers = {
                     return { success: false, message: 'invalide Route Id', code: 400 };
                 }
                 const route = data.gsiSortKey;
-                ({ success, message, code, routeDetails: data } = await query({
-                    sortKey: ['#detail', 'eq'],
-                    route: [route, 'eq'],
-                    index: ['sk-index', 'using'],
+                ({ success, message, code, data } = await query({
+                    params: {
+                        sortKey: ['#detail', 'eq'],
+                        index: ['sk-index', 'using'],
+                    },
+                    filterExpression: {
+                        route: [route, 'eq'],
+                    },
                 }));
+
                 if (data) {
                     const detailList = data.map((item) => {
                         return {

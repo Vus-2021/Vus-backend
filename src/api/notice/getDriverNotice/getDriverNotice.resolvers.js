@@ -20,15 +20,17 @@ const resolvers = {
                         route: item.gsiSortKey,
                     };
                 });
-                console.log(data);
+
                 const routeMap = new Map();
 
                 ({ success, message, code, data: result } = await query({
                     params: {
                         sortKey: ['#detail', 'eq'],
-                        currentLocation: [true, 'eq'],
                         index: ['sk-index', 'using'],
                         sort: ['ascending', 'sort'],
+                    },
+                    filterExpression: {
+                        currentLocation: [true, 'eq'],
                     },
                 }));
 

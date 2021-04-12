@@ -4,7 +4,10 @@ const duration = require('dayjs/plugin/duration');
 const applyRoulette = require('../../../../modules/applyRoulette');
 const { get, update, query } = require('../../../../services');
 dayjs.extend(duration);
-
+/**
+ *
+ * TODO 트랜잭션!
+ */
 const resolvers = {
     Mutation: {
         triggerPassengers: async (parent, { month, route, busId }) => {
@@ -13,12 +16,14 @@ const resolvers = {
             try {
                 const bus = await get({ partitionKey: busId, sortKey: '#info' });
 
-                ({ success, message, code, result: data } = await query({
+                ({ success, message, code, data } = await query({
                     params: {
                         sortKey: [`#applyRoute#${month}`, 'eq'],
                         gsiSortKey: [route, 'eq'],
+                        index: ['sk-index', 'using'],
                     },
                 }));
+
                 let applicants = data.sort(() => Math.random() - Math.random());
                 const limitCount = bus.data.limitCount;
                 const { fulfilled, reject } = applyRoulette({ applicants, limitCount });

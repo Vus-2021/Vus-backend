@@ -16,16 +16,20 @@ const resolvers = {
             try {
                 const params = {
                     sortKey: ['#notice', 'eq'],
-                    noticeType: ['ADMIN', 'eq'],
-                    notice: [notice, method],
-                    name: [name, method],
-                    content: [content, method],
                     sort: ['descending', 'sort'],
                     index: ['sk-index', 'using'],
                 };
 
+                const filterExpression = {
+                    noticeType: ['ADMIN', 'eq'],
+                    notice: [notice, method],
+                    name: [name, method],
+                    content: [content, method],
+                };
+
                 let { success, message, code, data } = await query({
                     params,
+                    filterExpression,
                 });
 
                 data.forEach((item) => {

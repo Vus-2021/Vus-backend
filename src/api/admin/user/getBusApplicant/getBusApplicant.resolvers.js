@@ -22,15 +22,19 @@ const resolvers = {
             let params = {
                 sortKey: [`#applyRoute#${month}`, 'eq'],
                 gsiSortKey: [gsiSortKey, 'eq'],
+                index: ['sk-index', 'using'],
+            };
+
+            let filterExpression = {
                 partitionKey: [userId, isMatched],
                 state: [state, isMatched],
                 isCancellation: [isCancellation, 'eq'],
-                index: ['sk-index', 'using'],
             };
 
             try {
                 const { success, message, code, data: monthResult } = await query({
                     params,
+                    filterExpression,
                 });
 
                 const userIdList = monthResult.map((applicant) => applicant.partitionKey);

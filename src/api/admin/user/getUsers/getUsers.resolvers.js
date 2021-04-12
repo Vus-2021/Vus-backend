@@ -13,16 +13,20 @@ const resolvers = {
             };
 
             const params = {
-                partitionKey: [userId, 'eq'],
                 sortKey: ['#user', 'eq'],
+                index: ['sk-index', 'using'],
+            };
+
+            const filterExpression = {
                 name: [name, 'eq'],
                 type: [type, 'eq'],
-                index: ['sk-index', 'using'],
+                partitionKey: [userId, 'eq'],
             };
 
             try {
                 const { success, message, code, data } = await query({
                     params,
+                    filterExpression,
                 });
                 data.forEach((user) => {
                     user.registerDate = user.gsiSortKey.split('#')[2];

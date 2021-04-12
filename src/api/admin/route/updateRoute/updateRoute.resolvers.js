@@ -19,9 +19,13 @@ const resolvers = {
                 let detailList;
                 if (route !== thisRoute.gsiSortKey) {
                     const details = await query({
-                        sortKey: ['#detail', 'eq'],
-                        route: [thisRoute.gsiSortKey, 'eq'],
-                        index: ['sk-index', 'using'],
+                        params: {
+                            sortKey: ['#detail', 'eq'],
+                            index: ['sk-index', 'using'],
+                        },
+                        filterExpression: {
+                            route: [thisRoute.gsiSortKey, 'eq'],
+                        },
                     });
                     detailList = details.routeDetails.map((item) => {
                         return {

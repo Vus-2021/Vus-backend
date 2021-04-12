@@ -6,14 +6,18 @@ const resolvers = {
             try {
                 const params = {
                     sortKey: ['#detail', 'eq'],
-                    route: [route, 'eq'],
                     currentLocation: [currentLocation, 'eq'],
                     index: ['sk-index', 'using'],
                     sort: ['ascending', 'sort'],
                 };
 
+                const filterExpression = {
+                    route: [route, 'eq'],
+                };
+
                 const { success, message, code, data } = await query({
                     params,
+                    filterExpression,
                 });
 
                 data.forEach((item) => {

@@ -1,4 +1,7 @@
 const { get, deleteItem, update, query } = require('../../../../services');
+/**
+ * Transaction
+ */
 
 const resolvers = {
     Mutation: {
@@ -9,6 +12,7 @@ const resolvers = {
             const params = {
                 sortKey: [`#applyRoute#${month}`, 'eq'],
                 gsiSortKey: [route, 'eq'],
+                index: ['sk-index', 'using'],
             };
 
             try {
@@ -36,13 +40,13 @@ const resolvers = {
                     await query({
                         params,
                     })
-                ).result.map((item) => {
+                ).data.map((item) => {
                     return {
                         partitionKey: item.partitionKey,
                         sortKey: `#applyRoute#${month}`,
                     };
                 });
-
+                console.log(userList);
                 const bus = {
                     partitionKey: busId,
                     sortKey: `#${month}`,

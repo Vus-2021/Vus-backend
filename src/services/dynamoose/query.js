@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 const vus = require('../../model/vus');
-const query = async function ({ params }) {
+const query = async function ({ params, filterExpression }) {
     try {
         let query = vus.query();
 
-        const existedParameters = Object.entries(params).filter(
+        const existedParameters = Object.entries({ ...params, ...filterExpression }).filter(
             (value) => value[1][0] != undefined
         );
         for (let [key, [value, method]] of existedParameters) {
