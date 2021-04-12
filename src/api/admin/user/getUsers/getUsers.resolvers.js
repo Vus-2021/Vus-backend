@@ -1,5 +1,5 @@
-const filterExpression = require('../../../../modules/filterExpression');
-const getUsers = require('../../../../services/user/getUsers');
+const { query } = require('../../../../services/dynamoose');
+const queryBuild = require('../../../../modules/queryBuild');
 
 const resolvers = {
     Query: {
@@ -7,19 +7,27 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            const { isMatched, userId, name, type } = {
+            const { userId, name, type } = {
                 userId: args.userId,
                 name: args.name,
                 type: args.type,
-                isMatched: args.isMatched || false,
             };
-            let condition = filterExpression({ isMatched, partitionKey: userId, name, type });
+
+            const condition = queryBuild({
+                partitionKey: [userId, 'eq'],
+                sortKey: ['#user', 'eq'],
+                name: [name, 'eq'],
+                type: [type, 'eq'],
+            });
+
+            const queryOptions = {
+                index: ['sk-index', 'using'],
+            };
 
             try {
-                const { success, message, code, data } = await getUsers({
-                    sortKey: '#user',
-                    index: 'sk-index',
+                const { success, message, code, data } = await query({
                     condition,
+                    queryOptions,
                 });
                 data.forEach((user) => {
                     user.registerDate = user.gsiSortKey.split('#')[2];
