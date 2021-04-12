@@ -1,5 +1,5 @@
 const uploadS3 = require('../../../../modules/s3');
-const { get, update, query } = require('../../../../services/dynamoose');
+const { get, update, query } = require('../../../../services');
 
 const resolvers = {
     Mutation: {

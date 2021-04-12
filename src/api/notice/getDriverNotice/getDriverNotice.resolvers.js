@@ -1,4 +1,4 @@
-const { query } = require('../../../services/dynamoose');
+const { query } = require('../../../services');
 const dayjs = require('dayjs');
 const resolvers = {
     Query: {

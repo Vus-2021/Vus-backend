@@ -1,4 +1,4 @@
-const { get, deleteItem, update, query } = require('../../../../services/dynamoose');
+const { get, deleteItem, update, query } = require('../../../../services');
 
 const resolvers = {
     Mutation: {

@@ -1,6 +1,6 @@
 const jwt = require('../../../modules/jwt');
 const { getHashedPassword } = require('../../../modules/hash');
-const { get } = require('../../../services/dynamoose');
+const { get } = require('../../../services');
 const _ = require('lodash');
 
 const resolvers = {

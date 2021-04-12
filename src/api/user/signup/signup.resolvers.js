@@ -1,5 +1,5 @@
 const { getSalt, getHashedPassword } = require('../../../modules/hash');
-const { create, get } = require('../../../services/dynamoose');
+const { create, get } = require('../../../services');
 const _ = require('lodash');
 
 const resolvers = {

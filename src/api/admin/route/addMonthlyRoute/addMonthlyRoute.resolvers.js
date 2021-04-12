@@ -1,4 +1,4 @@
-const { create } = require('../../../../services/dynamoose');
+const { create } = require('../../../../services');
 const resolvers = {
     Mutation: {
         addMonthlyRoute: async (_, args, { user }) => {

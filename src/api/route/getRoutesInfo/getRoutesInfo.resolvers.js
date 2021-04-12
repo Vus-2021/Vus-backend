@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-const { query } = require('../../../services/dynamoose');
+const { query } = require('../../../services');
 /**
  * month랑, route를 필터링해서 받기....
  */

@@ -1,6 +1,6 @@
 const dayjs = require('dayjs');
 
-const { get, query } = require('../../../../services/dynamoose');
+const { get, query } = require('../../../../services');
 
 const resolvers = {
     Query: {

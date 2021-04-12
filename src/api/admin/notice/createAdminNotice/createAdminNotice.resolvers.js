@@ -1,6 +1,6 @@
 const dateNow = require('../../../../modules/dateNow');
 const uuid = require('uuid');
-const { create } = require('../../../../services/dynamoose');
+const { create } = require('../../../../services');
 /**
  * TODO auth => only Admin
  */

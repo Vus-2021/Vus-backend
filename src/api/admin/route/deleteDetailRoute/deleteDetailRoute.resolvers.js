@@ -1,4 +1,4 @@
-const { deleteItem } = require('../../../../services/dynamoose');
+const { deleteItem } = require('../../../../services');
 const resolvers = {
     Mutation: {
         deleteDetailRoute: async (_, { partitionKey }, { user }) => {

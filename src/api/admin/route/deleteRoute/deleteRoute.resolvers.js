@@ -1,4 +1,4 @@
-const { get, deleteItem, query } = require('../../../../services/dynamoose');
+const { get, deleteItem, query } = require('../../../../services');
 /**
  * TODO onDelete
  */

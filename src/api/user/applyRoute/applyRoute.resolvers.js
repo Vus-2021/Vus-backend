@@ -2,7 +2,7 @@ const dayjs = require('dayjs');
 const _ = require('lodash');
 
 const { applyRoute } = require('../../../services/route');
-const { get, query } = require('../../../services/dynamoose');
+const { get, query } = require('../../../services');
 
 /**
  * TODO Token

@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 
-const { create } = require('../../../../services/dynamoose');
+const { create } = require('../../../../services');
 const uploadS3 = require('../../../../modules/s3');
 const resolvers = {
     Mutation: {

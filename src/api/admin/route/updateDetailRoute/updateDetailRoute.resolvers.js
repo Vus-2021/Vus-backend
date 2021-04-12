@@ -1,5 +1,5 @@
 const uploadS3 = require('../../../../modules/s3');
-const { update } = require('../../../../services/dynamoose');
+const { update } = require('../../../../services');
 const resolvers = {
     Mutation: {
         updateDetailRoute: async (

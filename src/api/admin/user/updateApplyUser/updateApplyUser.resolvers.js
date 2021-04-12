@@ -1,4 +1,4 @@
-const { update } = require('../../../../services/dynamoose');
+const { update } = require('../../../../services');
 
 const resolvers = {
     Mutation: {

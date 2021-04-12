@@ -1,4 +1,4 @@
-const { get } = require('../../../services/dynamoose');
+const { get } = require('../../../services');
 const resolvers = {
     Query: {
         getOneAdminNotice: async (parent, { partitionKey }) => {

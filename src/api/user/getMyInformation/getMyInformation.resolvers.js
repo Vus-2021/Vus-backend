@@ -1,4 +1,4 @@
-const { query } = require('../../../services/dynamoose');
+const { query } = require('../../../services');
 /**
  * TOdo  driver는 sk 가 #driver, 그리고 노선 선택할때 #driver에 추가해줄것.
  */
