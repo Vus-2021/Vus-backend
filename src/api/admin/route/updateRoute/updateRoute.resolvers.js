@@ -1,6 +1,5 @@
-const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
 const uploadS3 = require('../../../../modules/s3');
-const { get, update } = require('../../../../services/dynamoose');
+const { get, update, query } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {
@@ -9,7 +8,6 @@ const resolvers = {
             { partitionKey, route, busNumber, limitCount, driver, file },
             { user }
         ) => {
-            console.log({ partitionKey, route, busNumber, limitCount, driver, file });
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
@@ -20,10 +18,10 @@ const resolvers = {
                 const thisRoute = (await get({ partitionKey, sortKey: '#info' })).data;
                 let detailList;
                 if (route !== thisRoute.gsiSortKey) {
-                    const details = await getDetailRoutesByRoute({
-                        sortKey: '#detail',
-                        route: thisRoute.gsiSortKey,
-                        index: 'sk-index',
+                    const details = await query({
+                        sortKey: ['#detail', 'eq'],
+                        route: [thisRoute.gsiSortKey, 'eq'],
+                        index: ['sk-index', 'using'],
                     });
                     detailList = details.routeDetails.map((item) => {
                         return {

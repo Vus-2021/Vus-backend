@@ -1,9 +1,8 @@
 const dayjs = require('dayjs');
 const duration = require('dayjs/plugin/duration');
 
-const getUserApply = require('../../../../services/user/getUserApply');
 const applyRoulette = require('../../../../services/route/applyRoulette');
-const { get, update } = require('../../../../services/dynamoose');
+const { get, update, query } = require('../../../../services/dynamoose');
 dayjs.extend(duration);
 
 const resolvers = {
@@ -14,9 +13,11 @@ const resolvers = {
             try {
                 const bus = await get({ partitionKey: busId, sortKey: '#info' });
 
-                ({ success, message, code, result: data } = await getUserApply({
-                    sortKey: `#applyRoute#${month}`,
-                    gsiSortKey: route,
+                ({ success, message, code, result: data } = await query({
+                    params: {
+                        sortKey: [`#applyRoute#${month}`, 'eq'],
+                        gsiSortKey: [route, 'eq'],
+                    },
                 }));
                 let applicants = data.sort(() => Math.random() - Math.random());
                 const limitCount = bus.data.limitCount;

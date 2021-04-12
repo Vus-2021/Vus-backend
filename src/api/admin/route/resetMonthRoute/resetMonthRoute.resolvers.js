@@ -1,10 +1,4 @@
-/**
- * TODO
- * GSI-PK #applyRoute#YYYY-MM 아래 있는 데이터들을 모두 제거. busId #YYYY-MM 의 Attribute 인 register count가 0으로 셋팅
- * delete 까지 같이 작업하세요.
- */
-const { get, deleteItem, update } = require('../../../../services/dynamoose');
-const getRouteInfo = require('../../../../services/route/getRouteInfo');
+const { get, deleteItem, update, query } = require('../../../../services/dynamoose');
 
 const resolvers = {
     Mutation: {
@@ -12,6 +6,11 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
+            const params = {
+                sortKey: [`#applyRoute#${month}`, 'eq'],
+                gsiSortKey: [route, 'eq'],
+            };
+
             try {
                 let { success, message, code, data } = {};
 
@@ -34,9 +33,8 @@ const resolvers = {
                 }
 
                 const userList = (
-                    await getRouteInfo({
-                        sortKey: `#applyRoute#${month}`,
-                        gsiSortKey: route,
+                    await query({
+                        params,
                     })
                 ).result.map((item) => {
                     return {

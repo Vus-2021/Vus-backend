@@ -1,5 +1,4 @@
-const getDetailRoutesByRoute = require('../../../../services/route/getDetailRoutesByRoute');
-const { get, deleteItem } = require('../../../../services/dynamoose');
+const { get, deleteItem, query } = require('../../../../services/dynamoose');
 /**
  * TODO onDelete
  */
@@ -17,10 +16,10 @@ const resolvers = {
                     return { success: false, message: 'invalide Route Id', code: 400 };
                 }
                 const route = data.gsiSortKey;
-                ({ success, message, code, routeDetails: data } = await getDetailRoutesByRoute({
-                    sortKey: '#detail',
-                    route: route,
-                    index: 'sk-index',
+                ({ success, message, code, routeDetails: data } = await query({
+                    sortKey: ['#detail', 'eq'],
+                    route: [route, 'eq'],
+                    index: ['sk-index', 'using'],
                 }));
                 const detailList = data.map((item) => {
                     return {

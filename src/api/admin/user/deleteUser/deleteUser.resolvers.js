@@ -1,10 +1,5 @@
-const getUserByPk = require('../../../../services/user/getUserByPk');
-const discountRegisterCount = require('../../../../services/route/discountRegisterCount');
-const { deleteItem } = require('../../../../services/dynamoose');
-/**
- *  #applyRoute 를 쿼리 => pk가 같은 친구들 찾고 -> 지우고
- *
- */
+const { deleteItem, query, update } = require('../../../../services/dynamoose');
+
 const resolvers = {
     Mutation: {
         deleteUser: async (parent, args, { user }) => {
@@ -14,7 +9,11 @@ const resolvers = {
             try {
                 let list = [];
                 for (let item of args.userId) {
-                    let { data } = await getUserByPk({ partitionKey: item });
+                    let { data } = await query({
+                        params: {
+                            partitionKey: [item, 'eq'],
+                        },
+                    });
                     list.push(
                         ...data.map((dataItem) => {
                             return {
@@ -41,9 +40,13 @@ const resolvers = {
                             sortKey: `#${item.month}`,
                         };
                     });
-                console.log(route);
+
                 for (let item of route) {
-                    await discountRegisterCount({ primaryKey: item });
+                    await update({
+                        primaryKey: item,
+                        method: 'ADD',
+                        updateItem: { registerCount: -1 },
+                    });
                 }
 
                 for (let user of userList) {

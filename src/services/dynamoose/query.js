@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const vus = require('../../model/vus');
-const queryTest = async function ({ params }) {
+const query = async function ({ params }) {
     try {
         let query = vus.query();
 
@@ -34,4 +34,4 @@ const queryTest = async function ({ params }) {
         };
     }
 };
-module.exports = queryTest;
+module.exports = query;
