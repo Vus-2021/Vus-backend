@@ -8,7 +8,7 @@ const transaction = async (args) => {
     for (let [method, transaction] of existedParameters) {
         for (let item of transaction) {
             switch (method) {
-                case 'Create':
+                case 'Put':
                     transactionList.push(vus.transaction.create(item));
                     break;
                 case 'Delete':

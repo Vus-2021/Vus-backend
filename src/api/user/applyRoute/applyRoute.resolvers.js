@@ -72,7 +72,7 @@ const resolvers = {
                     updateItem: { registerCount: 1 },
                 };
                 const { success, message, code } = await transaction({
-                    Create: [userApplyData],
+                    Put: [userApplyData],
                     Update: [busInfo],
                 });
 

@@ -33,7 +33,7 @@ const resolvers = {
                 const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
 
                 const { success, message, code } = await transaction({
-                    Create: [
+                    Put: [
                         {
                             partitionKey,
                             sortKey,
