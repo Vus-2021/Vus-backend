@@ -1,8 +1,8 @@
 type Mutation {
-    signupForExecl(input: [UserInput]): SignupForExeclResponse
+    signupForExcel(input: [UserInput]): SignupForExcelResponse
 }
 
-type SignupForExeclResponse implements Response {
+type SignupForExcelResponse implements Response {
     success: Boolean!
     message: String!
     code: Int

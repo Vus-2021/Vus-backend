@@ -81,7 +81,6 @@ const transaction = async (args) => {
     }
 
     try {
-        console.log(JSON.stringify(transactionItem, null, 2));
         await documentClient
             .transactWrite({
                 TransactItems: transactionItem,

@@ -3,7 +3,7 @@ const { transaction, get } = require('../../../../services');
 
 const resolvers = {
     Mutation: {
-        signupForExecl: async (parent, args) => {
+        signupForExcel: async (parent, args) => {
             let users = JSON.parse(JSON.stringify(args.input));
             let alreadyUsers = [];
             for (let user of users) {
