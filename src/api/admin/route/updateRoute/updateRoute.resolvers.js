@@ -17,12 +17,17 @@ const resolvers = {
             const Update = [];
             const Delete = [];
             try {
+                const thisRoute = (await get({ partitionKey, sortKey: '#info' })).data;
+
                 const { data: alreadyDriver } = await get(driverPk);
-                if (alreadyDriver) {
-                    return { success: false, message: '이미 등록된 기사님 입니다.', code: 400 };
+                if (alreadyDriver && !(driver.userId === thisRoute.driver.userId)) {
+                    return {
+                        success: false,
+                        message: '다른 노선에 등록된 기사님 입니다.',
+                        code: 400,
+                    };
                 }
 
-                const thisRoute = (await get({ partitionKey, sortKey: '#info' })).data;
                 Delete.push({ partitionKey: thisRoute.driver.userId, sortKey: '#driver' });
 
                 let detailList;
