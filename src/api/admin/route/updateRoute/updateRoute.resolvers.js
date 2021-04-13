@@ -28,7 +28,7 @@ const resolvers = {
                             route: [thisRoute.gsiSortKey, 'eq'],
                         },
                     });
-                    console.log(details);
+
                     detailList = details.map((item) => {
                         return {
                             partitionKey: item.partitionKey,
@@ -46,7 +46,7 @@ const resolvers = {
                     const { createReadStream, filename } = await file;
                     const fileStream = createReadStream();
                     const fileInfo = await uploadS3({ fileStream, filename });
-                    updateItem = Object.assign(updateItem, { imageUrl: fileInfo.Location });
+                    Object.assign(updateItem, { imageUrl: fileInfo.Location });
                 }
 
                 const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
