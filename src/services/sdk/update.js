@@ -36,6 +36,7 @@ const update = async (args) => {
         ExpressionAttributeValues,
     };
     try {
+        console.log(params);
         await documentClient.update(params).promise();
         return { success: true, message: 'success update', code: 204 };
     } catch (error) {

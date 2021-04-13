@@ -2,7 +2,8 @@ const dayjs = require('dayjs');
 const duration = require('dayjs/plugin/duration');
 
 const applyRoulette = require('../../../../modules/applyRoulette');
-const { get, update, query } = require('../../../../services');
+const { get, query } = require('../../../../services');
+const transaction = require('../../../../services/sdk/transaction');
 dayjs.extend(duration);
 /**
  *
@@ -12,7 +13,7 @@ const resolvers = {
     Mutation: {
         triggerPassengers: async (parent, { month, route, busId }) => {
             let { success, message, code, data } = {};
-
+            const Update = [];
             try {
                 const bus = await get({ partitionKey: busId, sortKey: '#info' });
 
@@ -42,19 +43,21 @@ const resolvers = {
                 });
 
                 for (let primaryKey of fulfilledKeys) {
-                    ({ success, message, code } = await update({
+                    Update.push({
                         primaryKey,
                         updateItem: { state: 'fulfilled' },
                         method: 'SET',
-                    }));
+                    });
                 }
                 for (let primaryKey of rejectKeys) {
-                    ({ success, message, code } = await update({
+                    Update.push({
                         primaryKey,
                         updateItem: { state: 'reject' },
                         method: 'SET',
-                    }));
+                    });
                 }
+
+                ({ success, message, code, data } = await transaction({ Update }));
 
                 return { success, message, code };
             } catch (error) {
