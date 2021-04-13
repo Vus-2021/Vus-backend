@@ -1,4 +1,4 @@
-const { transaction } = require('../../../../services');
+const { transaction, get } = require('../../../../services');
 
 const uuid = require('uuid');
 const uploadS3 = require('../../../../modules/s3');
@@ -16,6 +16,14 @@ const resolvers = {
             const [partitionKey, sortKey, gsiSortKey] = [uuid.v4(), '#info', route];
             try {
                 let routeInfo;
+                const { data: alreadyDriver } = await get({
+                    partitionKey: driver.userId,
+                    sortKey: '#driver',
+                });
+                if (alreadyDriver) {
+                    return { success: false, message: '이미 등록된 기사님 입니다.', code: 400 };
+                }
+
                 if (!args.file) {
                     routeInfo = { busNumber, limitCount, driver };
                 } else {

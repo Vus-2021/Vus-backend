@@ -46,7 +46,6 @@ const resolvers = {
                         sortKey: `#applyRoute#${month}`,
                     };
                 });
-                console.log(userList);
                 const bus = {
                     partitionKey: busId,
                     sortKey: `#${month}`,

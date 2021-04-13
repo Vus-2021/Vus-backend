@@ -7,7 +7,6 @@ const resolvers = {
                 const { createReadStream, filename, mimetype, encoding } = await file;
                 const fileStream = createReadStream();
                 const data = await uploadS3({ fileStream, filename });
-                console.log(data);
                 return { filename, mimetype, url: data.Location, encoding };
             } catch (error) {
                 console.log(error);

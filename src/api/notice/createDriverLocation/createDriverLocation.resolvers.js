@@ -25,7 +25,6 @@ const resolvers = {
                     updateItem: { currentLocation: true, updatedAt, locationIndex },
                 },
             ];
-            console.log(Update);
             try {
                 const { success, message, code } = await transaction({
                     Update,

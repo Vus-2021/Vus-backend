@@ -1,0 +1,53 @@
+service: bus-project
+frameworkVersion: '2'
+
+provider:
+      name: aws
+      runtime: nodejs12.x
+      iamRoleStatements:
+              - Effect: Allow
+                Action:
+                  - dynamodb:DescribeTable
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                Resource:
+                   Fn::Join:
+                     - ""
+                     - - "arn:aws:dynamodb:*:*:table/"
+                       - Ref: ProductsGqlDynamoDbTable
+
+    functions:
+      queryProducts:
+        handler: handler.queryProducts
+        events:
+        - http:
+            path: products
+            method: post
+            cors: true
+        environment:
+          TABLE_NAME: TEST-vus
+
+    resources:
+      Resources:
+        ProductsGqlDynamoDbTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: products-gql
+            AttributeDefinitions:
+              - AttributeName: id
+                AttributeType: S
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+
+
+functions:
+  hello:
+    handler: handler.hello

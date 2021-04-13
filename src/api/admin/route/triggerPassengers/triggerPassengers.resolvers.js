@@ -60,6 +60,7 @@ const resolvers = {
 
                 return { success, message, code };
             } catch (error) {
+                console.log(error);
                 return { success: false, message: error.message, code: 500 };
             }
         },

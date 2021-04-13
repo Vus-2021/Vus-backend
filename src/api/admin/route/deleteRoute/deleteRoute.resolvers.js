@@ -10,7 +10,6 @@ const resolvers = {
                 return { success: false, message: 'access denied', code: 403 };
             }
             const sortKey = '#info';
-            console.log(partitionKey);
             try {
                 let { success, message, code, data } = await get({ partitionKey, sortKey });
                 if (!data) {

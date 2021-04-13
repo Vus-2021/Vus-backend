@@ -6,10 +6,8 @@ const applyRoulette = ({ applicants, limitCount }) => {
     let second = [];
     let dueDate = dayjs().subtract(3, 'month');
 
-    if (applicants.count < limitCount) {
-        console.log('allPass');
+    if (applicants.length < limitCount) {
         result.fulfilled = applicants;
-
         return result;
     }
 

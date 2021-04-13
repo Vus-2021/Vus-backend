@@ -11,12 +11,20 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
+            const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
             let updateItem;
             updateItem = { gsiSortKey: route, busNumber, limitCount, driver };
             const Update = [];
+            const Delete = [];
             try {
+                const { data: alreadyDriver } = await get(driverPk);
+                if (alreadyDriver) {
+                    return { success: false, message: '이미 등록된 기사님 입니다.', code: 400 };
+                }
+
                 const thisRoute = (await get({ partitionKey, sortKey: '#info' })).data;
-                console.log(thisRoute);
+                Delete.push({ partitionKey: thisRoute.driver.userId, sortKey: '#driver' });
+
                 let detailList;
                 if (route !== thisRoute.gsiSortKey) {
                     const { data: details } = await query({
@@ -49,8 +57,6 @@ const resolvers = {
                     Object.assign(updateItem, { imageUrl: fileInfo.Location });
                 }
 
-                const driverPk = { partitionKey: driver.userId, sortKey: '#driver' };
-
                 if (detailList) {
                     for (let detail of detailList) {
                         let { partitionKey, sortKey, ...updateDetail } = detail;
@@ -79,6 +85,7 @@ const resolvers = {
                     updateItem,
                     method: 'SET',
                 });
+
                 const { success, message, code } = await transaction({ Update });
                 return { success, message, code };
             } catch (error) {
