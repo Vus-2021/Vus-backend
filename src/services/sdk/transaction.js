@@ -1,7 +1,4 @@
 /* eslint-disable no-case-declarations */
-/**
- * TODO Transaction 테스트..! 지금은 createDriverLocation만 완성.
- */
 const AWS = require('aws-sdk');
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const _ = require('lodash');
