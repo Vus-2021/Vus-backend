@@ -1,4 +1,4 @@
-const vus = require('../../model/dynamoose');
+const vus = require('../../model/mongodb');
 
 const create = async (args) => {
     try {

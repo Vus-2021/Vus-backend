@@ -1,4 +1,4 @@
-const vus = require('../../model/vus');
+const vus = require('../../model/dynamoose');
 const dynamoose = require('dynamoose');
 const _ = require('lodash');
 
