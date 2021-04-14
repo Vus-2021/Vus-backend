@@ -55,7 +55,6 @@ const resolvers = {
                         method: 'SET',
                     });
                 }
-
                 ({ success, message, code, data } = await transaction({ Update }));
 
                 return { success, message, code };

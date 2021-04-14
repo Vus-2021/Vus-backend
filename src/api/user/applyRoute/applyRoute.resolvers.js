@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+const dateNow = require('../../../modules/dateNow');
 const _ = require('lodash');
 
 const { get, query, transaction } = require('../../../services');
@@ -61,6 +62,7 @@ const resolvers = {
                     busId: partitionKey,
                     previousMonthState,
                     registerDate: userInfo.gsiSortKey.split('#')[2],
+                    createdAt: dateNow(),
                 };
 
                 const busInfo = {

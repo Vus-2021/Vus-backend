@@ -34,12 +34,8 @@ const resolvers = {
                     item.route = item.gsiSortKey;
                 });
                 const busMap = new Map();
-
                 result.forEach((bus) => {
-                    busMap.set(bus.partitionKey, {
-                        ...bus,
-                        month: {},
-                    });
+                    busMap.set(bus.partitionKey, Object.assign(bus, { month: {} }));
                 });
 
                 const partitionKeys = result.map((item) => item.partitionKey);
@@ -53,6 +49,7 @@ const resolvers = {
                     });
                     busInfo.push(...bus);
                 }
+
                 busInfo.forEach((item) => {
                     busMap.get(item.partitionKey).month = {
                         registerCount: item.registerCount,
