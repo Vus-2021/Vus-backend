@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 const duration = require('dayjs/plugin/duration');
 
-const applyRoulette = require('../../../../modules/applyRoulette');
+const selectPassenger = require('../../../../modules/selectPassenger');
 const { get, query, transaction } = require('../../../../services');
 dayjs.extend(duration);
 /**
@@ -10,9 +10,15 @@ dayjs.extend(duration);
  */
 const resolvers = {
     Mutation: {
-        triggerPassengers: async (parent, { month, route, busId }) => {
+        triggerPassengers: async (parent, { month, route, busId, methodList }) => {
             let { success, message, code, data } = {};
             const Update = [];
+            methodList = [
+                'sortPeople',
+                'selectByRandomQueue',
+                'selectByRegisterDate',
+                'selectByPreNotPassengers',
+            ];
             try {
                 const bus = await get({ partitionKey: busId, sortKey: '#info' });
 
@@ -26,7 +32,11 @@ const resolvers = {
 
                 let applicants = data.sort(() => Math.random() - Math.random());
                 const limitCount = bus.data.limitCount;
-                const { fulfilled, reject } = applyRoulette({ applicants, limitCount });
+                const { fulfilled, reject } = selectPassenger({
+                    applicants,
+                    limitCount,
+                    methodList,
+                });
                 const fulfilledKeys = fulfilled.map((item) => {
                     return {
                         partitionKey: item.partitionKey,
