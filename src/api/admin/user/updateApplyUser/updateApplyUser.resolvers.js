@@ -2,7 +2,10 @@ const { update } = require('../../../../services');
 
 const resolvers = {
     Mutation: {
-        updateApplyUser: async (parent, { userId, month, state }) => {
+        updateApplyUser: async (parent, { userId, month, state }, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             try {
                 const { success, message, code } = await update({
                     primaryKey: {

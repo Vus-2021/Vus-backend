@@ -12,8 +12,12 @@ const resolvers = {
     Mutation: {
         triggerPassengers: async (
             parent,
-            { month, route, busId, methodList, sortType, monthArg }
+            { month, route, busId, methodList, sortType, monthArg },
+            { user }
         ) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             let { success, message, code, data } = {};
             const Update = [];
 

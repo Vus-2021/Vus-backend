@@ -2,7 +2,10 @@
 const { query, transaction } = require('../../../../services');
 const resolvers = {
     Mutation: {
-        initPassengers: async (parent, { month, route, busId }) => {
+        initPassengers: async (parent, { month, route, busId }, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             let Update = [];
             try {
                 let { data: users } = await query({

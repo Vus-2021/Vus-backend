@@ -3,7 +3,10 @@ const { transaction, get } = require('../../../../services');
 
 const resolvers = {
     Mutation: {
-        signupForExcel: async (parent, args) => {
+        signupForExcel: async (parent, args, { user }) => {
+            if (!user || user.type !== 'ADMIN') {
+                return { success: false, message: 'access denied', code: 403 };
+            }
             let users = JSON.parse(JSON.stringify(args.input));
             let alreadyUsers = [];
             for (let user of users) {
