@@ -36,6 +36,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^5.12.3",
     "rand-token": "^1.0.1",
+    "serverless-offline": "^6.9.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -50,7 +51,8 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.6.3",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "serverless-dotenv-plugin": "^3.9.0"
   },
   "resolutions": {
     "fs-capacitor": "^6.2.0",

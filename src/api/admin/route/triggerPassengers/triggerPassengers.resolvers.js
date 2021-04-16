@@ -10,15 +10,13 @@ dayjs.extend(duration);
  */
 const resolvers = {
     Mutation: {
-        triggerPassengers: async (parent, { month, route, busId, methodList }) => {
+        triggerPassengers: async (
+            parent,
+            { month, route, busId, methodList, sortType, monthArg }
+        ) => {
             let { success, message, code, data } = {};
             const Update = [];
-            methodList = [
-                'sortPeople',
-                'selectByRandomQueue',
-                'selectByRegisterDate',
-                'selectByPreNotPassengers',
-            ];
+
             try {
                 const bus = await get({ partitionKey: busId, sortKey: '#info' });
 
@@ -30,12 +28,14 @@ const resolvers = {
                     },
                 }));
 
-                let applicants = data.sort(() => Math.random() - Math.random());
+                let applicants = data;
                 const limitCount = bus.data.limitCount;
                 const { fulfilled, reject } = selectPassenger({
                     applicants,
                     limitCount,
                     methodList,
+                    sortType,
+                    monthArg,
                 });
                 const fulfilledKeys = fulfilled.map((item) => {
                     return {

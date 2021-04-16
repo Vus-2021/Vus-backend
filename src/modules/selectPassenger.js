@@ -1,13 +1,12 @@
 const dayjs = require('dayjs');
-const _ = require('lodash');
 
 class SelectPassenger {
-    constructor(limitCount, applicants, month, sortType) {
+    constructor(limitCount, applicants, monthArg, sortType) {
         this.fulfilled = [];
         this.reject = [];
         this.limitCount = limitCount;
         this.applicants = applicants;
-        this.month = month;
+        this.month = monthArg;
         this.sortType = sortType;
     }
     allPass() {
@@ -23,8 +22,8 @@ class SelectPassenger {
     }
     sortPeople() {
         this.applicants.sort((a, b) => {
-            if (_.isNil(this.sortType)) return b - a;
-            else return b[this.sortType] - a[this.sortType];
+            if (this.sortType === 'random') return Math.random() - Math.random();
+            else return dayjs(b[this.sortType]) - dayjs(a[this.sortType]);
         });
         return this;
     }
@@ -49,12 +48,6 @@ class SelectPassenger {
             return this;
         }
 
-        group.sort((a, b) => {
-            a = dayjs(a.registerDate);
-            b = dayjs(b.registerDate);
-            return b - a;
-        });
-
         this.pick(group);
         return this;
     }
@@ -73,7 +66,7 @@ class SelectPassenger {
         this.pick(group);
         return this;
     }
-    selectByRandomQueue() {
+    selectByQueue() {
         const group = this.applicants;
         this.applicants = [];
         this.pick(group);
@@ -96,10 +89,8 @@ class SelectPassenger {
     }
 }
 
-const selectPassenger = ({ applicants, limitCount, methodList }) => {
-    const month = 3;
-    const sortType = null;
-    let passengers = new SelectPassenger(limitCount, applicants, month, sortType);
+const selectPassenger = ({ applicants, limitCount, methodList, sortType, monthArg }) => {
+    let passengers = new SelectPassenger(limitCount, applicants, monthArg, sortType);
 
     methodList.forEach((method) => {
         passengers = passengers[method]();

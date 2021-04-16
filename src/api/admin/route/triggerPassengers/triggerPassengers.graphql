@@ -1,6 +1,13 @@
 type Mutation {
-    triggerPassengers(month: String!, route: String!, busId: String!): triggerPassengersResponse
-    #triggerPassengersResponse(month: String!, route: String!, busId: String!, methodList: [String], sortType: String)
+    #triggerPassengers(month: String!, route: String!, busId: String!): triggerPassengersResponse
+    triggerPassengers(
+        month: String!
+        route: String!
+        busId: String!
+        methodList: [String]
+        sortType: String
+        monthArg: Int
+    ): triggerPassengersResponse
 }
 
 type triggerPassengersResponse implements Response {
