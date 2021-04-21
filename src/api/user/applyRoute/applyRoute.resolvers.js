@@ -68,6 +68,8 @@ const resolvers = {
                     registerDate: userInfo.gsiSortKey.split('#')[2],
                     createdAt: dateNow(),
                     detailPartitionKey,
+                    userName: userInfo.name,
+                    phoneNumber: userInfo.phoneNumber,
                 };
 
                 const busInfo = {

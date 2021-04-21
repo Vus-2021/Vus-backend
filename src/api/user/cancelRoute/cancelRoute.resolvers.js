@@ -21,6 +21,12 @@ const resolvers = {
                     sortKey: `#applyRoute#${month}`,
                 }));
 
+                const userInfoByDetailLocation = Object.assign({
+                    primaryKey: {
+                        partitionKey: data.detailPartitionKey,
+                        sortKey: `#${month}#${data.partitionKey}`,
+                    },
+                });
                 if (!data) {
                     return { success: false, message: '이미 취소 되었음', code: 400 };
                 }
@@ -60,6 +66,7 @@ const resolvers = {
                                 updateItem: { registerCount: -1 },
                             },
                         ],
+                        Delete: [userInfoByDetailLocation],
                     }));
                 } else {
                     ({ success, message, code } = await transaction({
@@ -70,6 +77,7 @@ const resolvers = {
                                     sortKey: `#applyRoute#${month}`,
                                 },
                             },
+                            userInfoByDetailLocation,
                         ],
                         Update: [
                             {
