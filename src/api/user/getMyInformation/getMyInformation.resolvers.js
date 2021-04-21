@@ -1,7 +1,5 @@
 const { query } = require('../../../services');
-/**
- * TOdo  driver는 sk 가 #driver, 그리고 노선 선택할때 #driver에 추가해줄것.
- */
+
 const resolvers = {
     Query: {
         getMyInformation: async (parent, args, context) => {
@@ -11,8 +9,9 @@ const resolvers = {
             };
             try {
                 let { data } = await query({ params });
+                let info;
                 if (context.user.type === 'DRIVER') {
-                    data = data
+                    info = data
                         .filter((item) => {
                             return item.sortKey === '#driver';
                         })
@@ -22,7 +21,7 @@ const resolvers = {
                             });
                         });
                 } else {
-                    data = data
+                    info = data
                         .filter((item) => {
                             return (
                                 (item.state === 'pending' || item.state === 'fulfilled') &&
@@ -30,19 +29,35 @@ const resolvers = {
                                 item.sortKey !== '#user'
                             );
                         })
-                        .map((dataItem) => {
+                        .map((item) => {
                             return {
-                                partitionKey: dataItem.partitionKey,
-                                sortKey: dataItem.sortKey,
-                                route: dataItem.gsiSortKey,
-                                busId: dataItem.busId,
-                                month: dataItem.sortKey.split('#')[2],
+                                partitionKey: item.partitionKey,
+                                sortKey: item.sortKey,
+                                route: item.gsiSortKey,
+                                busId: item.busId,
+                                month: item.sortKey.split('#')[2],
                             };
                         });
                 }
-                const obj = context.user;
-                obj.routeInfo = data;
-
+                const obj = Object.assign(
+                    context.user,
+                    { routeInfo: info },
+                    {
+                        routeStates: data
+                            .filter((item) => item.sortKey !== '#user')
+                            .map((item) => {
+                                return {
+                                    partitionKey: item.partitionKey,
+                                    sortKey: item.sortKey,
+                                    route: item.gsiSortKey,
+                                    busId: item.busId,
+                                    month: item.sortKey.split('#')[2],
+                                    state: item.state,
+                                    isCancellation: item.isCancellation,
+                                };
+                            }),
+                    }
+                );
                 return {
                     success: true,
                     message: 'success get my information',
