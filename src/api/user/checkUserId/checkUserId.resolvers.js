@@ -8,6 +8,7 @@ const resolvers = {
                 const { success, message, data: alreadyUserId, code } = await get({
                     partitionKey: userId,
                     sortKey: '#user',
+                    tableName: process.env.TABLE_NAME,
                 });
 
                 if (alreadyUserId) {
