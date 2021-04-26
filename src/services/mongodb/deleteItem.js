@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const vus = require('../../model/mongodb');
 
 const deleteItem = async ({ tableName, ...args }) => {
