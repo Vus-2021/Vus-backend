@@ -20,7 +20,6 @@ const resolvers = {
             if (userId) {
                 user.userId = userId;
             }
-
             let params = {
                 sortKey: ['#info', 'eq'],
                 gsiSortKey: [route, 'eq'],
