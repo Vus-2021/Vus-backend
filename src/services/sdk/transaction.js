@@ -20,6 +20,9 @@ const transaction = async ({ tableName, ...args }) => {
         for (let item of transaction) {
             switch (method) {
                 case 'Put':
+                    if (_.isNil(item)) {
+                        break;
+                    }
                     transactionItem.push({
                         Put: {
                             TableName,
