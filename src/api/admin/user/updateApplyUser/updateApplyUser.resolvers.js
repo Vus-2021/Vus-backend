@@ -6,12 +6,13 @@ const resolvers = {
             if (!user || user.type !== 'ADMIN') {
                 return { success: false, message: 'access denied', code: 403 };
             }
-            let { success, message, code, data } = {};
+            let { success, message, code } = {};
+            let preApplyInfo;
             const FULFILLED = 'fulfilled';
             const Delete = [];
             const Put = [];
             try {
-                ({ success, message, code, data } = await get({
+                ({ data: preApplyInfo } = await get({
                     partitionKey: userId,
                     sortKey: `#applyRoute#${month}`,
                     tableName: process.env.TABLE_NAME,
@@ -32,7 +33,6 @@ const resolvers = {
                     method: 'SET',
                 },
             ];
-            const preApplyInfo = data;
 
             if (preApplyInfo.state === FULFILLED && state !== FULFILLED) {
                 Delete.push({
