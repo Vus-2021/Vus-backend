@@ -12,25 +12,14 @@ const resolvers = {
             };
 
             try {
-                let success, message, code, result;
-                if (!route) {
-                    ({ success, message, code, data: result } = await query({
-                        params: {
-                            sortKey: ['#info', 'eq'],
-                            index: ['sk-index', 'using'],
-                        },
-                        tableName: process.env.TABLE_NAME,
-                    }));
-                } else {
-                    ({ success, message, code, data: result } = await query({
-                        params: {
-                            sortKey: ['#info', 'eq'],
-                            gsiSortKey: [route, 'eq'],
-                            index: ['sk-index', 'using'],
-                        },
-                        tableName: process.env.TABLE_NAME,
-                    }));
-                }
+                let { success, message, code, data: result } = await query({
+                    params: {
+                        sortKey: ['#info', 'eq'],
+                        gsiSortKey: [route, 'eq'],
+                        index: ['sk-index', 'using'],
+                    },
+                    tableName: process.env.TABLE_NAME,
+                });
 
                 result.forEach((item) => {
                     item.route = item.gsiSortKey;
