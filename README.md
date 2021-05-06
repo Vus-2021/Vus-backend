@@ -1,8 +1,7 @@
 # bus-project
 
-## 서버 아키텍쳐
-
-![image](https://user-images.githubusercontent.com/40652160/116049329-211e7b00-a6b1-11eb-946c-13c999ca521a.png)
+## 아키텍쳐
+![image](https://user-images.githubusercontent.com/40652160/117230710-9c71f080-ae58-11eb-8720-487d3ab807bb.png)
 
 ## Directory Tree
 
