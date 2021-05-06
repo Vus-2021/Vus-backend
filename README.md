@@ -1,5 +1,15 @@
 # bus-project
 
+- 사내 통근버스 신청/관리 웹앱
+
+## Tech Stack
+- Graphql, Apollo-server
+- NodeJS
+- Serverless Framework
+- AWS(Lambda, DynamoDB, SNS, Apigateway, Cloudfront, S3, Route53)
+- DB (DynamoDB, MongoDB)
+
+
 ## 아키텍쳐
 ![image](https://user-images.githubusercontent.com/40652160/117230710-9c71f080-ae58-11eb-8720-487d3ab807bb.png)
 
@@ -155,3 +165,44 @@
     ├── disconnect.js
     └── message.js
 ```
+
+## Dependency
+```json
+"dependencies": {
+    "apollo-server": "^2.21.1",
+    "apollo-server-core": "^2.23.0",
+    "apollo-server-lambda": "^2.18.0-rc.1",
+    "aws-sdk": "^2.893.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
+    "dynamoose": "^2.7.2",
+    "graphql": "^15.5.0",
+    "graphql-tools": "^7.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.12.3",
+    "rand-token": "^1.0.1",
+    "serverless-http": "^2.7.0",
+    "serverless-offline": "^6.9.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "apollo-server-testing": "^2.21.1",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "serverless-dotenv-plugin": "^3.9.0"
+  }
+```
+
+
