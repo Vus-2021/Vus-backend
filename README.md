@@ -1,8 +1,9 @@
-# bus-project
+# 🚌 bus-project
 
 - 사내 통근버스 신청/관리 웹앱
 
-## Tech Stack
+
+## 📚 Tech Stack
 - Graphql, Apollo-server
 - NodeJS
 - Serverless Framework
@@ -10,10 +11,10 @@
 - DB (DynamoDB, MongoDB)
 
 
-## 아키텍쳐
+## 🏗 Architecture
 ![image](https://user-images.githubusercontent.com/40652160/117230710-9c71f080-ae58-11eb-8720-487d3ab807bb.png)
 
-## Directory Tree
+## 🎋 Directory Tree
 
 ```
 .
@@ -166,7 +167,7 @@
     └── message.js
 ```
 
-## Dependency
+## 📚 Dependency
 ```json
 "dependencies": {
     "apollo-server": "^2.21.1",
@@ -205,4 +206,11 @@
   }
 ```
 
+## 🛠 연관 프로젝트
+
+- [FrontEnd](https://github.com/Vus-2021/Vus-frontend)
+
+## 🧑‍💻 Developer
+- Backend [최영훈](https://github.com/dudgns3tp)
+- FrontEnd [엄민식](https://github.com/SausageMania)
 
