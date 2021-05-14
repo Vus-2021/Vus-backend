@@ -50,7 +50,7 @@ const resolvers = {
                     tableName: process.env.TABLE_NAME,
                 });
 
-                return { success, message, code };
+                return { success, message, code, data: { partitionKey } };
             } catch (error) {
                 return { success: false, message: error.message, code: 500 };
             }

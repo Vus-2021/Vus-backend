@@ -8,6 +8,11 @@ type createRouteResponse implements Response {
     success: Boolean!
     message: String!
     code: Int
+    data: NewRoute
+}
+
+type NewRoute {
+    partitionKey: String
 }
 
 type Mutation {
