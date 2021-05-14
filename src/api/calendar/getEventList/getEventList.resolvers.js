@@ -2,8 +2,7 @@ const { google } = require('googleapis');
 
 const resolvers = {
     Query: {
-        getCalendarList: async (_, { option }) => {
-            console.log(option);
+        getEventList: async (_, { eventListParam }) => {
             //discoveryDoc
             const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
             // Setup My API Client
@@ -12,8 +11,6 @@ const resolvers = {
                 clientSecret: process.env.CLIENT_SECRET,
                 redirectUri: process.env.REDIRECT_URIS,
             });
-
-            // Set Client credentials
             const credentials = {
                 access_token:
                     'ya29.a0AfH6SMBEZKmTWwGUVdYrh0GozIamETcDNUusF9hy0C8ceXjqyMLk0AMzCiOmczLj3rsuQvw1c7Alhd5GZaiIyE5sgl8kQ89lYPr_i7_yAG97Va5BssdOUX5Vnyp9C5aG_dGCK_4gL3EG7LtLern2tWN9EmGD',
@@ -23,13 +20,13 @@ const resolvers = {
 
             return new Promise((resolve, reject) => {
                 let calendar = google.calendar({ version: 'v3', auth: oAuthClient });
-                calendar.calendarList.list(option, (err, res) => {
+                calendar.events.list(eventListParam, (err, res) => {
                     if (err) reject(err);
                     return resolve(res);
                 });
             })
                 .then((result) => {
-                    console.log(result.data);
+                    console.log(JSON.stringify(result.data, null, 2));
                     return result.data;
                 })
                 .catch((err) => {

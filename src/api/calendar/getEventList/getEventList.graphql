@@ -1,0 +1,206 @@
+type Query {
+    getEventList(eventListParam: eventListParam): eventListResponse
+}
+
+input eventListParam {
+    calendarId: String!
+    alwaysIncludeEmail: Boolean
+    iCalUID: String
+    maxAttendees: Int
+    maxResults: Int
+    orderBy: String
+    pageToken: String
+    privateExtendedProperty: String
+    q: String
+    sharedExtendedProperty: String
+    showDeleted: Boolean
+    showHiddenInvitations: Boolean
+    singleEvents: Boolean
+    syncToken: String
+    timeMax: Date
+    timeMin: Date
+    timeZone: String
+    updatedMin: Date
+}
+
+type eventListResponse {
+    kind: String
+    etag: String
+    summary: String
+    description: String
+    updated: Date
+    timeZone: String
+    accessRole: String
+    defaultReminders: [DefaultReminder]
+    nextPageToken: String
+    nextSyncToken: String
+    items: [EventResource]
+}
+
+type EventResource {
+    kind: String
+    etag: String
+    id: String
+    status: String
+    htmlLink: String
+    created: Date
+    updated: Date
+    summary: String
+    description: String
+    location: String
+    colorId: String
+    creator: Creator
+    organizer: Organizer
+    start: Start
+    end: End
+    endTimeUnspecified: Boolean
+    recurrence: [String]
+    recurringEventId: String
+    originalStartTime: OriginalStartTime
+    transparency: String
+    visibility: String
+    iCalUID: String
+    sequence: Int
+    attendees: [Attendee]
+    attendeesOmitted: Boolean
+    hangoutLink: String
+    conferenceData: ConferenceData
+    gadget: Gadget
+    anyoneCanAddSelf: Boolean
+    guestsCanInviteOthers: Boolean
+    guestsCanModify: Boolean
+    guestsCanSeeOtherGuests: Boolean
+    privateCopy: Boolean
+    locked: Boolean
+    reminders: Reminders
+    source: Source
+    attachments: [Attachement]
+    eventType: String
+}
+
+type Source {
+    url: String
+    title: String
+}
+
+type Reminders {
+    useDefault: Boolean
+    overrides: [Override]
+}
+
+type Gadget {
+    type: String
+    title: String
+    link: String
+    iconLink: String
+    width: Int
+    height: Int
+    display: String
+    preferences: Preferences
+}
+
+type Preferences {
+    key: String
+}
+
+type ConferenceData {
+    createRequest: CreateRequest
+    entryPoints: [EntryPoint]
+    conferenceSolution: ConferenceSolution
+    conferenceId: String
+    signature: String
+    notes: String
+}
+
+type ConferenceSolution {
+    key: Key
+    name: String
+    iconUri: String
+}
+
+type Key {
+    type: String
+}
+
+type CreateRequest {
+    requestId: String
+    conferenceSolutionKey: ConferenceSolutionKey
+    status: Status
+}
+
+type Status {
+    statusCode: String
+}
+
+type ConferenceSolutionKey {
+    type: String
+}
+
+type OriginalStartTime {
+    date: Date
+    dateTime: Date
+    timeZone: String
+}
+
+type Attendee {
+    id: String
+    email: String
+    displayName: String
+    organizer: Boolean
+    self: Boolean
+    resource: Boolean
+    optional: Boolean
+    responseStatus: String
+    comment: String
+    additionalGuests: Int
+}
+
+type EntryPoint {
+    entryPointType: String
+    uri: String
+    label: String
+    pin: String
+    accessCode: String
+    meetingCode: String
+    passcode: String
+    password: String
+}
+
+type Override {
+    method: String
+    minutes: Int
+}
+
+type Attachement {
+    fileUrl: String
+    title: String
+    mimeType: String
+    iconLink: String
+    fileId: String
+}
+
+type Creator {
+    id: String
+    email: String
+    displayName: String
+    self: Boolean
+}
+
+type Organizer {
+    id: String
+    email: String
+    displayName: String
+    self: Boolean
+}
+
+type Start {
+    date: Date
+    dateTime: Date
+    timeZone: String
+}
+
+type End {
+    date: Date
+    dateTime: Date
+    timeZone: String
+}
