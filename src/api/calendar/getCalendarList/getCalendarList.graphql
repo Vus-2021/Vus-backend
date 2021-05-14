@@ -1,0 +1,60 @@
+type Query {
+    getCalendarList(accessToken: String, option: CalendarOptions): CalendarResponse
+}
+
+input CalendarOptions {
+    maxResults: Int
+    minAccessRole: String
+    pageToken: String
+    showDeleted: String
+    showHidden: Boolean
+    syncToken: String
+}
+
+type CalendarResponse {
+    kind: String
+    etag: String
+    nextPageToken: String
+    nextSyncToken: String
+    items: [CalendarListResource]
+}
+
+type CalendarListResource {
+    kind: String
+    etag: String
+    id: String
+    summary: String
+    description: String
+    location: String
+    timeZone: String
+    summaryOverride: String
+    colorId: String
+    backgroundColor: String
+    foregroundColor: String
+    hidden: Boolean
+    selected: Boolean
+    accessRole: String
+    defaultReminders: [DefaultReminder]
+    notificationSettings: Notifications
+    primary: Boolean
+    deleted: Boolean
+    conferenceProperties: ConferenceProperties
+}
+
+type DefaultReminder {
+    method: String
+    minutes: Int
+}
+
+type Notification {
+    type: String
+    method: String
+}
+
+type Notifications {
+    notifications: [Notification]
+}
+
+type ConferenceProperties {
+    allowedConferenceSolutionTypes: [String]
+}
